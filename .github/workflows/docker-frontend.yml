@@ -1,0 +1,35 @@
+name: Docker Frontend
+
+on:
+  push:
+    branches: [ main, dev ]
+    paths: [ 'frontend/**' ]
+
+env:
+  TAG: ui
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker Login
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - uses: actions/checkout@v3
+      - name: Docker Build
+        run: docker build -t $TAG .
+
+      - name: Docker Push
+        run: |
+          IMAGE_URL=ghcr.io/${{ github.repository }}
+          IMAGE_URL=$(echo $IMAGE_URL | tr '[A-Z]' '[a-z]')
+          
+          # Strip "v" prefix from tag name
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "main" ] && VERSION=latest
+
+          docker tag $TAG $IMAGE_URL:$VERSION
+          docker push $IMAGE_URL:$VERSION
