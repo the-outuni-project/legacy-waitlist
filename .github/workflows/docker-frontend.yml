@@ -3,7 +3,7 @@ name: Docker Frontend
 on:
   push:
     branches: [ main, dev ]
-    paths: [ 'frontend/**' ]
+    paths: [ 'frontend/**', '.github/workflows/docker-frontend.yml' ]
 
 env:
   TAG: ui
