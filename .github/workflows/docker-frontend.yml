@@ -32,5 +32,5 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "main" ] && VERSION=latest
 
-          docker tag $TAG $IMAGE_URL:$VERSION
-          docker push $IMAGE_URL:$VERSION
+          docker tag $TAG $IMAGE_URL-$TAG:$VERSION
+          docker push $IMAGE_URL-$TAG:$VERSION
