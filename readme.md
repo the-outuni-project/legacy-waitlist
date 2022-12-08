@@ -1,6 +1,12 @@
+This fork is archived, and no longer maintained. 
+
+The branch feature/profile has my WIP on a new revamped profile page. Keeping this fork incase anyone wants to continue that feature.
+
+<details>
+<summary>Read Me</summary>
+
 # The Ditanian Fleet Waitlist
 The official incursion waitlist for The Ditanian Fleet, Eve Online's premier armour HQ incursion community. Features include ESI fleet invites, skill checking, fit checking, a doctrine page, and community guides. 
-
 
 ### Contributing
 Report bugs by opening a GitHub issue, or send a message to a TDF HQ FC. Security issues should be reported to an FC directly. 
@@ -153,3 +159,5 @@ The Waitlist has three services (see below). Before starting the front end, both
    npm run start
    ```
 </details>
+</details>
+
