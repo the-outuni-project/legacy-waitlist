@@ -106,10 +106,11 @@ export const icons = {
 
 const BadgeIcon = ({ type = "UNKNOWN", height = "1.2em" }) => {
   const badge = icons[type] ?? icons["UNKNOWN"];
+
   return badge.type === "shield" ? (
     <Shield {...badge} h={height} title={badge.name} />
   ) : (
-    <img src={badge.href.default} title={badge.name} alt={badge.name} style={{ height }} />
+    <img src={badge.href} title={badge.name} alt={badge.name} style={{ height }} />
   );
 };
 
