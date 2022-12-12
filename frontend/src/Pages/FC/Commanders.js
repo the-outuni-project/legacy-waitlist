@@ -129,7 +129,7 @@ const CommandersPage = () => {
       compact: true,
       grow: 1,
       minWidth: "46",
-      selector: (row) => authContext && authContext.access['commanders-manage'] && (
+      selector: (row) => authContext && authContext.access['commanders-manage'] && authContext.account_id != row.character.id && (
         <Buttons>
           <CommanderModal character={row.character} current={row.role} handleRefresh={refreshData}>
             <IconBtn>

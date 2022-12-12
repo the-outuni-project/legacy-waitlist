@@ -4,12 +4,10 @@ import { Route, Switch } from "react-router-dom";
 import { AuthContext } from "../contexts";
 
 import { AuthStart, AuthCallback, AuthLogout } from "../Pages/Auth";
-import { BadgeIndex, Guide, GuideIndex } from "../Pages/Guide";
 import { Fits } from "../Pages/Fits";
-import { FCMenu, GuideFC } from "../Pages/FC/Index";
+import { FCMenu } from "../Pages/FC/Index";
 import { Fleet, FleetRegister } from "../Pages/FC/Fleet";
 import { FleetCompHistory } from "../Pages/FC/FleetCompHistory";
-import { Home } from "../Pages/Home";
 import { ISKh, ISKhCalc } from "../Pages/ISKh";
 import { Legal } from "../Pages/Legal";
 import { NoteAdd } from "../Pages/FC/NoteAdd";
@@ -51,7 +49,7 @@ export function Routes() {
   return (
     <Switch>
       <Route exact path="/">
-        <Home />
+        {<AuthenticatedRoute component={<Waitlist />} loginRequired />}
       </Route>
 
       <Route exact path="/fits">
@@ -73,24 +71,12 @@ export function Routes() {
         <Plans />
       </Route>
 
-      {/* Guides: Badges, Index, Guide Page */}
-      <Route exact path="/badges">
-        <BadgeIndex />
-      </Route>
-      <Route exact path="/guide">
-        <GuideIndex />
-      </Route>
-      <Route exact path="/guide/:guideName">
-        <Guide />
-      </Route>
+      {/* Guides:  */}
       <Route exact path="/legal">
         <Legal />
       </Route>
 
-      {/* Waitlist Pages: Waitlist, XUP */}
-      <Route exact path="/waitlist">
-        {<AuthenticatedRoute component={<Waitlist />} loginRequired />}
-      </Route>
+      {/* Waitlist Pages: XUP */}
       <Route exact path="/xup">
         {<AuthenticatedRoute component={<Xup />} loginRequired />}
       </Route>
@@ -98,7 +84,7 @@ export function Routes() {
       {/* Fleet Commander Routes */}
       <Route exact path="/fc">
         {/* 'fleet-view' allows any FC to use this route */}
-        <AuthenticatedRoute component={<FCMenu />} access="fleet-view" />
+        <AuthenticatedRoute component={<FCMenu />} access="waitlist-tag:HQ-FC" />
       </Route>
       <Route exact path="/fc/announcements">
         <AuthenticatedRoute component={<AnnouncementsPage />} access="waitlist-tag:HQ-FC" />
@@ -111,9 +97,6 @@ export function Routes() {
       </Route>
       <Route exact path="/fc/commanders">
         <AuthenticatedRoute component={<CommandersPage />} access="commanders-view" />
-      </Route>
-      <Route exact path="/fc/documentation">
-        <AuthenticatedRoute component={<GuideFC />} access="waitlist-tag:HQ-FC" />
       </Route>
       <Route exact path="/fc/fleet">
         <AuthenticatedRoute component={<Fleet />} access="fleet-view" />
@@ -132,9 +115,6 @@ export function Routes() {
       </Route>
       <Route exact path="/fc/stats">
         <AuthenticatedRoute component={<Statistics />} access="stats-view" />
-      </Route>
-      <Route exact path="/fc/trainee">
-        <AuthenticatedRoute component={<GuideFC />} access="waitlist-tag:TRAINEE" />
       </Route>
 
       {/* Auth Routes: Login, Callback, Logout */}

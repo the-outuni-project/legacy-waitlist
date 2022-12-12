@@ -1,57 +1,20 @@
-import React from "react";
-
-import themes from "../App/theme";
+import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faSun, faKissWinkHeart } from "@fortawesome/free-solid-svg-icons";
-import { Button, Radio } from "../Components/Form";
-import { Modal } from "../Components/Modal";
-import { Box } from "../Components/Box";
-import { Title } from "./Page";
+import { faPalette } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "../Components/Form";
 
-const themeNames = Object.keys(themes);
+export function ThemeSelect({ theme, setTheme }) {
+  const [ useDark, setUseDark ] = useState(true);
 
-export function ThemeSelect({ theme, setTheme, sticker, setSticker }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const handleChange = () => {
-    setSticker(!sticker);
-  };
-
+  useEffect(() => {
+    setTheme(useDark ? 'Dark' : 'Light');
+  }, [useDark])
+  
   return (
     <>
-      <Modal open={isOpen} setOpen={setIsOpen}>
-        <Box>
-          <Title>Theme select</Title>
-          {themeNames.map((themeName) => (
-            <div key={themeName}>
-              <label>
-                <Radio
-                  value={themeName}
-                  checked={theme === themeName}
-                  onChange={(evt) => setTheme(evt.target.value)}
-                />{" "}
-                {themeName}
-              </label>
-            </div>
-          ))}
-          {themes[theme].sticker && (
-            <Button style={{ marginTop: "0.5em" }} onClick={handleChange}>
-              {sticker ? "Disable" : "Enable"} Sticker
-            </Button>
-          )}
-        </Box>
-      </Modal>
-      <Button onClick={(evt) => setIsOpen(true)}>
-        <FontAwesomeIcon
-          fixedWidth
-          icon={
-            ["dark", "AMOLED"].includes(theme)
-              ? faMoon
-              : theme === "Specialist"
-              ? faKissWinkHeart
-              : faSun
-          }
-        />
+      <Button onClick={(evt) => setUseDark(!useDark)}>
+        <FontAwesomeIcon fixedWidth icon={faPalette} />
       </Button>
     </>
   );

@@ -115,7 +115,7 @@ export const Radio = styled.input.attrs({ type: "radio" })`
 export const Select = styled.select`
   ${inputStyle}
   height: 2.5em;
-  appearance: none;
+  appearance: auto;
 
   > option {
     background-color: ${(props) => props.theme.colors.background};

@@ -187,7 +187,7 @@ function XupCheck({ waitlistId, setOpen }) {
         </Box>
       ))}
       <Buttons>
-        <NavButton variant="primary" to={`/waitlist?wl=${waitlistId}`}>
+        <NavButton variant="primary" to={`/?wl=${waitlistId}`}>
           Yes, looks good
         </NavButton>
         <Button variant="secondary" onClick={(evt) => setOpen(false)}>

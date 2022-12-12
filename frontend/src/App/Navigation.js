@@ -84,7 +84,7 @@ export function NavLinks({ whoami }) {
     <>
       {whoami && (
         <>
-          <Links exact to="/waitlist">
+          <Links exact to="/">
             Waitlist
           </Links>
           <Links exact to="/skills">
@@ -95,9 +95,6 @@ export function NavLinks({ whoami }) {
           </Links>
         </>
       )}
-      <Links exact to="/guide">
-        Guides
-      </Links>
       <Links exact to="/fits">
         Fits
       </Links>
@@ -109,7 +106,7 @@ export function NavLinks({ whoami }) {
           Fleet
         </Links>
       )}
-      {whoami && whoami.access["fleet-view"] && (
+      {whoami && whoami.access["waitlist-tag:HQ-FC"] && (
         <Links exact to="/fc">
           FC
         </Links>
