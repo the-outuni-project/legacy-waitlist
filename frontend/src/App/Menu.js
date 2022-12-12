@@ -98,7 +98,7 @@ const Teamspeak = () => {
   return (
     <AButton
       title="Join our Teamspeak Server"
-      href={`ts3server://t-d-f.one${
+      href={`ts3server://ts3.42outunis.com${
         authContext?.current ? `?nickname=${authContext.current.name}` : ""
       }`}
     >
@@ -116,7 +116,7 @@ export function Menu({ onChangeCharacter, theme, setTheme, sticker, setSticker }
           <NavBar.Header>
             <MobileNavButton isOpen={isOpenMobileView} setIsOpen={setOpenMobileView} />
             <NavBar.LogoLink to="/">
-              <NavBar.Logo src={logoImage} alt="The Ditanian Fleet" />
+              <NavBar.Logo src={logoImage} alt="The Outuni Project" />
             </NavBar.LogoLink>
           </NavBar.Header>
           <NavBar.Menu>
@@ -150,16 +150,11 @@ export function Menu({ onChangeCharacter, theme, setTheme, sticker, setSticker }
               )}
               <InputGroup fixed>
                 <Teamspeak />
-                <AButton title="Discord" href="https://discord.gg/YTysdbb">
+                <AButton title="Discord" href="https://discord.gg/D8pkZhE8DD">
                   <FontAwesomeIcon icon={faDiscord} />
                 </AButton>
                 <EventNotifier />
-                <ThemeSelect
-                  theme={theme}
-                  setTheme={setTheme}
-                  sticker={sticker}
-                  setSticker={setSticker}
-                />
+                <ThemeSelect theme={theme} setTheme={setTheme} />
                 {whoami ? (
                   <NavButton exact to="/auth/logout" variant="secondary">
                     Log out

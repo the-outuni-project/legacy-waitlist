@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import { Route } from "react-router-dom";
-import { AuthContext } from "../../contexts";
 import { Button, Input, Select } from "../../Components/Form";
 import { CharacterName } from "../../Components/EntityLinks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,20 +10,8 @@ import { formatDatetime } from "../../Util/time";
 import BadgeIcon from "../../Components/Badge";
 import { AddBadge, RevokeButton } from "./badges/BadgesPageControls";
 import { usePageTitle } from "../../Util/title";
+import A from '../../Components/A';
 
-const BadgesPage = () => {
-  const authContext = React.useContext(AuthContext);
-
-  return authContext && authContext.access["badges-manage"] ? (
-    <Route exact path="/fc/badges">
-      <View />
-    </Route>
-  ) : (
-    <></>
-  );
-};
-
-export default BadgesPage;
 
 const Header = styled.div`
   padding-bottom: 10px;
@@ -36,17 +22,6 @@ const Header = styled.div`
 
   h1 {
     font-size: 32px;
-  }
-`;
-
-const A = styled.a`
-  color: ${(props) => props.theme.colors.highlight.text};
-  text-decoration: none;
-
-  &:hover {
-    cursor: pointer;
-    color: ${(props) => props.theme.colors.highlight.active};
-    transition: ease-in-out 0.15s;
   }
 `;
 
@@ -148,7 +123,7 @@ const FilterComponents = ({ badgeOptions, filters, onChange, onClear }) => {
   );
 };
 
-const View = () => {
+const BadgesPage = () => {
   const [badges, updateData] = useApi("/api/badges");
   const [characters, setChracters] = React.useState(null);
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -289,3 +264,5 @@ const View = () => {
     </>
   );
 };
+
+export default BadgesPage;

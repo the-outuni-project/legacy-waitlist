@@ -464,7 +464,7 @@ export function XCard({ entry, fit, onAction }) {
           {authContext.access["skill-view"] && (
             <SkillButton characterId={fit.character.id} ship={fit.hull.name} />
           )}
-          {authContext.access["pilot-view"] && (
+          {authContext.access["waitlist-tag:HQ-FC"] && (
             <PilotInformation
               characterId={fit.character.id}
               authContext={authContext}

@@ -84,9 +84,6 @@ export function NavLinks({ whoami }) {
     <>
       {whoami && (
         <>
-          <Links exact to="/waitlist">
-            Waitlist
-          </Links>
           <Links exact to="/skills">
             Skills
           </Links>
@@ -95,9 +92,6 @@ export function NavLinks({ whoami }) {
           </Links>
         </>
       )}
-      <Links exact to="/guide">
-        Guides
-      </Links>
       <Links exact to="/fits">
         Fits
       </Links>

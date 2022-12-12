@@ -51,7 +51,7 @@ const CommanderModal = ({
     });
   }, [character?.id, currentRole, index]);
 
-  let required_scope = authContext.access[`access-manage:${_current}`];
+  let required_scope = authContext.access[`commanders-manage:${_current}`];
 
   const _refresh = () => {
     setIndex(index + 1);

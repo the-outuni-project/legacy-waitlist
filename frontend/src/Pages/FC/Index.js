@@ -8,8 +8,6 @@ import { errorToaster } from "../../api";
 import { Markdown } from "../../Components/Markdown";
 import styled from "styled-components";
 import {
-  faGraduationCap,
-  faBiohazard,
   faChartLine,
   faShieldAlt,
   faUserShield,
@@ -120,17 +118,9 @@ export function FCMenu() {
         {authContext && authContext.access["badges-manage"] && (
           <GuideCard slug="badges" name="Badges" icon={faShieldAlt} />
         )}
-        {authContext && authContext.access["access-manage"] && (
+        {authContext && authContext.access["commanders-view"] && (
           <GuideCard slug="commanders" name="Commanders" icon={faUserShield} />
         )}
-        {authContext &&
-          authContext.access["fleet-view"] && ( //fleet view should be any fc
-            <GuideCard slug="trainee" name="FC Training" icon={faGraduationCap} />
-          )}
-        {authContext &&
-          authContext.access["search"] && ( //any full FC
-            <GuideCard slug="documentation" name="FC Documentation" icon={faBiohazard} />
-          )}
         {authContext && authContext.access["stats-view"] && (
           <GuideCard slug="stats" name="Statistics" icon={faChartLine} />
         )}

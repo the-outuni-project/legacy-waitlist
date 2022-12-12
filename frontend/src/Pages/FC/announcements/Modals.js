@@ -163,11 +163,7 @@ const AddAnnouncement = ({ isOpen, setOpen, refreshFunction }) => {
               onChange={() => setAlert(!alert)}
             />
             <label htmlFor="important" title="Banner has a red background.">
-              This is a{" "}
-              <b>
-                <u>REALLY</u>
-              </b>{" "}
-              important announcement!
+              This is a <b><u>REALLY</u></b> important announcement!
             </label>
           </FormGroup>
 
