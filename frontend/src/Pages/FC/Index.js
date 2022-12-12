@@ -47,14 +47,14 @@ export function GuideFC() {
 
     errorToaster(
       toastContext,
-      fetch(guideData[filename].default)
+      fetch(guideData[filename])
         .then((response) => response.text())
         .then((data) => {
           setLoadedData(data);
           replaceTitle(parseMarkdownTitle(data));
         })
     );
-    return () => document.title = title;
+    return () => (document.title = title);
   }, [toastContext, filename]);
 
   const resolveImage = (name) => {
@@ -120,7 +120,7 @@ export function FCMenu() {
         {authContext && authContext.access["badges-manage"] && (
           <GuideCard slug="badges" name="Badges" icon={faShieldAlt} />
         )}
-        {authContext && authContext.access["access-manage"] && (
+        {authContext && authContext.access["commanders-view"] && (
           <GuideCard slug="commanders" name="Commanders" icon={faUserShield} />
         )}
         {authContext &&

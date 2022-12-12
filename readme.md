@@ -1,15 +1,14 @@
-# The Ditanian Fleet Waitlist
-The official incursion waitlist for The Ditanian Fleet, Eve Online's premier armour HQ incursion community. Features include ESI fleet invites, skill checking, fit checking, a doctrine page, and community guides. 
-
+# TOP Waitlist Fork
+A temporary waitlist for The Outuni Project.
 
 ### Contributing
-Report bugs by opening a GitHub issue, or send a message to a TDF HQ FC. Security issues should be reported to an FC directly. 
+Report bugs by opening a GitHub issue, send an Eve Mail to Nyx Viliana. Security issues should be reported to an Nyx Viliana. 
 
 #### A One-Time Change
 If you only want to make a one-time contribution, have a chat with the FC team. We will discuss your idea, any potential issues and may make some requests. After our chat, fork the repository and get to work.
 
 #### Regular Contributions
-If you want to make regular contributions, please reach out to Reoze or Lyari on Discord.
+If you want to make regular contributions, please reach out to Nyx Viliana.
 
 #### Creating a Pull Request
 Once you think you are ready, please check:
