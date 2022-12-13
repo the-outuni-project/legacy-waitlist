@@ -11,6 +11,7 @@ import { Menu } from "./Menu";
 import "./reset.css";
 import theme from "./theme.js";
 import AnnouncementBanner from "../Components/AnnouncementBanner";
+import Footer from "./Footer";
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -66,11 +67,6 @@ export default class App extends React.Component {
           window.localStorage.getItem("theme") in theme &&
           window.localStorage.getItem("theme")) ||
         "Light",
-      sticker:
-        ((window.localStorage &&
-          window.localStorage.getItem("Sticker") &&
-          window.localStorage.getItem("Sticker")) ||
-          "true") === "true",
     };
   }
 
@@ -114,7 +110,7 @@ export default class App extends React.Component {
             <EventContext.Provider value={this.state.events}>
               <AuthContext.Provider value={this.state.auth}>
                 <Router>
-                  <Container>
+                  <Container style={{ height: "auto", minHeight: `calc(100vh - 70px)`}}>
                     <Menu
                       onChangeCharacter={(char) => this.changeCharacter(char)}
                       theme={this.state.theme}
@@ -142,6 +138,7 @@ export default class App extends React.Component {
                     />
                   </Container>
                 </Router>
+                <Footer />
               </AuthContext.Provider>
             </EventContext.Provider>
           </ToastContext.Provider>

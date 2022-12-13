@@ -60,7 +60,7 @@ const theme = {
         disabled: "#cccccc",
       },
       highlight: {
-        text: "#fc9936",
+        text: "#d91100",
         active: "#ffad5c",
       },
 
