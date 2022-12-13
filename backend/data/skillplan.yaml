@@ -7,10 +7,10 @@ plans:
         from: starter
       - type: fit
         hull: Megathron
-        fit: TDF_MEGA_STARTER
+        fit: TOP_MEGA_STARTER
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_STARTER
+        fit: TOP_VINDI_STARTER
       - type: tank
         from: min
       - type: skills
@@ -18,7 +18,7 @@ plans:
         tier: min
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_BASIC
+        fit: TOP_VINDI_BASIC
 
   - name: NIGHTMARE BASIC PATH
     description: >
@@ -28,10 +28,10 @@ plans:
         from: starter
       - type: fit
         hull: Megathron
-        fit: TDF_MEGA_STARTER
+        fit: TOP_MEGA_STARTER
       - type: fit
         hull: Nightmare
-        fit: TDF_NM_STARTER
+        fit: TOP_NM_STARTER
       - type: tank
         from: min
       - type: skills
@@ -39,7 +39,7 @@ plans:
         tier: min
       - type: fit
         hull: Nightmare
-        fit: TDF_NM_BASIC
+        fit: TOP_NM_BASIC
 
   - name: VINDICATOR ELITE PATH
     description: >
@@ -49,10 +49,10 @@ plans:
         from: starter
       - type: fit
         hull: Megathron
-        fit: TDF_MEGA_STARTER
+        fit: TOP_MEGA_STARTER
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_STARTER
+        fit: TOP_VINDI_STARTER
       - type: tank
         from: min
       - type: skills
@@ -60,19 +60,19 @@ plans:
         tier: min
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_BASIC
+        fit: TOP_VINDI_BASIC
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_ADVANCED
+        fit: TOP_VINDI_ADVANCED
       - type: skill
         from: Cybernetics
         level: 5
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_ELITE_HYBRID
+        fit: TOP_VINDI_ELITE_HYBRID
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_ELITE
+        fit: TOP_VINDI_ELITE
       - type: skills
         from: Vindicator
         tier: elite
@@ -85,10 +85,10 @@ plans:
         from: starter
       - type: fit
         hull: Megathron
-        fit: TDF_MEGA_STARTER
+        fit: TOP_MEGA_STARTER
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_STARTER
+        fit: TOP_VINDI_STARTER
       - type: tank
         from: min
       - type: skills
@@ -96,19 +96,19 @@ plans:
         tier: min
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_BASIC
+        fit: TOP_VINDI_BASIC
       - type: skills
         from: Kronos
         tier: min
       - type: fit
         hull: Kronos
-        fit: TDF_KRONOS_ADVANCED
+        fit: TOP_KRONOS_ADVANCED
       - type: skill
         from: Cybernetics
         level: 5
       - type: fit
         hull: Kronos
-        fit: TDF_KRONOS_ELITE
+        fit: TOP_KRONOS_ELITE
       - type: skills
         from: Kronos
         tier: elite
@@ -121,10 +121,10 @@ plans:
         from: starter
       - type: fit
         hull: Megathron
-        fit: TDF_MEGA_STARTER
+        fit: TOP_MEGA_STARTER
       - type: fit
         hull: Nightmare
-        fit: TDF_NM_STARTER
+        fit: TOP_NM_STARTER
       - type: tank
         from: min
       - type: skills
@@ -132,19 +132,19 @@ plans:
         tier: min
       - type: fit
         hull: Nightmare
-        fit: TDF_NM_BASIC
+        fit: TOP_NM_BASIC
       - type: skills
         from: Paladin
         tier: min
       - type: fit
         hull: Paladin
-        fit: TDF_PALLY_ADVANCED
+        fit: TOP_PALLY_ADVANCED
       - type: skill
         from: Cybernetics
         level: 5
       - type: fit
         hull: Paladin
-        fit: TDF_PALLY_ELITE
+        fit: TOP_PALLY_ELITE
       - type: skills
         from: Paladin
         tier: elite
@@ -163,10 +163,10 @@ plans:
         tier: min
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_ELITE_HYBRID
+        fit: TOP_VINDI_ELITE_HYBRID
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_ELITE
+        fit: TOP_VINDI_ELITE
       - type: skills
         from: Vindicator
         tier: elite
@@ -185,7 +185,7 @@ plans:
         tier: min
       - type: fit
         hull: Kronos
-        fit: TDF_KRONOS_ELITE
+        fit: TOP_KRONOS_ELITE
       - type: skills
         from: Kronos
         tier: elite
@@ -204,7 +204,7 @@ plans:
         tier: min
       - type: fit
         hull: Paladin
-        fit: TDF_PALLY_ELITE
+        fit: TOP_PALLY_ELITE
       - type: skills
         from: Paladin
         tier: elite
@@ -220,7 +220,7 @@ plans:
         tier: min
       - type: fit
         hull: Oneiros
-        fit: TDF_ONI_HQ_BASIC
+        fit: TOP_ONI_HQ_BASIC
 
   - name: ONEIROS ELITE PATH
     description: >
@@ -233,13 +233,13 @@ plans:
         tier: min
       - type: fit
         hull: Oneiros
-        fit: TDF_ONI_HQ_BASIC
+        fit: TOP_ONI_HQ_BASIC
       - type: fit
         hull: Oneiros
-        fit: TDF_ONI_HQ_ADVANCED
+        fit: TOP_ONI_HQ_ADVANCED
       - type: fit
         hull: Oneiros
-        fit: TDF_ONI_HQ_ELITE
+        fit: TOP_ONI_HQ_ELITE
       - type: skills
         from: Oneiros
         tier: elite
@@ -258,7 +258,7 @@ plans:
         tier: min
       - type: fit
         hull: Guardian
-        fit: TDF_GUARD_HQ_BASIC
+        fit: TOP_GUARD_HQ_BASIC
 
   - name: GUARDIAN ELITE PATH
     description: >
@@ -274,13 +274,13 @@ plans:
         tier: min
       - type: fit
         hull: Guardian
-        fit: TDF_GUARD_HQ_BASIC
+        fit: TOP_GUARD_HQ_BASIC
       - type: fit
         hull: Guardian
-        fit: TDF_GUARD_HQ_ADVANCED
+        fit: TOP_GUARD_HQ_ADVANCED
       - type: fit
         hull: Guardian
-        fit: TDF_GUARD_HQ_ELITE
+        fit: TOP_GUARD_HQ_ELITE
       - type: skills
         from: Guardian
         tier: elite
@@ -299,17 +299,17 @@ plans:
         tier: min
       - type: fit
         hull: Nestor
-        fit: TDF_NESTOR_HQ_ELITE_HYBRID
+        fit: TOP_NESTOR_HQ_ELITE_HYBRID
       - type: fit
         hull: Nestor
-        fit: TDF_NESTOR_HQ_ELITE_ASCENDANCY
+        fit: TOP_NESTOR_HQ_ELITE_ASCENDANCY
       - type: skills
         from: Nestor
         tier: elite
 
   - name: EOS ELITE
     description: >
-      TDF's primary booster. Elite level skills.
+      TOP's primary booster. Elite level skills.
     plan:
       - type: tank
         from: min
@@ -321,14 +321,14 @@ plans:
         tier: min
       - type: fit
         hull: Eos
-        fit: TDF_EOS
+        fit: TOP_EOS
       - type: skills
         from: Eos
         tier: elite
 
   - name: DAMNATION ELITE
     description: >
-      TDF's secondary booster. Elite level skills.
+      TOP's secondary booster. Elite level skills.
     plan:
       - type: tank
         from: min
@@ -340,14 +340,14 @@ plans:
         tier: min
       - type: fit
         hull: Damnation
-        fit: TDF_DAMNATION
+        fit: TOP_DAMNATION
       - type: skills
         from: Damnation
         tier: elite
 
   - name: EVERYTHING GOLD
     description: >
-      Train the entire TDF doctrine, including boosters! Not really a serious skill plan. Trains everything to Elite Gold level.
+      Train the entire TOP doctrine, including boosters! Not really a serious skill plan. Trains everything to Elite Gold level.
     plan:
       - type: tank
         from: min
@@ -356,31 +356,31 @@ plans:
         level: 5
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_ELITE_HYBRID
+        fit: TOP_VINDI_ELITE_HYBRID
       - type: fit
         hull: Vindicator
-        fit: TDF_VINDI_ELITE
+        fit: TOP_VINDI_ELITE
       - type: fit
         hull: Kronos
-        fit: TDF_KRONOS_ELITE
+        fit: TOP_KRONOS_ELITE
       - type: fit
         hull: Paladin
-        fit: TDF_PALLY_ELITE
+        fit: TOP_PALLY_ELITE
       - type: fit
         hull: Nightmare
-        fit: TDF_NM_ADVANCED
+        fit: TOP_NM_ADVANCED
       - type: fit
         hull: Oneiros
-        fit: TDF_ONI_HQ_ELITE
+        fit: TOP_ONI_HQ_ELITE
       - type: fit
         hull: Guardian
-        fit: TDF_GUARD_HQ_ELITE
+        fit: TOP_GUARD_HQ_ELITE
       - type: fit
         hull: Nestor
-        fit: TDF_NESTOR_HQ_ELITE_HYBRID
+        fit: TOP_NESTOR_HQ_ELITE_HYBRID
       - type: fit
         hull: Nestor
-        fit: TDF_NESTOR_HQ_ELITE_ASCENDANCY
+        fit: TOP_NESTOR_HQ_ELITE_ASCENDANCY
 
       - type: skills
         from: Vindicator
@@ -406,10 +406,10 @@ plans:
 
       - type: fit
         hull: Eos
-        fit: TDF_EOS
+        fit: TOP_EOS
       - type: fit
         hull: Damnation
-        fit: TDF_DAMNATION
+        fit: TOP_DAMNATION
       - type: skills
         from: Eos
         tier: elite

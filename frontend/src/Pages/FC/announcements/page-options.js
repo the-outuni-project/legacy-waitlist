@@ -7,8 +7,7 @@
  */
 export const options = [
   { name: "Fits", value: "/fits" },
-  { name: "Guides", value: "/guide" },
   { name: "Skills", value: "/skills" },
   { name: "Profile", value: "/pilot" },
-  { name: "Waitlist", value: "/waitlist" },
+  { name: "Waitlist", value: "/" },
 ];

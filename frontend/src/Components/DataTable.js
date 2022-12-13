@@ -11,7 +11,7 @@ const Table = (props) => {
   Object.entries(themes).forEach((entry) => {
     const [key, value] = entry;
     createTheme(
-      `TDF-${key}`,
+      `TOP-${key}`,
       {
         text: {
           primary: value.colors.primary,
@@ -25,7 +25,7 @@ const Table = (props) => {
     );
   });
 
-  return <DataTable {...props} theme={`TDF-${themeContext.name}`} />;
+  return <DataTable {...props} theme={`TOP-${themeContext.name}`} />;
 };
 
 Table.propTypes = {

@@ -171,6 +171,7 @@ function Fitout({ data, tier }) {
 
 function ShipDisplay({ fit, id, note }) {
   const [modalOpen, setModalOpen] = React.useState(false);
+
   return (
     <>
       {modalOpen ? (
@@ -188,23 +189,17 @@ function ShipDisplay({ fit, id, note }) {
             ) : null}
             {fit.name.indexOf("HYBRID") !== -1 ? (
               <Note variant={"danger"}>
-                <p>
-                  HYBRID FIT! This fit requires at least Amulet 1 - 5. <br /> See implants above or
-                  mailing list: <b>TDF-Implant1</b>
-                </p>
+                <p>HYBRID FIT! This fit requires at least Amulet 1 - 5. <br /> Click the implant button above for details.</p>
               </Note>
             ) : fit.name.indexOf("ASCENDANCY") !== -1 ? (
               <Note variant={"danger"}>
-                <p>
-                  ASCENDANCY FIT! This fit requires at least Ascendancy 1 - 5 & WS-618. <br /> See
-                  implants above or mailing list: <b>TDF-Implant1</b>
-                </p>
+                <p>ASCENDANCY FIT! This fit requires at least Ascendancy 1 - 5 & WS-618. <br /> Click the implants button above for details.</p>
               </Note>
             ) : null}
           </Box>
         </Modal>
       ) : null}
-      <Box mpadding={"0.2em"} style={{ margin: "0.5em 0" }}>
+      <Box mpadding={"0.2em"} style={{ margin: "0.5em 0", paddingLeft: "0em" }}>
         <FitCard variant={"input"}>
           <a onClick={(evt) => setModalOpen(true)}>
             <FitCard.Content>

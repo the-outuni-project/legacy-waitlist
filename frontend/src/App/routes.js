@@ -9,7 +9,6 @@ import { FCMenu } from "../Pages/FC/Index";
 import { Fleet, FleetRegister } from "../Pages/FC/Fleet";
 import { FleetCompHistory } from "../Pages/FC/FleetCompHistory";
 import { ISKh, ISKhCalc } from "../Pages/ISKh";
-import { Legal } from "../Pages/Legal";
 import { NoteAdd } from "../Pages/FC/NoteAdd";
 import { Pilot } from "../Pages/Pilot";
 import { Plans } from "../Pages/Skills/Plans";
@@ -69,11 +68,6 @@ export function Routes() {
       </Route>
       <Route exact path="/skills/plans">
         <Plans />
-      </Route>
-
-      {/* Guides:  */}
-      <Route exact path="/legal">
-        <Legal />
       </Route>
 
       {/* Waitlist Pages: XUP */}

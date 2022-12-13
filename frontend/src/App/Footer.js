@@ -48,6 +48,9 @@ const LegalNotices = () => {
                         any damage arising from the use of this website.
                     </p>
 
+                    <H3>TOP Logo:</H3>
+                    <p style={{paddingBottom: "10px"}}>The Website and Discord Logo and the favicon are designed by Spartalicious.</p>
+
                     <H3>Waitlist</H3>
                     <p>
                         The source code for The Outuni Project is available under the MIT license. The source code and fulltext for 

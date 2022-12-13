@@ -659,7 +659,8 @@ requirements:
     Kinetic Armor Compensation:
       min: 5
     Advanced Target Management:
-      min: 5
+      min: 3
+      elite: 3
     Amarr Battleship:
       min: 5
     Gallente Battleship:
