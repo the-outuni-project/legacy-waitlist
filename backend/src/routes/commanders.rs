@@ -22,6 +22,13 @@ struct Character {
 }
 
 #[derive(Serialize)]
+struct CharacterWithRole {
+    id: i64,
+    name: String,
+    role: String
+}
+
+#[derive(Serialize)]
 struct Commander {
     character: Character,
     role: String,
@@ -169,6 +176,22 @@ async fn assign(
     return Err(Madness::NotFound(""));
 }
 
+#[get("/api/commanders/public")]
+async fn public_directory(
+    app: &rocket::State<Application>,
+) -> Result<Json<Vec<CharacterWithRole>>, Madness> { //Json<CommanderDirectory>
+    let team = sqlx::query!(
+        "SELECT role, fc.id, fc.name FROM admin JOIN `character` AS fc ON character_id = fc.id ORDER BY role"
+    )
+    .fetch_all(app.get_db())
+    .await?
+    .into_iter()
+    .map(|r| CharacterWithRole { id: r.id, name: r.name, role: r.role })
+    .collect();
+
+    Ok(Json(team))
+}
+
 #[get("/api/commanders/roles")]
 async fn assignable(account: AuthenticatedAccount) -> Result<Json<Vec<&'static str>>, Madness> {
     account.require_access("commanders-manage")?;
@@ -261,10 +284,11 @@ async fn revoke(
 
 pub fn routes() -> Vec<rocket::Route> {
     routes![
-        assign,     // POST     /api/commanders
-        list,       // GET      /api/commanders
-        assignable, // GET      /api/commanders/roles
-        lookup,     // GET      /api/commanders/<character_id>
-        revoke      // DELETE   /api/commanders/<character_id>
+        assign,             // POST     /api/commanders
+        list,               // GET      /api/commanders
+        public_directory,   // GET      /api/commanders/directory
+        assignable,         // GET      /api/commanders/roles
+        lookup,             // GET      /api/commanders/<character_id>
+        revoke              // DELETE   /api/commanders/<character_id>
     ]
 }

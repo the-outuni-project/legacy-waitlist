@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useApi } from "../api";
 import styled from "styled-components";
 import A from "../Components/A";
 import { Box } from "../Components/Box";
+import { CharacterName } from "../Components/EntityLinks";
 import { Modal } from "../Components/Modal";
 
 const FooterDom = styled.footer` 
@@ -62,6 +64,39 @@ const LegalNotices = () => {
     )
 }
 
+const TeamDirectory = () => {
+    const [ open, setOpen ] = useState(false);
+    const [ team ] = useApi("/api/commanders/public");
+    
+    const leadership = team?.filter(c => c.role == "Leadership");
+    const fullFc = team?.filter(c => c.role != "Leadership" && c.role != "Trainee");
+
+    return (
+        <>
+            <A onClick={() => setOpen(true)}>Meet the Team</A>
+            <Modal open={open} setOpen={setOpen}>
+                <Box style={{ maxWidth: '700px' }}>
+                    <H2>Fleet Commanders</H2>
+                    
+                    <H3>Leadership:</H3>
+                    <div style={{ margin: "10px 0px" }}>      
+                        { leadership?.map((character, key) => {
+                            return <span key={key} style={{ paddingRight: "15px"}}><CharacterName {...character} /></span>
+                        })}
+                    </div>
+
+                    <H3>Full FCs:</H3>
+                    <div style={{ margin: "10px 0px", maxWidth: "500px" }}>
+                        { fullFc?.map((character, key) => {
+                            return <span key={key} style={{ paddingRight: "15px"}}><CharacterName {...character} /></span>
+                        })}
+                    </div>
+                </Box>
+            </Modal>
+        </>        
+    )
+}
+
 const Footer = () => {
     return (
         <FooterDom>
@@ -69,6 +104,9 @@ const Footer = () => {
             <ul>
                 <li>
                     <LegalNotices />
+                </li>
+                <li>
+                    <TeamDirectory />
                 </li>
                 <li>
                     <A href="https://github.com/samuelgrant/top-waitlist" target="_blank">Source Code</A>
