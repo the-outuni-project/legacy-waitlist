@@ -127,7 +127,7 @@ The Waitlist has three services (see below). Before starting the front end, both
    INSERT INTO admin (character_id, role, granted_at, granted_by_id)
    SELECT
        id AS character_id,
-       'council' AS role,
+       'Leadership' AS role,
        CURRENT_TIMESTAMP() AS granted_at,
        id AS granted_by_id
    FROM `character` WHERE name = 'YOUR CHARACTER NAME';
