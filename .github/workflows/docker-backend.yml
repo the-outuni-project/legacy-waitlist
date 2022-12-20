@@ -1,0 +1,61 @@
+name: Docker Backend
+
+on:
+  push:
+    branches: [ main, dev ]
+    paths: [ 'backend/**', '.github/workflows/docker-backend.yml' ]
+
+env:
+  COMPONENT: backend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build: ["release", "dev"]
+    services:
+      database:
+        image: mysql:8
+        env:
+          MYSQL_DATABASE: waitlist
+          MYSQL_USER: waitlist
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_RANDOM_ROOT_PASSWORD: true
+        ports:
+          - 3306:3306
+
+    steps:
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Database Debug
+        run: |
+          sudo ss -tlpn | grep 3306
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Docker Build
+        working-directory: ./backend
+        run: docker build --network host --build-arg "PROFILE=${{ matrix.build }}" --build-arg "DATABASE_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" -t $COMPONENT .
+
+      - name: Docker Push
+        run: |
+          IMAGE_URL=ghcr.io/${{ github.repository }}
+          IMAGE_URL=$(echo $IMAGE_URL | tr '[A-Z]' '[a-z]')
+          
+          # Strip "v" prefix from tag name
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "main" ] && VERSION=latest
+          [ "${{ matrix.build }}" == "dev" ] && VERSION="${VERSION}-debug"
+
+          docker tag $COMPONENT $IMAGE_URL-$COMPONENT:$VERSION
+          docker push $IMAGE_URL-$COMPONENT:$VERSION
