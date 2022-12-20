@@ -112,7 +112,7 @@ async fn invite(
     app.sse_client
         .submit(vec![Event::new(
             &format!("account;{}", xup.we_account_id),
-            "wakeup",
+            "message",
             format!(
                 "{} has invited your {} to fleet.",
                 fc.name,

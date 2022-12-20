@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts";
 import logoImage from "./logo.png";
 import styled from "styled-components";
 import { InputGroup, Select, NavButton, AButton } from "../Components/Form";
-import { EventNotifier } from "../Components/Event";
+import BrowserNotification from "../Components/Event";
 import { ThemeSelect } from "../Components/ThemeSelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faTeamspeak } from "@fortawesome/free-brands-svg-icons";
@@ -153,7 +153,7 @@ export function Menu({ onChangeCharacter, theme, setTheme, sticker, setSticker }
                 <AButton title="Discord" href="https://discord.gg/D8pkZhE8DD">
                   <FontAwesomeIcon icon={faDiscord} />
                 </AButton>
-                <EventNotifier />
+                <BrowserNotification />
                 <ThemeSelect theme={theme} setTheme={setTheme} />
                 {whoami ? (
                   <NavButton exact to="/auth/logout" variant="secondary">

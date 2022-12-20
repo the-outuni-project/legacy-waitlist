@@ -1,127 +1,157 @@
-import React from "react";
-
-import { EventContext } from "../../contexts";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faBellSlash } from "@fortawesome/free-solid-svg-icons";
-import { Modal } from "../Modal";
+import React, { useEffect } from "react";
 import { Button } from "../Form";
 import { Box } from "../Box";
+import { faBell, faBellSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { EventContext } from "../../contexts";
+import { Modal } from "../Modal";
+import styled from "styled-components";
+
 import iconFile from "./notification-icon.png";
-import soundFile from "./bell-ringing-04.mp3";
-const storageKey = "EventNotifierSettings";
+import notificationAlarm from "./notification.mp3";
+import inviteAlarm from "./invite.mp3";
 
-function handleMessage(event) {
-  const message = JSON.parse(event.data);
-  if (window.Notification && Notification.permission === "granted") {
-    new Notification(message.message, { silent: true });
-  } else if (window.Notification && Notification.permission === "default") {
-    // RIP, we didn't ask for permission first!?
-    Notification.requestPermission();
+const H3 = styled.h3`
+  font-size: 1.5em;
+  padding-bottom: 10px;
+`;
+
+const FireNotificationApi = ({ title, body }) => {
+  const Fire = ({ title, body }) =>
+    new Notification(title ?? "The Outuni Project", {
+      body: body,
+      icon: iconFile,
+      tag: body,
+      renotify: true,
+      timestamp: Math.floor(Date.now()),
+    });
+
+  if (!("Notification" in window)) {
+    // Check if the browser supports notifications
+    alert("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+    Fire({ title, body });
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then((permission) => {
+      // If the user accepts, let's create a notification
+      Fire({ title, body });
+    });
   }
-}
+};
 
-export function EventNotifier() {
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [isPlaying, setIsPlaying] = React.useState(false);
+const handleNotification = (event) => {
+  let data = JSON.parse(event?.data);
+  if (!data) return;
+
+  FireNotificationApi({
+    title: data?.title,
+    body: data.message,
+  });
+};
+
+const storageKey = "notification_settings";
+
+const BrowserNotification = () => {
   const eventContext = React.useContext(EventContext);
-  const playerRef = React.useRef(null);
-
+  const [notification, setNotification] = React.useState(false);
   const [settings, setSettings] = React.useState(() => {
+    // Load in the previous notification settings from Local Storage
     if (window.localStorage && window.localStorage.getItem(storageKey)) {
       return JSON.parse(window.localStorage.getItem(storageKey));
     }
     return {};
   });
-  React.useEffect(() => {
-    // Persist to localStorage.
-    if (window.localStorage) {
-      window.localStorage.setItem(storageKey, JSON.stringify(settings));
-    }
-  }, [settings]);
 
-  React.useEffect(() => {
-    if (!playerRef) return;
-    if (isPlaying) {
-      playerRef.current.play();
-    } else {
-      playerRef.current.pause();
+  const handleSettingsChange = () => {
+    let previousSetting = settings.audio_alarm;
+    if (!previousSetting) {
+      setNotification({
+        body: "Audio notifications have been enabled.",
+        sound: notificationAlarm,
+      });
     }
-  }, [isPlaying, playerRef]);
-  const handleWakeup = React.useCallback(
+    setSettings({ ...settings, audio_alarm: !settings.audio_alarm });
+  };
+
+  const handleMessage = React.useCallback(
     (event) => {
-      if (window.Notification && Notification.permission === "granted") {
-        new Notification("The Outuni Project", {
-          body: event.data,
-          icon: iconFile,
-          tag: event.data,
-          renotify: true,
-          timestamp: Math.floor(Date.now()),
-        });
-      } else if (window.Notification && Notification.permission === "default") {
-        // RIP, we didn't ask for permission first!?
-        Notification.requestPermission();
+      let title = null,
+        body = event.data;
+      try {
+        let n = JSON.parse(event.data);
+        title = n.title ?? null;
+        body = n.message;
+
+        FireNotificationApi({ title, body });
+      } catch (e) {
+        FireNotificationApi({ body });
       }
 
-      if (settings.enableSound && playerRef.current) {
-        setIsPlaying(event.data);
+      console.log(`title`, title ?? "nou");
+
+      if (settings.audio_alarm) {
+        let is_fleet_invite = event?.data.includes("has invited your");
+
+        if (!title) {
+          title = is_fleet_invite ? "Fleet Invite Received" : null;
+        }
+
+        setNotification({
+          title,
+          body,
+          sound: is_fleet_invite ? inviteAlarm : notificationAlarm,
+        });
       }
     },
     [settings]
   );
 
-  React.useEffect(() => {
-    if (eventContext == null) {
+  useEffect(() => {
+    // When the button is clicked, update settings in Local Storage
+    if (window.localStorage) {
+      window.localStorage.setItem(storageKey, JSON.stringify(settings));
+    }
+  }, [settings]);
+
+  useEffect(() => {
+    if (!eventContext) {
       return;
     }
 
-    eventContext.addEventListener("wakeup", handleWakeup);
     eventContext.addEventListener("message", handleMessage);
+    eventContext.addEventListener("notification", handleNotification);
     return () => {
-      eventContext.removeEventListener("wakeup", handleWakeup);
       eventContext.removeEventListener("message", handleMessage);
+      eventContext.removeEventListener("notification", handleNotification);
     };
-  }, [handleWakeup, eventContext]);
+  }, [eventContext]);
+
+  if (notification?.sound) {
+    new Audio(notification.sound).play();
+  }
 
   return (
     <>
-      <Modal open={modalOpen} setOpen={setModalOpen}>
-        <Box>
-          <p>
-            <label>
-              <input
-                checked={settings.enableSound}
-                onChange={(evt) => setSettings({ ...settings, enableSound: !!evt.target.checked })}
-                type="checkbox"
-              />{" "}
-              Enable sound notifications
-            </label>
-          </p>
-          <Button onClick={(evt) => handleWakeup({ data: "This is a test alert" })}>
-            Send test notification
+      <Modal open={!!notification} setOpen={() => setNotification(null)}>
+        <Box style={{ minHeight: "unset" }}>
+          {notification?.title && <H3>{notification.title}</H3>}
+
+          <p style={{ paddingBottom: "25px" }}>{notification?.body}</p>
+          <Button variant="primary" onClick={() => setNotification(null)}>
+            Close
           </Button>
-        </Box>
-      </Modal>
-      <Modal open={isPlaying} setOpen={setIsPlaying}>
-        <Box style={{ minHeight: "50px", height: "auto" }}>
-          <p style={{ marginBottom: "20px" }}>{isPlaying}</p>
-          <Button onClick={(evt) => setIsPlaying(false)} variant="success">
-            OK
-          </Button>
-          <audio ref={playerRef} loop>
-            <source src={soundFile} type="audio/mp3" />
-          </audio>
         </Box>
       </Modal>
       <Button
-        onClick={(evt) => setModalOpen(true)}
         title={
-          settings.enableSound
-            ? "Sound alerts are currently enabled"
-            : "Sound alerts are currently disabled"
+          settings.audio_alarm ? "Click to disable audio alarms" : "Click to enable audio alarms"
         }
+        onClick={handleSettingsChange}
       >
-        <FontAwesomeIcon fixedWidth icon={settings.enableSound ? faBell : faBellSlash} />
+        <FontAwesomeIcon fixedWidth icon={settings.audio_alarm ? faBell : faBellSlash} />
       </Button>
     </>
   );
-}
+};
+
+export default BrowserNotification;
