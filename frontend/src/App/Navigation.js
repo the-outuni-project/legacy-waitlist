@@ -108,7 +108,7 @@ export function NavLinks({ whoami }) {
       <Links exact to="/fits">
         Fits
       </Links>
-      <ExternalLink href={`https://wiki.${window.location.host}`}>Guides</ExternalLink>
+      <ExternalLink href={`https://wiki.${window.location.host}`} target="_blank">Guides</ExternalLink>
       {whoami && (
         <>
           <Links exact to="/pilot">
