@@ -8,6 +8,11 @@ export function ThemeSelect({ theme, setTheme }) {
   const [useDark, setUseDark] = useState(true);
 
   useEffect(() => {
+    let theme = window.localStorage.getItem("theme");
+    if (theme === "Ninjaholic") {
+      return setTheme(theme);
+    }
+
     setTheme(useDark ? "Dark" : "Light");
   }, [useDark]);
 
