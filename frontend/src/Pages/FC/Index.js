@@ -13,11 +13,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { usePageTitle } from "../../Util/title";
 
-const guideData = {};
-function importAll(r) {
-  r.keys().forEach((key) => (guideData[key] = r(key)));
-}
-importAll(require.context("./guides", true, /\.(md|jpg|png)$/));
 
 function GuideCard({ icon, slug, name, children }) {
   return (
