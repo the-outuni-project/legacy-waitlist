@@ -5,12 +5,12 @@ import { faPalette } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../Components/Form";
 
 export function ThemeSelect({ theme, setTheme }) {
-  const [ useDark, setUseDark ] = useState(true);
+  const [useDark, setUseDark] = useState(true);
 
   useEffect(() => {
-    setTheme(useDark ? 'Dark' : 'Light');
-  }, [useDark])
-  
+    setTheme(useDark ? "Dark" : "Light");
+  }, [useDark]);
+
   return (
     <>
       <Button onClick={(evt) => setUseDark(!useDark)}>

@@ -152,7 +152,10 @@ const AnnouncementBanner = () => {
 
           let render = false;
           relevantFilters.forEach((rf) => {
-            if (rf.value === "/" && pathname === "/" || rf.value !== "/" && pathname.startsWith(rf.value.toLowerCase())) {
+            if (
+              (rf.value === "/" && pathname === "/") ||
+              (rf.value !== "/" && pathname.startsWith(rf.value.toLowerCase()))
+            ) {
               render = true;
             }
           });

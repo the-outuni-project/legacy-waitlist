@@ -24,9 +24,10 @@ const TEMPLATES = {
     alert: true,
   },
   "Vanguard Fleet": {
-    content: "Fleet is running VGs. Remove your MWD/MJD and fit Tracking Computers or Sensor Boosters, and remove a Membrane and add a Signal Amplifier.",
+    content:
+      "Fleet is running VGs. Remove your MWD/MJD and fit Tracking Computers or Sensor Boosters, and remove a Membrane and add a Signal Amplifier.",
     alert: false,
-  }
+  },
 };
 
 const PAGE_CHECKBOX_STYLES = {

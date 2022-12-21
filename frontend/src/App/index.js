@@ -110,7 +110,7 @@ export default class App extends React.Component {
             <EventContext.Provider value={this.state.events}>
               <AuthContext.Provider value={this.state.auth}>
                 <Router>
-                  <Container style={{ height: "auto", minHeight: `calc(100vh - 70px)`}}>
+                  <Container style={{ height: "auto", minHeight: `calc(100vh - 70px)` }}>
                     <Menu
                       onChangeCharacter={(char) => this.changeCharacter(char)}
                       theme={this.state.theme}

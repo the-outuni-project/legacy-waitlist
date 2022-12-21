@@ -19,7 +19,6 @@ function importAll(r) {
 }
 importAll(require.context("./guides", true, /\.(md|jpg|png)$/));
 
-
 function GuideCard({ icon, slug, name, children }) {
   return (
     <CardMargin>
