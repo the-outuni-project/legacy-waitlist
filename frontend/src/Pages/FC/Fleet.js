@@ -51,13 +51,13 @@ const WikiPassword = () => {
     e.preventDefault();
 
     errorToaster(
-      toastContext, 
+      toastContext,
       changePassword(value)
       .then(() => {
         isOpen(false);
         setValue(undefined);
       })
-    );    
+    );
   }
 
   return (

@@ -6,13 +6,6 @@ use crate::core::auth::{AuthenticatedAccount, AuthenticationError, CookieSetter}
 use crate::core::esi::ESIScope;
 use crate::util::{madness::Madness, types};
 
-#[derive(Serialize)]
-struct WhoamiResponse {
-    account_id: i64,
-    access: Vec<&'static str>,
-    characters: Vec<types::Character>,
-}
-
 #[post("/api/auth/wiki")]
 async fn set_wiki_passwd(
     app: &rocket::State<app::Application>,
@@ -21,6 +14,13 @@ async fn set_wiki_passwd(
     account.require_access("waitlist-tag:TRAINEE")?;
 
     todo!("endpoint not yet implemented")
+}
+
+#[derive(Serialize)]
+struct WhoamiResponse {
+    account_id: i64,
+    access: Vec<&'static str>,
+    characters: Vec<types::Character>,
 }
 
 #[get("/api/auth/whoami")]
