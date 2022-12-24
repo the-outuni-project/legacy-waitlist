@@ -13,6 +13,16 @@ struct WhoamiResponse {
     characters: Vec<types::Character>,
 }
 
+#[post("/api/auth/wiki")]
+async fn set_wiki_passwd(
+    app: &rocket::State<app::Application>,
+    account: AuthenticatedAccount
+) -> Result<&'static str, Madness> {
+    account.require_access("waitlist-tag:TRAINEE")?;
+
+    todo!("endpoint not yet implemented")
+}
+
 #[get("/api/auth/whoami")]
 async fn whoami(
     app: &rocket::State<app::Application>,
@@ -192,5 +202,5 @@ async fn callback(
 }
 
 pub fn routes() -> Vec<rocket::Route> {
-    routes![whoami, logout, login_url, callback]
+    routes![whoami, logout, login_url, callback, set_wiki_passwd]
 }
