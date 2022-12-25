@@ -1,19 +1,82 @@
+use itertools::Itertools;
 use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
+use zxcvbn::{zxcvbn, ZxcvbnError};
 
 use crate::app;
 use crate::core::auth::{AuthenticatedAccount, AuthenticationError, CookieSetter};
 use crate::core::esi::ESIScope;
 use crate::util::{madness::Madness, types};
 
-#[post("/api/auth/wiki")]
+#[derive(Deserialize)]
+struct SetWikiPasswordRequest {
+    password: String,
+}
+
+fn hash_for_dokuwiki(password: &[u8]) -> String {
+    bcrypt::hash_with_result(password, bcrypt::DEFAULT_COST)
+        .unwrap()
+        .format_for_version(bcrypt::Version::TwoY)
+}
+
+#[post("/api/auth/wiki", data = "<input>")]
 async fn set_wiki_passwd(
     app: &rocket::State<app::Application>,
-    account: AuthenticatedAccount
-) -> Result<&'static str, Madness> {
+    account: AuthenticatedAccount,
+    input: Json<SetWikiPasswordRequest>,
+) -> Result<(), Madness> {
     account.require_access("waitlist-tag:TRAINEE")?;
 
-    todo!("endpoint not yet implemented")
+    let character = sqlx::query!("SELECT name FROM `character` WHERE id = ?", account.id)
+        .fetch_one(app.get_db())
+        .await?;
+
+    let wiki_user = character.name.replace(" ", "_").replace("'", "").to_lowercase();
+    let mail_user = character.name.replace(" ", ".").replace("'", "");
+    let mail_domain = &app.config.dokuwiki.mail_domain;
+
+    let estimate = zxcvbn(input.password.as_ref(), &[&character.name, &wiki_user])
+        .map_err(|err| match err {
+            ZxcvbnError::BlankPassword => Madness::BadRequest("Password rejected: Empty password not allowed".to_string()),
+            err => Madness::GeneralError(err),
+        })?;
+
+    if estimate.score() < 3 {
+        let feedback = estimate.feedback().as_ref().unwrap();
+        let warning = feedback.warning().map_or("".to_string(), |x| x.to_string());
+        let suggestions: String = Itertools::intersperse(
+            feedback.suggestions()
+                .iter()
+                .map(|x| x.to_string()),
+            " ".to_string()
+        ).collect();
+
+        let mut message = String::with_capacity(26 + warning.len() + suggestions.len());
+        if warning.len() > 0 {
+            message.push_str("Password rejected: ");
+            message.push_str(&warning);
+        } else {
+            message.push_str("Password rejected.");
+        }
+        if suggestions.len() > 0 {
+            message.push_str(" Tips: ");
+            message.push_str(&suggestions);
+        }
+
+        return Err(Madness::BadRequest(message));
+    }
+
+    sqlx::query!(
+        "REPLACE INTO `wiki_user` (`character_id`, `user`, `hash`, `mail`) VALUES (?, ?, ?, ?)",
+        account.id,
+        wiki_user,
+        hash_for_dokuwiki(input.password.as_ref()),
+        format!("{mail_user}@{mail_domain}"),
+    )
+    .execute(app.get_db())
+    .await?;
+
+    Ok(())
 }
 
 #[derive(Serialize)]

@@ -31,6 +31,9 @@ hex = "0.4"
 regex = "*"
 rand = "*"
 thiserror = "*"
+bcrypt = "*"
+zxcvbn = "*"
+itertools = "*"
 
 [features]
 mysql = ["sqlx/mysql"]
