@@ -1,0 +1,25 @@
+version: "3.7"
+volumes:
+  mysql_data:
+services:
+  database:
+    image: "mysql:8"
+    restart: "unless-stopped"
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+      - "./backend/sql/mysql.sql:/docker-entrypoint-initdb.d/schema.sql"
+    environment:
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
+
+  sse:
+    image: "tvdw/sse-server"
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      SSE_SECRET: "${SSE_SECRET}"

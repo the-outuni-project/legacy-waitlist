@@ -128,7 +128,7 @@ The Waitlist has three services (see below). Before starting the front end, both
    SELECT
        id AS character_id,
        'Leadership' AS role,
-       CURRENT_TIMESTAMP() AS granted_at,
+       UNIX_TIMESTAMP() AS granted_at,
        id AS granted_by_id
    FROM `character` WHERE name = 'YOUR CHARACTER NAME';
    ## Quit the shell using 'exit;'
