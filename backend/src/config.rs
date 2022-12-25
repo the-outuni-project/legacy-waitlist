@@ -40,6 +40,11 @@ pub struct SkillUpdaterConfig {
 }
 
 #[derive(Deserialize, Clone)]
+pub struct DokuWikiConfig {
+    pub mail_domain: String,
+}
+
+#[derive(Deserialize, Clone)]
 pub struct Config {
     pub database: DatabaseConfig,
     pub app: AppConfig,
@@ -47,4 +52,5 @@ pub struct Config {
     pub sse: SSEConfig,
     pub fleet_updater: FleetUpdaterConfig,
     pub skill_updater: SkillUpdaterConfig,
+    pub dokuwiki: DokuWikiConfig,
 }

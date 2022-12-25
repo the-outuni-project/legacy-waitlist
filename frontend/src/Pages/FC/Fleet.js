@@ -33,10 +33,12 @@ async function closeFleet(characterId) {
   });
 }
 
-async function changePassword(password) {
+async function setWikiPassword(password) {
   return await apiCall('/api/auth/wiki', {
     method: 'POST',
-    json: { password }
+    json: {
+      password: password
+    }
   })
 }
 
@@ -52,7 +54,7 @@ const WikiPassword = () => {
 
     errorToaster(
       toastContext,
-      changePassword(value)
+      setWikiPassword(value)
       .then(() => {
         isOpen(false);
         setValue(undefined);
@@ -62,7 +64,7 @@ const WikiPassword = () => {
 
   return (
     <>
-      <Button onClick={() => isOpen(true)} disabled>
+      <Button onClick={() => isOpen(true)}>
         Set Wiki Password
       </Button>
       <Modal open={open} setOpen={isOpen}>
@@ -73,10 +75,10 @@ const WikiPassword = () => {
             <A href={`https://wiki.${window.location.host}?do=login`} target="_blank">Wiki Login</A>
           </p>
 
-          <form style={{ paddingTop: "15px" }} onClick={onClick}>
+          <form style={{ paddingTop: "15px" }}>
             <div style={{ paddingBottom: "10px"}}>
               <Label htmlFor="username">Your wiki username:</Label>
-              <Input id="username" value={(authContext?.characters[0]?.name ?? "").toLowerCase().replace(/ /g, '_')} disabled />
+              <Input id="username" value={(authContext?.characters[0]?.name ?? "").toLowerCase().replace(/ /g, '_').replace(/'/g, '')} disabled />
             </div>
 
             <div style={{ paddingBottom: "20px"}}>
@@ -84,7 +86,7 @@ const WikiPassword = () => {
               <Input id="password" type="password" value={value} minLength="6" maxLength="20" onChange={(e) => setValue(e.target.value)} required />
             </div>
 
-            <Button variant="success">
+            <Button variant="success" onClick={onClick}>
               Save Password
             </Button>
           </form>

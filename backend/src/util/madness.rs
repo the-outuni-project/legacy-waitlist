@@ -2,6 +2,7 @@ use std::io::Cursor;
 
 use rocket::http::Status;
 use rocket::Response;
+use zxcvbn::ZxcvbnError;
 
 use crate::core::esi::ESIError;
 use crate::core::sse::SSEError;
@@ -21,6 +22,8 @@ pub enum Madness {
     TypeError(#[from] TypeError),
     #[error("fit error: {0}")]
     FitError(#[from] FitError),
+    #[error("general error: {0}")]
+    GeneralError(#[from] ZxcvbnError),
 
     #[error("{0}")]
     BadRequest(String),
@@ -59,6 +62,7 @@ impl<'r> rocket::response::Responder<'r, 'static> for Madness {
 
             Self::DatabaseError(_)
             | Self::SSEError(_)
+            | Self::GeneralError(_)
             | Self::ESIError(
                 ESIError::HTTPError(_) | ESIError::DatabaseError(_) | ESIError::Status(_),
             ) => Status::InternalServerError,
