@@ -13,7 +13,10 @@ export function Skills() {
     return (
       <Content>
         <b>Login Required!</b>
-        <p>This page will show tables with TOP related skills comparing to your current skills with a color indicating the progres tier that skill is at.</p>
+        <p>
+          This page will show tables with TOP related skills comparing to your current skills with a
+          color indicating the progres tier that skill is at.
+        </p>
       </Content>
     );
   }

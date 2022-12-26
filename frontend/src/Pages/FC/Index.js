@@ -13,7 +13,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { usePageTitle } from "../../Util/title";
 
-
 function GuideCard({ icon, slug, name, children }) {
   return (
     <CardMargin>

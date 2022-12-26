@@ -16,7 +16,6 @@ import { Search } from "../Pages/FC/Search";
 import { Skills } from "../Pages/Skills/Skills";
 import { Statistics } from "../Pages/FC/Statistics";
 import { Waitlist } from "../Pages/Waitlist";
-import { Xup } from "../Pages/Xup";
 
 import AnnouncementsPage from "../Pages/FC/Announcements";
 import BadgesPage from "../Pages/FC/Badges";
@@ -68,11 +67,6 @@ export function Routes() {
       </Route>
       <Route exact path="/skills/plans">
         <Plans />
-      </Route>
-
-      {/* Waitlist Pages: XUP */}
-      <Route exact path="/xup">
-        {<AuthenticatedRoute component={<Xup />} loginRequired />}
       </Route>
 
       {/* Fleet Commander Routes */}

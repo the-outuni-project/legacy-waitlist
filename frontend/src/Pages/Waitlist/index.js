@@ -1,7 +1,7 @@
 import React from "react";
 import { AuthContext, ToastContext, EventContext } from "../../contexts";
 import { apiCall, errorToaster, useApi } from "../../api";
-import { InputGroup, Button, Buttons, NavButton } from "../../Components/Form";
+import { InputGroup, Button, Buttons } from "../../Components/Form";
 import {
   ColumnWaitlist,
   CompactWaitlist,
@@ -16,6 +16,7 @@ import { faColumns } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
 import { useQuery } from "../../Util/query";
 import { usePageTitle } from "../../Util/title";
+import JoinWaitlist from "./JoinWaitlist";
 
 function coalesceCalls(func, wait) {
   var nextCall = null;
@@ -172,18 +173,15 @@ export function Waitlist() {
   return (
     <>
       <Buttons>
-        <InputGroup>
-          <NavButton variant={myEntry ? null : "primary"} to={`/xup?wl=${waitlistId}`}>
-            {myEntry ? "Update fit(s)" : "Join waitlist"}
-          </NavButton>
-          <Button
-            variant={myEntry ? "danger" : null}
-            onClick={(evt) => errorToaster(toastContext, removeEntry(myEntry.id))}
-            disabled={myEntry ? false : true}
-          >
-            Leave waitlist
-          </Button>
-        </InputGroup>
+        <JoinWaitlist hasFits={myEntry} />
+
+        <Button
+          variant={myEntry ? "danger" : null}
+          onClick={(evt) => errorToaster(toastContext, removeEntry(myEntry.id))}
+          disabled={myEntry ? false : true}
+        >
+          Leave waitlist
+        </Button>
         <InputGroup>
           <Button active={displayMode === "columns"} onClick={(evt) => setDisplayMode("columns")}>
             Columns
