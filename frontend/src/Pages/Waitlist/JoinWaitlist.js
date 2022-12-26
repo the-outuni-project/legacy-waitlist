@@ -14,6 +14,7 @@ const Box = styled(BaseBox)`
   flex-direction: row;
   flex-wrap: wrap;
   overflow-x: hidden;
+  max-width: 1000px!important;
 
   h2 {
     padding-bottom: 12px;
@@ -22,11 +23,12 @@ const Box = styled(BaseBox)`
   }
 
   #implants {
-    margin-top: 30px;
+    margin-top: 33px;
   }
 
   form {
     padding-right: 20px;
+    flex-grow: 1;
   }
 
   textarea {
@@ -34,6 +36,8 @@ const Box = styled(BaseBox)`
     min-height: 350px;
     max-height: 800px;
     margin-right: 20px;
+    resize: vertical;
+    overflow-y: hidden;
   }
 
   @media (max-width: 900px) {
