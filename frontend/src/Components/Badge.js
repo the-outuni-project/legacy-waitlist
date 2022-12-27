@@ -74,33 +74,26 @@ BadgeModal.Title = styled.div`
 `;
 
 export const icons = {
+  // New FC:
+  LEADERSHIP: { type: "shield", color: "red", letter: "L", name: "Leadership" },
+  INSTRUCTOR: { type: "shield", color: "red", letter: "I", name: "Instructor" },
+  "HQ-FC": { type: "shield", color: "red", letter: "F", name: "Fleet Commander" },
+  TRAINEE: { type: "shield", color: "red", letter: "T", name: "Trainee" },
+
   // Implant badges
-  WARPSPEED: { type: "shield", color: "red", letter: "W", name: "Warp Speed Implants" },
-  HYBRID: { type: "shield", color: "red", letter: "H", name: "Hybrid Implants" },
-  AMULET: { type: "shield", color: "red", letter: "A", name: "Amulet Implants" },
-  // FC Roles
-  "HQ-FC": { type: "shield", color: "blue", letter: "H", name: "HQ FC" },
-  TRAINEE: { type: "shield", color: "neutral", letter: "T", name: "Training FC" },
-  TRAINER: { type: "shield", color: "purple", letter: "T", name: "FC Trainer" },
-  COUNCIL: { type: "image", href: require("../Pages/Guide/badges/c.png"), name: "Council" },
+  WARPSPEED: { type: "image", href: require('./BadgeImages/hardwire.png'), name: "Ascendancies" },
+  HYBRID: { type: "image", href: require('./BadgeImages/hardwire.png'), name: "Amulet [slot 1-5] + WS-618" },
+  AMULET: { type: "image", href: require('./BadgeImages/hardwire.png'), name: "Amulets [slot 1-6]" },
+
+  
   // Specalist Badges
   LOGI: { type: "shield", color: "green", letter: "L", name: "Logi Specialist" },
-  "MUPPET-LOGI": {
-    type: "image",
-    href: require("../Pages/Guide/badges/ml.png"),
-    name: "Banned from flying logi",
-  },
-  "RETIRED-LOGI": { type: "shield", color: "red", letter: "L", name: "Retired Logi Specialist" },
   BASTION: { type: "shield", color: "cyan", letter: "B", name: "Bastion Specialist" },
   WEB: { type: "shield", color: "cyan", letter: "W", name: "Web Specialist" },
+  
   // Other
-  ELITE: { type: "shield", color: "yellow", letter: "E", name: "Elite" },
-  "ELITE-GOLD": {
-    type: "image",
-    href: require("../Pages/Guide/badges/egold.png"),
-    name: "Elite GOLD",
-  },
-  STARTER: { type: "shield", color: "neutral", letter: "S", name: "Starter pilot" },
+  "ELITE-GOLD": { type: "shield", color: "yellow", letter: "G", name: "Elite Gold" },
+  ELITE: { type: "shield", color: "neutral", letter: "E", name: "Elite" },
   UNKNOWN: { type: "shield", color: "neutral", letter: "?", name: null },
 };
 
@@ -130,7 +123,7 @@ export function Shield({ color, letter, title, h = "1.2em" }) {
       >
         <g>
           <path
-            style={{ fill: theme.colors.tdfShields[color] }}
+            style={{ fill: theme.colors.shields[color] }}
             d="m 13.229167,0 c 0,0 6.085417,0.79375 13.229167,3.96875 0,0 -0.79375,10.054167 -3.961217,15.955009 -2.275956,4.239997 -6.622116,7.857491 -9.26795,7.857491 M 13.229167,0 C 13.229167,0 7.14375,0.79375 0,3.96875 c 0,0 0.79375,10.054167 3.9612174,15.955009 2.2759552,4.239997 6.6221156,7.857491 9.2679496,7.857491"
           />
           <text
@@ -138,7 +131,7 @@ export function Shield({ color, letter, title, h = "1.2em" }) {
               fontSize: "1.3em",
               fontWeight: "700",
               textAnchor: "middle",
-              fill: theme.colors.tdfShields.text,
+              fill: theme.colors.shields.text,
               textRendering: "geometricPrecision",
             }}
             x="13.25"
