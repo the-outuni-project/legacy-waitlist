@@ -69,7 +69,8 @@ const theme = {
       accent3: "#999999",
       accent4: "#666666",
 
-      tdfShields: {
+      shields: {
+        orange: "#d67e0d",
         red: "#d60015",
         green: "#19b915",
         blue: "#0076c2",
@@ -77,7 +78,7 @@ const theme = {
         purple: "#aa88ff",
         neutral: "#4b4b4b",
         cyan: "#1eabaa",
-        text: "#ffffff",
+        text: "#ffffff"
       },
     },
   }),
@@ -142,7 +143,8 @@ const theme = {
       accent3: "#757575",
       accent4: "#ababab",
 
-      tdfShields: {
+      shields: {
+        orange: "#d67e0d",
         red: "#9a121f",
         green: "#21861e",
         blue: "#105b8b",

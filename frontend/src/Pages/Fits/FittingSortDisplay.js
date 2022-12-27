@@ -12,8 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Markdown } from "../../Components/Markdown";
 import { BadgeDOM, BadgeModal } from "../../Components/Badge";
-import hbadge from "../Guide/badges/h.png";
-import wbadge from "../Guide/badges/w.png";
+import hbadge from "../../Components/BadgeImages/hardwire.png";
+import wbadge from "../../Components/BadgeImages/hardwire.png";
 
 export const FitCard = styled.div`
   border: solid 2px ${(props) => props.theme.colors.accent2};
