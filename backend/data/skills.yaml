@@ -31,9 +31,7 @@ categories:
     - Micro Jump Drive Operation
     - Afterburner
     - Fuel Conservation
-    - Armor Rigging
     - Armor Layering
-    - Astronautics Rigging
   Drones:
     - Drones
     - Gallente Drone Specialization
@@ -104,6 +102,9 @@ categories:
     - Skirmish Command Specialist
     - Information Command
     - Information Command Specialist
+  Rigging:
+    - Armor Rigging
+    - Astronautics Rigging
 
 requirements:
   _generic: &generic # Generic skills: everyone needs these
@@ -393,9 +394,11 @@ requirements:
     Target Management:
       min: 5
     Long Range Targeting:
-      min: 5
+      min: 3
+      elite: 5
     Signature Analysis:
-      min: 5
+      min: 4
+      gold: 5
     Biology:
       min: 3
       elite: 5
@@ -404,7 +407,7 @@ requirements:
     Shield Operation:
       elite: 4
     Advanced Target Management:
-      min: 3
+      min: 2
     Energy Grid Upgrades:
       min: 2
 
@@ -590,6 +593,8 @@ requirements:
     <<: [*logistics]
     Afterburner:
       min: 4
+    Advanced Target Management:
+      min: 3
     Capacitor Emission Systems:
       min: 5
     Evasive Maneuvering:
@@ -608,6 +613,8 @@ requirements:
     Medium Drone Operation:
       min: 1
       elite: 5
+    Long Range Targeting:
+      min: 5      
     CPU Management:
       min: 5
     Power Grid Management:
@@ -616,11 +623,15 @@ requirements:
       min: 4
     Cybernetics:
       min: 5
+    Signature Analysis:
+      min: 5
 
   Oneiros:
     <<: [*logistics]
     Afterburner:
       min: 4
+    Advanced Target Management:
+      min: 3
     Evasive Maneuvering:
       min: 3
     Fuel Conservation:
@@ -641,11 +652,11 @@ requirements:
       min: 3
     Power Grid Management:
       min: 5
-    Frequency Modulation:
-      elite: 4
-    Long Distance Jamming:
-      elite: 4
+    Long Range Targeting:
+      min: 5
     Drones:
+      min: 5
+    Signature Analysis:
       min: 5
 
   Nestor:
@@ -658,13 +669,14 @@ requirements:
       min: 5
     Kinetic Armor Compensation:
       min: 5
-    Advanced Target Management:
-      min: 3
-      elite: 3
+    CPU Management:
+      min: 4
+    Power Grid Management:
+      min: 4    
     Amarr Battleship:
       min: 5
     Gallente Battleship:
-      min: 3
+      min: 1
       elite: 4
     High Speed Maneuvering:
       min: 4

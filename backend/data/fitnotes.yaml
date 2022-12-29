@@ -13,16 +13,16 @@ notes:
 
   # Ship specific notes
 
-  - name: TOP_ONI_HQ_BASIC
+  - name: Basic Oneiros
     description: >
       Skill exception: Logistics Cruiser 4
-  - name: TOP_GUARD_HQ_BASIC
+  - name: Basic Guardian
     description: >
       This fit requires the EM-806 Implant & Energy Grid Upgrades 5.
-  - name: TOP_GUARD_HQ_ADVANCED
+  - name: Advanced Guardian
     description: >
       Implant Required: EM-806
-  - name: TOP_GUARD_HQ_ELITE
+  - name: Elite Guardian
     description: >
       Implant Required: EM-806
   - name: TOP_DAMNATION
@@ -31,10 +31,10 @@ notes:
   - name: TOP_EOS
     description: >
       Typically used by the active FC as primary booster with no starter level skills. Can be used as a meatshield/secondary booster by anyone while you are working on becoming trainee FC.
-  - name: TOP_NESTOR_HQ_ELITE_ASCENDANCY
+  - name: Elite Ascendancy Nestor
     description: >
       Implant Required: EM-806. You are required to be approved logi (Logistics Specialist) to fly this ship.
-  - name: TOP_NESTOR_HQ_ELITE_HYBRID
+  - name: Elite Hybrid Nestor
     description: >
       Implant Required: EM-806. You are required to be approved logi (Logistics Specialist) to fly this ship.
   - name: TOP_KRONOS_ELITE
