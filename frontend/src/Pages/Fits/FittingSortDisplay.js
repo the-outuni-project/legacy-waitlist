@@ -187,13 +187,13 @@ function ShipDisplay({ fit, id, note }) {
                 <Markdown>{note}</Markdown>
               </Note>
             ) : null}
-            {fit.name.indexOf("HYBRID") !== -1 ? (
+            {fit.name.toLowerCase().indexOf("hybrid") !== -1 ? (
               <Note variant={"danger"}>
-                <p>HYBRID FIT! This fit requires at least Amulet 1 - 5. <br /> Click the implant button above for details.</p>
+                <p>This fit requires slot 1-5 Amulet implants. Click the implant button above for details.</p>
               </Note>
-            ) : fit.name.indexOf("ASCENDANCY") !== -1 ? (
+            ) : fit.name.toLowerCase().indexOf("ascendancy") !== -1 ? (
               <Note variant={"danger"}>
-                <p>ASCENDANCY FIT! This fit requires at least Ascendancy 1 - 5 & WS-618. <br /> Click the implants button above for details.</p>
+                <p>This fit requires slot 1-5 Ascendancy &amp; the WS-618 implant. Click the implants button above for details.</p>
               </Note>
             ) : null}
           </Box>
@@ -211,9 +211,9 @@ function ShipDisplay({ fit, id, note }) {
               <p>{fit.name}</p>
               <FitCard.Content.Badges>
                 {note ? <FontAwesomeIcon icon={faExclamationCircle} /> : null}
-                {fit.name.indexOf("HYBRID") !== -1 ? (
+                {fit.name.toLowerCase().indexOf("hybrid") !== -1 ? (
                   <Shield color="red" letter="H" title="Hybrid Implants" />
-                ) : fit.name.indexOf("ASCENDANCY") !== -1 ? (
+                ) : fit.name.toLowerCase().indexOf("ascendancy") !== -1 ? (
                   <Shield color="red" letter="W" title="Ascendancy Implants" />
                 ) : null}
               </FitCard.Content.Badges>

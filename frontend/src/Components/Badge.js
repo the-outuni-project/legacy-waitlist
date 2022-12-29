@@ -92,7 +92,7 @@ export const icons = {
   WEB: { type: "shield", color: "cyan", letter: "W", name: "Web Specialist" },
   
   // Other
-  "ELITE-GOLD": { type: "shield", color: "yellow", letter: "G", name: "Elite Gold" },
+  "ELITE-GOLD": { type: "shield", color: "yellow", letter: "E", name: "Elite Gold" },
   ELITE: { type: "shield", color: "neutral", letter: "E", name: "Elite" },
   UNKNOWN: { type: "shield", color: "neutral", letter: "?", name: null },
 };

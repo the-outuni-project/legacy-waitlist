@@ -26,15 +26,14 @@ import { Title } from "../../Components/Page";
 import { Button, Buttons } from "../../Components/Form";
 
 const badgeOrder = [
-  "HQ-FC",
-  "TRAINEE",
-  "WEB",
-  "BASTION",
-  "LOGI",
-  "RETIRED-LOGI",
   "AMULET",
   "WARPSPEED",
   "HYBRID",
+  "HQ-FC",
+  "TRAINEE",
+  "LOGI",
+  "BASTION",
+  "WEB",
   "ELITE",
   "ELITE-GOLD",
 ];
