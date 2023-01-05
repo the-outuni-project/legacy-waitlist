@@ -4,6 +4,7 @@ on:
   push:
     branches: [ main, dev ]
     paths: [ 'backend/**', '.github/workflows/docker-backend.yml' ]
+  workflow_dispatch:
 
 env:
   COMPONENT: backend
