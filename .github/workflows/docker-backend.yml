@@ -4,6 +4,7 @@ on:
   push:
     branches: [ main, dev ]
     paths: [ 'backend/**', '.github/workflows/docker-backend.yml' ]
+  workflow_dispatch:
 
 env:
   COMPONENT: backend
@@ -11,6 +12,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write    
     strategy:
       matrix:
         build: ["release", "dev"]
