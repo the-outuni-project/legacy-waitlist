@@ -3,10 +3,11 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { apiCall, errorToaster, useApi } from "../../api";
 import { Box as BaseBox } from "../../Components/Box";
-import { ImplantDisplay } from "../../Components/FitDisplay";
+import { FitDisplay, ImplantDisplay } from "../../Components/FitDisplay";
 import { Button, Label, Textarea } from "../../Components/Form";
 import { Modal } from "../../Components/Modal";
 import { addToast } from "../../Components/Toast";
+import A from "../../Components/A";
 import { AuthContext, ToastContext } from "../../contexts";
 
 const Box = styled(BaseBox)`
@@ -14,12 +15,16 @@ const Box = styled(BaseBox)`
   flex-direction: row;
   flex-wrap: wrap;
   overflow-x: hidden;
-  max-width: 1000px!important;
+  max-width: 1000px !important;
 
   h2 {
     padding-bottom: 12px;
     font-size: 1.75em;
     flex: 0 0 100%;
+  }
+
+  a:first-of-type {
+    margin-left: 10px;
   }
 
   #implants {
@@ -36,8 +41,8 @@ const Box = styled(BaseBox)`
     min-height: 350px;
     max-height: 800px;
     margin-right: 20px;
-    resize: vertical;
-    overflow-y: hidden;
+    resize: none;
+    // overflow-y: hidden;
   }
 
   @media (max-width: 900px) {
@@ -95,6 +100,15 @@ Large Hyperspatial Velocity Optimizer II
 ...
 `.trim();
 
+async function validateFit({ character_id, eft }) {
+  return await apiCall("/api/fit-check", {
+    json: {
+      eft,
+      character_id,
+    },
+  });
+}
+
 async function submitFit({ character_id, fit, waitlist_id, is_alt }) {
   await apiCall("/api/waitlist/xup", {
     json: {
@@ -110,26 +124,20 @@ const JoinWaitlist = ({ hasFits }) => {
   const authContext = useContext(AuthContext);
   const toastContext = useContext(ToastContext);
   const queryParams = new URLSearchParams(useLocation().search);
-  const [open, setOpen] = useState(false);
-  const [pending, setPending] = useState(false);
+  
   const [alt, setAlt] = useState(false);
+  const [badFits, setBadFits] = useState(undefined);
   const [fit, setFit] = useState(undefined);
-
   const [implants] = useApi(`/api/implants?character_id=${authContext.current.id}`);
+  const [open, setOpen] = useState(false);
+  const [pending, setPending] = useState(false);  
 
   const waitlist_id = queryParams.get("wl");
   if (!waitlist_id) {
     return <em>Missing waitlist information</em>;
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (pending) {
-      return; // Stop users from clicking the button twice
-    }
-    setPending(true);
-
+  const handleSubmit = () => {
     errorToaster(
       toastContext,
       submitFit({
@@ -145,9 +153,71 @@ const JoinWaitlist = ({ hasFits }) => {
           });
           setAlt(false);
           setFit("");
+          setBadFits(undefined);
           setOpen(false);
         })
-        .finally(() => setPending(false))
+        .finally(() => {
+          setPending(false);
+        })
+    );
+  };
+
+  const handleFitValidation = (e) => {
+    e.preventDefault();
+
+    if (pending) {
+      return; // Stop users from clicking the button twice
+    }
+    setPending(true);
+
+    errorToaster(
+      toastContext,
+      validateFit({
+        character_id: authContext.current.id,
+        eft: fit,
+      })
+        .then((res) => {
+          if (!res.some((xup) => !xup.approved)) {
+            return handleSubmit();
+          }
+          setBadFits(res);
+        })
+        .finally(() => {
+          setPending(false);
+        })
+    );
+  };
+
+  const FailedFitsDisplay = () => {
+    return (
+      <>
+        <h2 style={{ paddingBottom: "0px" }}>Whoops!</h2>
+        <p style={{ paddingBottom: "10px", fontSize: "larger", flex: "0 0 100%" }}>
+          There is something wrong with one (or more) of your fits.
+        </p>
+        {badFits?.map((fit, key) => {
+          return (
+            !fit.approved && (
+              <div style={{ marginBottom: "20px" }} key={key}>
+                <FitDisplay fit={fit} />
+              </div>
+            )
+          );
+        })}
+
+        <div style={{ flex: "0 0 100%" }}>
+          <Button variant="warning" style={{ marginRight: "5px" }} onClick={handleSubmit}>
+            Confirm X-UP
+          </Button>
+          <Button
+            onClick={() => {
+              setBadFits(undefined);
+            }}
+          >
+            Fix My Fit
+          </Button>
+        </div>
+      </>
     );
   };
 
@@ -159,39 +229,50 @@ const JoinWaitlist = ({ hasFits }) => {
 
       <Modal open={open} setOpen={setOpen}>
         <Box>
-          <h2>{!hasFits ? "Join" : "Update fits on the"} Waitlist</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <Label htmlFor="fit" required>
-                Paste your fit(s) here:
-              </Label>
-              <Textarea
-                value={fit}
-                onChange={(e) => setFit(e.target.value)}
-                placeholder={exampleFit}
-                required
-              />
-            </div>
+          {badFits ? (
+            <FailedFitsDisplay />
+          ) : (
+            <>
+              <h2>{!hasFits ? "Join" : "Update fits on the"} Waitlist</h2>
 
-            <div>
-              <Label htmlFor="alt">
-                <input id="alt" type="checkbox" checked={alt} onChange={(e) => setAlt(!alt)} />I
-                already have a character in fleet
-              </Label>
-            </div>
+              <form onSubmit={handleFitValidation}>
+                <div>
+                  <Label htmlFor="fit" required>
+                    Paste your fit(s) here:
+                  </Label>
+                  <Textarea
+                    value={fit}
+                    onChange={(e) => setFit(e.target.value)}
+                    placeholder={exampleFit}
+                    required
+                  />
+                </div>
 
-            <Button variant="success" pending={pending}>
-              X UP
-            </Button>
-          </form>
-          <div id="implants">
-            {implants && (
-              <ImplantDisplay
-                implants={implants.implants}
-                name={`${authContext.current.name}'s capsule`}
-              />
-            )}
-          </div>
+                <div>
+                  <Label htmlFor="alt">
+                    <input id="alt" type="checkbox" checked={alt} onChange={(e) => setAlt(!alt)} />I
+                    already have a character in fleet
+                  </Label>
+                </div>
+
+                <Button variant="success" disabled={pending}>
+                  X UP
+                </Button>
+                <A href={`https://wiki.${window.location.host}/guides/waitlist`} target="_blank">
+                  How do I join the waitlist?
+                </A>
+              </form>
+
+              <div id="implants">
+                {implants && (
+                  <ImplantDisplay
+                    implants={implants.implants}
+                    name={`${authContext.current.name}'s capsule`}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </Box>
       </Modal>
     </>

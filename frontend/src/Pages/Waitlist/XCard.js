@@ -100,7 +100,7 @@ XCardDOM.Head.Badges = styled.div`
     align-items: center;
   }
   img {
-    height: 1.5em!important;
+    height: 1.5em !important;
   }
 `;
 XCardDOM.Content = styled.div`
@@ -194,7 +194,6 @@ function ShipDisplay({ fit, onAction }) {
                   </Button>
                 </Buttons>
               )}
-
               <FitDisplay fit={fit} />
               {fit.tags.includes("STARTER") ? (
                 <>
