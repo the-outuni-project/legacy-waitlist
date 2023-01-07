@@ -56,7 +56,10 @@ function FitsDisplay({ tier, setTier = null }) {
             </Button>
           </InputGroup>
           <InputGroup>
-          <AButton href={`https://wiki.${window.location.host}/guides/travelling-between-focuses#incursion-ship-travel-fits`} target="_blank">
+            <AButton
+              href={`https://wiki.${window.location.host}/guides/travelling-between-focuses#incursion-ship-travel-fits`}
+              target="_blank"
+            >
               Travel
             </AButton>
           </InputGroup>

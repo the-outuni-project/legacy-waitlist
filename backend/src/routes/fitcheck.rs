@@ -22,7 +22,7 @@ struct XupRequest {
 #[derive(Debug, Serialize)]
 pub struct FitResult {
     pub approved: bool,
-    pub analysis: Option<PubAnalysis>,
+    pub fit_analysis: Option<PubAnalysis>,
     pub dna: String,
 }
 
@@ -57,9 +57,13 @@ async fn fitcheck(
     for fit in fits {
         let fit_checked: Output = tdf::fitcheck::FitChecker::check(&pilot, &fit, &badges)?;
 
+        if let Some(error) = fit_checked.errors.into_iter().next() {
+            return Err(Madness::BadRequest(error));
+        }
+
         result.push(FitResult {
             approved: fit_checked.approved,
-            analysis: fit_checked.analysis,
+            fit_analysis: fit_checked.analysis,
             dna: fit.to_dna()?,
         });
     }
