@@ -4,6 +4,7 @@ mod badges;
 mod bans;
 mod categories;
 mod commanders;
+mod fitcheck;
 mod fittings;
 mod fleet;
 mod healthcheck;
@@ -42,6 +43,7 @@ pub fn routes() -> Vec<rocket::Route> {
         implants::routes(),
         notes::routes(),
         skillplans::routes(),
+        fitcheck::routes(),
         fittings::routes(),
     ]
     .concat()
