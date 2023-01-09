@@ -98,7 +98,7 @@ const Teamspeak = () => {
   return (
     <AButton
       title="Join our Teamspeak Server"
-      href={`ts3server://ts3.42outunis.com${
+      href={`ts3server://42outunis.com${
         authContext?.current ? `?nickname=${authContext.current.name}` : ""
       }`}
     >
