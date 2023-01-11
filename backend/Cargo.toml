@@ -37,4 +37,5 @@ itertools = "*"
 Inflector = "*"
 
 [features]
+default = ["mysql"]
 mysql = ["sqlx/mysql"]
