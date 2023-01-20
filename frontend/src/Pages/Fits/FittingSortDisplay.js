@@ -176,7 +176,7 @@ function ShipDisplay({ fit, id, note }) {
     <>
       {modalOpen ? (
         <Modal open={true} setOpen={setModalOpen}>
-          <Box style={{ maxWidth: "500px" }}>
+          <Box style={{ maxWidth: "510px" }}>
             <div style={{ display: "flex" }}>
               <div style={{ margin: "0 0.5em" }}>
                 <DNADisplay dna={fit.dna} name={fit.name} />
@@ -199,7 +199,7 @@ function ShipDisplay({ fit, id, note }) {
           </Box>
         </Modal>
       ) : null}
-      <Box mpadding={"0.2em"} style={{ margin: "0.5em 0", paddingLeft: "0em" }}>
+      <Box mpadding={"0.2em"} style={{ margin: "0.5em 0", paddingLeft: "0em", padding: "0.5em" }}>
         <FitCard variant={"input"}>
           <a onClick={(evt) => setModalOpen(true)}>
             <FitCard.Content>

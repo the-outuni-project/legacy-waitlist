@@ -7,6 +7,9 @@ notes:
   - name: Starter
     description: >
       These **DPS** ships are the only ones you can fly with all **Armor Compensation** skills at level 2, all others require at least 4. **Replace Tracking Computer II** with the **Micro Jump drive** when able.
+  - name: Elite
+    description: >
+      **These fits are eligible for the [Elite and Elite Gold badges](https://wiki.42outunis.com/guides/badges)**.
   - name: Antigank
     description: >
       These fits are to be used in situations with active gankers. "The Outuni Project" MOTD will notify you if these fits are to be used.
@@ -37,12 +40,6 @@ notes:
   - name: Elite Hybrid Nestor
     description: >
       Implant Required: EM-806. You are required to be approved logi (Logistics Specialist) to fly this ship.
-  - name: TOP_KRONOS_ELITE
+  - name: TOP Paladin Basic
     description: >
-      Requires warp speed implant set to be eligible for elite badge
-  - name: TOP_PALLY_ELITE
-    description: >
-      Requires warp speed implant set to be eligible for elite badge
-  - name: TOP_VINDI_ELITE
-    description: >
-      Requires warp speed implant set to be eligible for elite badge
+      Please use Mega Pulse Laser II if you have the skills to use TII guns.
