@@ -673,8 +673,12 @@ requirements:
       min: 4
     Power Grid Management:
       min: 4    
+    Advanced Target Management:
+      min: 2
+      gold: 2
     Amarr Battleship:
-      min: 5
+      min: 4
+      gold: 5
     Gallente Battleship:
       min: 1
       elite: 4
