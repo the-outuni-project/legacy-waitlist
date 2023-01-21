@@ -265,8 +265,8 @@ function filterSlots(counts, analysis, moduleInfo) {
   return slots;
 }
 
-function copyableFit(hull, slots, moduleInfo) {
-  var fit = `[${moduleInfo[hull].name}, ${moduleInfo[hull].name}]\n`;
+function copyableFit(hull, displayName, slots, moduleInfo) {
+  var fit = `[${moduleInfo[hull].name}, ${displayName}]\n`;
   for (const slot of slotOrder) {
     for (const [module, count] of Object.entries(slots[slot].have)) {
       const moduleName = module in moduleInfo ? moduleInfo[module].name : module;
@@ -350,7 +350,7 @@ export function DNADisplay({ dna, analysis = null, name = null }) {
   }
 
   let displayName = name ? name : analysis && analysis.name ? analysis.name : moduleInfo[hull].name;
-
+  console.log(displayName)
   return (
     <div>
       <DOM.Hull>
@@ -365,7 +365,7 @@ export function DNADisplay({ dna, analysis = null, name = null }) {
             toaster(
               toastContext,
               navigator.clipboard
-                .writeText(copyableFit(hull, slots, moduleInfo))
+                .writeText(copyableFit(hull, displayName, slots, moduleInfo))
                 .then((success) => "Copied to clipboard")
             );
           }}
