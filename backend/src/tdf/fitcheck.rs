@@ -160,7 +160,7 @@ impl<'a> FitChecker<'a> {
             if !(diff.cargo_missing.is_empty() && fit_ok) {
                 self.approved = false;
             }
-            if doctrine_fit.name.contains("STARTER") {
+            if doctrine_fit.name.contains("Starter") {
                 self.tags.insert("STARTER-FIT");
             }
             if fit_ok && doctrine_fit.name.contains("ELITE") {
@@ -184,7 +184,7 @@ impl<'a> FitChecker<'a> {
             Some(fit) => {
                 // The NM_Basic is an exception to our usual upgrade rules, in that, it has more tank fitted than the equivalent starter fit
                 // As such, it's allowed to X up with comps at 2 and not 4.
-                if fit.name.contains("STARTER") || fit.name.contains("NM_BASIC") {
+                if fit.name.contains("Starter") || fit.name.contains("Nightmare Basic") {
                     2
                 } else {
                     4
@@ -218,7 +218,7 @@ impl<'a> FitChecker<'a> {
         }
 
         if let Some(fit) = self.doctrine_fit {
-            if fit.name.contains("TDF_GUARD_HQ_BASIC") && self.pilot.skills.get(type_id!("Energy Grid Upgrades")) < 5 {
+            if fit.name.contains("Basic Guardian") && self.pilot.skills.get(type_id!("Energy Grid Upgrades")) < 5 {
                 self.errors.push("Missing Engineering Skill: Energy Grid Upgrades 5 required".to_string());
                 self.approved = false;
             }
@@ -271,9 +271,9 @@ impl<'a> FitChecker<'a> {
             let set_tag = implantmatch::detect_base_set(self.pilot.implants).unwrap_or("");
             if set_tag != "SAVIOR" {
                 let mut implants_nok = "";
-                if doctrine_fit.name.contains("ASCENDANCY") && set_tag != "WARPSPEED" {
+                if doctrine_fit.name.contains("Ascendancy") && set_tag != "WARPSPEED" {
                     implants_nok = "Ascendancy";
-                } else if doctrine_fit.name.contains("HYBRID") && set_tag != "AMULET" {
+                } else if doctrine_fit.name.contains("Hybrid") && set_tag != "AMULET" {
                     let implants = [
                         type_id!("High-grade Amulet Alpha"),
                         type_id!("High-grade Amulet Beta"),
@@ -286,7 +286,7 @@ impl<'a> FitChecker<'a> {
                             implants_nok = "Hybrid";
                         }
                     }
-                } else if doctrine_fit.name.contains("AMULET") && set_tag != "AMULET" {
+                } else if doctrine_fit.name.contains("Amulet") && set_tag != "AMULET" {
                     implants_nok = "Amulet";
                 }
                 if implants_nok != "" {
