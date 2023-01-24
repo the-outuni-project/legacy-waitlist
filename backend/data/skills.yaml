@@ -465,10 +465,12 @@ requirements:
   Paladin:
     <<: [*generic, *gunnery, *sideeffects, *rigging]
     Large Energy Turret:
-      min: 5
+      min: 4
     Large Pulse Laser Specialization:
       elite: 4
       priority: 10
+    Motion Prediction:
+      min: 4      
     Marauders:
       min: 3
       elite: 4
@@ -515,10 +517,12 @@ requirements:
   Kronos:
     <<: [*generic, *gunnery, *sideeffects, *rigging]
     Large Hybrid Turret:
-      min: 5
+      min: 4
     Large Blaster Specialization:
       elite: 4
       priority: 10
+    Motion Prediction:
+      min: 4
     Marauders:
       min: 3
       elite: 4
