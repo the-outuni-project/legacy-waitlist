@@ -163,7 +163,7 @@ impl<'a> FitChecker<'a> {
             if doctrine_fit.name.contains("Starter") {
                 self.tags.insert("STARTER-FIT");
             }
-            if fit_ok && doctrine_fit.name.contains("ELITE") {
+            if fit_ok && doctrine_fit.name.contains("Elite") {
                 self.tags.insert("ELITE-FIT");
             }
 
