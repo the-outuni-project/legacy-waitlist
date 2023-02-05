@@ -34,6 +34,7 @@ thiserror = "*"
 bcrypt = "*"
 zxcvbn = "*"
 itertools = "*"
+Inflector = "*"
 
 [features]
 mysql = ["sqlx/mysql"]

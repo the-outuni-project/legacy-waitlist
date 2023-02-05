@@ -7,6 +7,7 @@ use super::{fitmatch, implantmatch, skills::SkillTier};
 use crate::data::{categories, fits::DoctrineFit, skills::Skills};
 use eve_data_core::{FitError, Fitting, TypeDB, TypeID};
 use serde::Serialize;
+use inflector::Inflector;
 
 #[derive(Debug)]
 pub struct Output {
@@ -308,20 +309,20 @@ impl<'a> FitChecker<'a> {
                 // full amulet is still elite on hybrid fit
                 if set_tag == "SAVIOR" {
                     self.tags.insert("SAVIOR");
-                } else if doctrine_fit.name.contains(set_tag)
+                } else if doctrine_fit.name.contains(&set_tag.to_title_case())
                     || (set_tag == "WARPSPEED"
-                        && !(doctrine_fit.name.contains("AMULET")
-                            || doctrine_fit.name.contains("HYBRID")))
+                        && !(doctrine_fit.name.contains("Amulet")
+                            || doctrine_fit.name.contains("Hybrid")))
                     || self.fit.hull == type_id!("Oneiros")
                     || self.fit.hull == type_id!("Guardian")
-                    || (set_tag == "AMULET" && doctrine_fit.name.contains("HYBRID"))
+                    || (set_tag == "AMULET" && doctrine_fit.name.contains("Hybrid"))
                 {
                     self.tags.insert(set_tag);
                     // give warning if you have all but slot 10 or wrong slot for that ship
                     if implantmatch::detect_slot10(self.fit.hull, self.pilot.implants).is_none() {
                         self.tags.insert("NO-SLOT10");
                     }
-                    if set_tag == "AMULET" && doctrine_fit.name.contains("HYBRID") {
+                    if set_tag == "AMULET" && doctrine_fit.name.contains("Hybrid") {
                         self.tags.insert("SLOW");
                     }
                 }
