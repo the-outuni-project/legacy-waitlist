@@ -216,8 +216,8 @@ function ShipDisplay({ fit, id, note }) {
                 ) : fit.name.toLowerCase().indexOf("ascendancy") !== -1 ? (
                   <Shield color="red" letter="W" title="Ascendancy Implants" />
                 ) : null}
-		{fit.name.toLowerCase().indexOf("vindicator elite") !== -1 && (
-		  <BadgeIcon type="WEB" />
+                {fit.name.toLowerCase().indexOf("vindicator elite") !== -1 && (
+                  <BadgeIcon type="WEB" />
                 )}
               </FitCard.Content.Badges>
             </FitCard.Content>
