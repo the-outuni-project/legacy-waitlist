@@ -7,7 +7,7 @@ import React from "react";
 import { Modal } from "../../Components/Modal";
 import { Title } from "../../Components/Page";
 import { Note } from "../../Components/NoteBox";
-import { Shield } from "../../Components/Badge";
+import BadgeIcon, { Shield } from "../../Components/Badge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Markdown } from "../../Components/Markdown";
@@ -217,7 +217,7 @@ function ShipDisplay({ fit, id, note }) {
                   <Shield color="red" letter="W" title="Ascendancy Implants" />
                 ) : null}
 		{fit.name.toLowerCase().indexOf("vindicator elite") !== -1 && (
-                  <Shield color="cyan" letter="W" title="Web Specialist" />
+		  <BadgeIcon type="WEB" />
                 )}
               </FitCard.Content.Badges>
             </FitCard.Content>
