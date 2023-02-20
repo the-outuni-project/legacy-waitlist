@@ -220,7 +220,7 @@ function ShipDisplay({ fit, id, note }) {
                 {fit.name.toLowerCase().indexOf("hybrid") !== -1 ? (
                   <Shield color="red" letter="H" title="Requires Hybrid Clone" />
                 ) : fit.name.toLowerCase().indexOf("ascendancy") !== -1 ? (
-                  <Shield color="red" letter="A" title="Requires Ascendancy Clone" />
+                  <Shield color="red" letter="W" title="Requires Ascendancy Clone" />
                 ) : null}
                 {fit.name.toLowerCase().indexOf("vindicator elite") !== -1 && (
                   <BadgeIcon type="WEB" />
