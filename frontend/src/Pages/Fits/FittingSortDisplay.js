@@ -171,6 +171,11 @@ function Fitout({ data, tier }) {
 
 function ShipDisplay({ fit, id, note }) {
   const [modalOpen, setModalOpen] = React.useState(false);
+  
+  // Guardians are being removed. Do not display them on the fit page.
+  if (fit.name.toLowerCase().indexOf("hybrid") !== -1) {
+    return;
+  }
 
   return (
     <>
