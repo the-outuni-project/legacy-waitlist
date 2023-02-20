@@ -69,6 +69,7 @@ FitCard.Content.Badges = styled.div`
   }
   img {
     height: 1.3em;
+    margin-right: unset;
   }
   @media (max-width: 480px) {
     font-size: 1em;
