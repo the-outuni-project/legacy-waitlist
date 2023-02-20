@@ -174,7 +174,7 @@ function ShipDisplay({ fit, id, note }) {
   
   // Guardians are being removed. Do not display them on the fit page.
   if (fit.name.toLowerCase().indexOf("guardian") !== -1) {
-    return;
+    return null;
   }
 
   return (
