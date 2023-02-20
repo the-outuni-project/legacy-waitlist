@@ -7,7 +7,7 @@ import React from "react";
 import { Modal } from "../../Components/Modal";
 import { Title } from "../../Components/Page";
 import { Note } from "../../Components/NoteBox";
-import BadgeIcon, { Shield } from "../../Components/Badge";
+import BadgeIcon from "../../Components/Badge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Markdown } from "../../Components/Markdown";
@@ -217,9 +217,9 @@ function ShipDisplay({ fit, id, note }) {
               <FitCard.Content.Badges>
                 {note ? <FontAwesomeIcon icon={faExclamationCircle} /> : null}
                 {fit.name.toLowerCase().indexOf("hybrid") !== -1 ? (
-                  <Shield color="red" letter="H" title="Hybrid Implants" />
+                  <BadgeIcon type="HYBRID" />
                 ) : fit.name.toLowerCase().indexOf("ascendancy") !== -1 ? (
-                  <Shield color="red" letter="W" title="Ascendancy Implants" />
+                  <BadgeIcon type="WARPSPEED" />
                 ) : null}
                 {fit.name.toLowerCase().indexOf("vindicator elite") !== -1 && (
                   <BadgeIcon type="WEB" />
