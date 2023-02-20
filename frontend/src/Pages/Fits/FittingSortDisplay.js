@@ -7,7 +7,7 @@ import React from "react";
 import { Modal } from "../../Components/Modal";
 import { Title } from "../../Components/Page";
 import { Note } from "../../Components/NoteBox";
-import { Shield } from "../../Components/Badge";
+import BadgeIcon, { Shield } from "../../Components/Badge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Markdown } from "../../Components/Markdown";
@@ -69,6 +69,7 @@ FitCard.Content.Badges = styled.div`
   }
   img {
     height: 1.3em;
+    margin-right: unset;
   }
   @media (max-width: 480px) {
     font-size: 1em;
@@ -171,6 +172,11 @@ function Fitout({ data, tier }) {
 
 function ShipDisplay({ fit, id, note }) {
   const [modalOpen, setModalOpen] = React.useState(false);
+  
+  // Guardians are being removed. Do not display them on the fit page.
+  if (fit.name.toLowerCase().indexOf("guardian") !== -1) {
+    return null;
+  }
 
   return (
     <>
@@ -212,10 +218,13 @@ function ShipDisplay({ fit, id, note }) {
               <FitCard.Content.Badges>
                 {note ? <FontAwesomeIcon icon={faExclamationCircle} /> : null}
                 {fit.name.toLowerCase().indexOf("hybrid") !== -1 ? (
-                  <Shield color="red" letter="H" title="Hybrid Implants" />
+                  <Shield color="red" letter="H" title="Requires Hybrid Clone" />
                 ) : fit.name.toLowerCase().indexOf("ascendancy") !== -1 ? (
-                  <Shield color="red" letter="W" title="Ascendancy Implants" />
+                  <Shield color="red" letter="W" title="Requires Ascendancy Clone" />
                 ) : null}
+                {fit.name.toLowerCase().indexOf("vindicator elite") !== -1 && (
+                  <BadgeIcon type="WEB" />
+                )}
               </FitCard.Content.Badges>
             </FitCard.Content>
           </a>
