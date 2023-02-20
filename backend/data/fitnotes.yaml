@@ -15,31 +15,34 @@ notes:
       These fits are to be used in situations with active gankers. "The Outuni Project" MOTD will notify you if these fits are to be used.
 
   # Ship specific notes
-
+  ## Logi Ships
   - name: Basic Oneiros
     description: >
       Skill exception: Logistics Cruiser 4
-  - name: Basic Guardian
+  - name: Basic Guardian (Retired)
     description: >
       This fit requires the EM-806 Implant & Energy Grid Upgrades 5.
-  - name: Advanced Guardian
+  - name: Advanced Guardian (Retired)
     description: >
       Implant Required: EM-806
-  - name: Elite Guardian
+  - name: Elite Guardian (Retired)
     description: >
       Implant Required: EM-806
-  - name: TOP_DAMNATION
-    description: >
-      This ship has very high EHP, its used as a meatshield (tank).
-  - name: TOP_EOS
-    description: >
-      Typically used by the active FC as primary booster with no starter level skills. Can be used as a meatshield/secondary booster by anyone while you are working on becoming trainee FC.
   - name: Elite Ascendancy Nestor
     description: >
       Implant Required: EM-806. You are required to be approved logi (Logistics Specialist) to fly this ship.
   - name: Elite Hybrid Nestor
     description: >
       Implant Required: EM-806. You are required to be approved logi (Logistics Specialist) to fly this ship.
+   
+   ## DPS Ships
   - name: TOP Paladin Basic
     description: >
       Please use Mega Pulse Laser II if you have the skills to use TII guns.
+  - name: TOP Vindicator Elite Hybrid
+    description: >
+      You need to be a Web Specialist to use this ship after 130h.
+  - name: TOP Vindicator Elite
+    description: >
+      You need to be a Web Specialist to use this ship after 130h.
+  
