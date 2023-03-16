@@ -20,7 +20,7 @@ struct SkillPlansResponsePlan {
     ships: Vec<Hull>,
 }
 
-fn build_data() -> Result<SkillPlansResponse, SkillPlanError> {
+fn build_data() -> Result<Vec<SkillPlansResponsePlan>, SkillPlanError> {
     let plans = skillplans::load_plans_from_file();
     let mut result = Vec::new();
     for plan in plans {
@@ -66,15 +66,15 @@ fn build_data() -> Result<SkillPlansResponse, SkillPlanError> {
         });
     }
 
-    Ok(SkillPlansResponse { plans: result })
+    Ok(result)
 }
 
 lazy_static::lazy_static! {
-    static ref PLAN_DATA: SkillPlansResponse = build_data().unwrap();
+    static ref PLAN_DATA: Vec<SkillPlansResponsePlan> = build_data().unwrap();
 }
 
 #[get("/api/skills/plans")]
-fn get_skill_plans(_account: AuthenticatedAccount) -> Json<&'static SkillPlansResponse> {
+fn get_skill_plans(_account: AuthenticatedAccount) -> Json<&'static Vec<SkillPlansResponsePlan>> {
     Json(&PLAN_DATA)
 }
 

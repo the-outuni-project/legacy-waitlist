@@ -1,5 +1,5 @@
 plans:
-  - name: Megathron
+  - name: Starter Megathron
     alpha: true
     description: This fit has a 22H time limit.
     tier: Minimum
@@ -10,7 +10,7 @@ plans:
         hull: Megathron
         fit: TOP Megathron Starter
 
-  - name: Navy Apocalypse Issue
+  - name: Starter Navy Apocalypse Issue
     alpha: true
     description: This fit has a 22H time limit.
     tier: Minimum
@@ -21,9 +21,9 @@ plans:
         hull: Apocalypse Navy Issue
         fit: TOP Apocalypse Navy Issue Starter
 
-  - name: Nightmare
+  - name: Starter Nightmare
     alpha: true
-    description:
+    description: By 85H have T2 guns or be in a Paladin.
     tier: Minimum
     plan:
       - type: tank
@@ -32,9 +32,9 @@ plans:
         hull: Nightmare
         fit: TOP Nightmare Starter
 
-  - name: Vindicator
+  - name: Starter Vindicator
     alpha: true
-    description:
+    description: By 85H have T2 guns or be in a Paladin.
     tier: Minimum
     plan:
       - type: tank
@@ -43,8 +43,8 @@ plans:
         hull: Vindicator
         fit: TOP Vindicator Starter
 
-  - name: Kronos
-    description:
+  - name: Basic Kronos
+    description: Alternative to T2 Gun Vindicator
     tier: Minimum
     plan:
       - type: tank
@@ -53,8 +53,8 @@ plans:
         hull: Kronos
         fit: TOP Kronos Basic
 
-  - name: Paladin
-    description:
+  - name: Basic Paladin
+    description: Alternative to T2 Gun Nightmare
     tier: Minimum
     plan:
       - type: tank
@@ -96,16 +96,16 @@ plans:
         tier: min
   
   - name: TII Blasters
-    description:
-    tier: Minimum
+    description: Train Large Blasters & Motion Prediction to V.
+    tier: Weapon
     plan:
       - type: skill
         from: Large Blaster Specialization
         level: 1
 
   - name: TII Lasers
-    description:
-    tier: Minimum
+    description: Train Large Energy Turret & Motion Prediction to V.
+    tier: Weapon
     plan:
       - type: skill
         from: Large Pulse Laser Specialization
