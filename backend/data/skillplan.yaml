@@ -1,424 +1,206 @@
 plans:
-  - name: VINDICATOR BASIC PATH
-    description: >
-      This skill plan will train you from starter Megathron in to the basic Vindi fit, this will get you out of starter queue.
+  - name: Megathron
+    alpha: true
+    description: This fit has a 22H time limit.
+    tier: Minimum
     plan:
       - type: tank
         from: starter
       - type: fit
         hull: Megathron
-        fit: TOP_MEGA_STARTER
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_STARTER
-      - type: tank
-        from: min
-      - type: skills
-        from: Vindicator
-        tier: min
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_BASIC
+        fit: TOP Megathron Starter
 
-  - name: NIGHTMARE BASIC PATH
-    description: >
-      This skill plan will train you from starter Megathron in to the basic Nightmare fit, this will get you out of starter queue.
+  - name: Navy Apocalypse Issue
+    alpha: true
+    description: This fit has a 22H time limit.
+    tier: Minimum
     plan:
       - type: tank
         from: starter
       - type: fit
-        hull: Megathron
-        fit: TOP_MEGA_STARTER
+        hull: Apocalypse Navy Issue
+        fit: TOP Apocalypse Navy Issue Starter
+
+  - name: Nightmare
+    alpha: true
+    description:
+    tier: Minimum
+    plan:
+      - type: tank
+        from: starter
       - type: fit
         hull: Nightmare
-        fit: TOP_NM_STARTER
-      - type: tank
-        from: min
-      - type: skills
-        from: Nightmare
-        tier: min
-      - type: fit
-        hull: Nightmare
-        fit: TOP_NM_BASIC
+        fit: TOP Nightmare Starter
 
-  - name: VINDICATOR ELITE PATH
-    description: >
-      This skill plan will train you from starter Megathron through to the elite Vindi fits.
+  - name: Vindicator
+    alpha: true
+    description:
+    tier: Minimum
     plan:
       - type: tank
         from: starter
       - type: fit
-        hull: Megathron
-        fit: TOP_MEGA_STARTER
-      - type: fit
         hull: Vindicator
-        fit: TOP_VINDI_STARTER
-      - type: tank
-        from: min
-      - type: skills
-        from: Vindicator
-        tier: min
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_BASIC
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_ADVANCED
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_ELITE_HYBRID
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_ELITE
-      - type: skills
-        from: Vindicator
-        tier: elite
+        fit: TOP Vindicator Starter
 
-  - name: KRONOS ELITE PATH
-    description: >
-      This skill plan will train you from starter Megathron through to the Vindicator and finally onto elite Kronos fits.
+  - name: Kronos
+    description:
+    tier: Minimum
     plan:
       - type: tank
-        from: starter
-      - type: fit
-        hull: Megathron
-        fit: TOP_MEGA_STARTER
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_STARTER
-      - type: tank
         from: min
-      - type: skills
-        from: Vindicator
-        tier: min
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_BASIC
-      - type: skills
-        from: Kronos
-        tier: min
       - type: fit
         hull: Kronos
-        fit: TOP_KRONOS_ADVANCED
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: fit
-        hull: Kronos
-        fit: TOP_KRONOS_ELITE
-      - type: skills
-        from: Kronos
-        tier: elite
+        fit: TOP Kronos Basic
 
-  - name: PALADIN ELITE PATH
-    description: >
-      This skill plan will train you from starter Megathron through to the Nightmare and finally onto the elite Paladin fits.
+  - name: Paladin
+    description:
+    tier: Minimum
     plan:
       - type: tank
-        from: starter
-      - type: fit
-        hull: Megathron
-        fit: TOP_MEGA_STARTER
-      - type: fit
-        hull: Nightmare
-        fit: TOP_NM_STARTER
-      - type: tank
         from: min
-      - type: skills
-        from: Nightmare
-        tier: min
-      - type: fit
-        hull: Nightmare
-        fit: TOP_NM_BASIC
-      - type: skills
-        from: Paladin
-        tier: min
       - type: fit
         hull: Paladin
-        fit: TOP_PALLY_ADVANCED
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: fit
-        hull: Paladin
-        fit: TOP_PALLY_ELITE
-      - type: skills
-        from: Paladin
-        tier: elite
+        fit: TOP Paladin Basic
 
-  - name: VINDICATOR ELITE
-    description: >
-      This skill plan trains the requirements to allow you to fly any elite Vindicator fit.
+  - name: Training Nestor
+    description: You will need Elite skills to get your L badge.
+    tier: Minimum
     plan:
       - type: tank
         from: min
       - type: skill
         from: Cybernetics
-        level: 5
-      - type: skills
-        from: Vindicator
-        tier: min
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_ELITE_HYBRID
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_ELITE
-      - type: skills
-        from: Vindicator
-        tier: elite
-
-  - name: KRONOS ELITE
-    description: >
-      This skill plan trains the requirements to allow you to fly any elite Kronos fit.
-    plan:
-      - type: tank
-        from: min
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: skills
-        from: Kronos
-        tier: min
-      - type: fit
-        hull: Kronos
-        fit: TOP_KRONOS_ELITE
-      - type: skills
-        from: Kronos
-        tier: elite
-
-  - name: PALADIN ELITE
-    description: >
-      This skill plan trains the requirements to allow you to fly any elite Paladin fit.
-    plan:
-      - type: tank
-        from: min
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: skills
-        from: Paladin
-        tier: min
-      - type: fit
-        hull: Paladin
-        fit: TOP_PALLY_ELITE
-      - type: skills
-        from: Paladin
-        tier: elite
-
-  - name: ONEIROS BASIC
-    description: >
-      This skill plan trains you into the Oneiros basic fit. Use this to get started in Oni.
-    plan:
-      - type: tank
-        from: min
-      - type: skills
-        from: Oneiros
-        tier: min
-      - type: fit
-        hull: Oneiros
-        fit: TOP_ONI_HQ_BASIC
-
-  - name: ONEIROS ELITE PATH
-    description: >
-      This skill plan trains you from basic through to elite Oneiros.
-    plan:
-      - type: tank
-        from: min
-      - type: skills
-        from: Oneiros
-        tier: min
-      - type: fit
-        hull: Oneiros
-        fit: TOP_ONI_HQ_BASIC
-      - type: fit
-        hull: Oneiros
-        fit: TOP_ONI_HQ_ADVANCED
-      - type: fit
-        hull: Oneiros
-        fit: TOP_ONI_HQ_ELITE
-      - type: skills
-        from: Oneiros
-        tier: elite
-
-  - name: GUARDIAN BASIC
-    description: >
-      This skill plan trains you into the Guardian basic fit. Use this to get started in Guardian.
-    plan:
-      - type: tank
-        from: min
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: skills
-        from: Guardian
-        tier: min
-      - type: fit
-        hull: Guardian
-        fit: TOP_GUARD_HQ_BASIC
-
-  - name: GUARDIAN ELITE PATH
-    description: >
-      This skill plan trains you from basic through to elite Guardian.
-    plan:
-      - type: tank
-        from: min
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: skills
-        from: Guardian
-        tier: min
-      - type: fit
-        hull: Guardian
-        fit: TOP_GUARD_HQ_BASIC
-      - type: fit
-        hull: Guardian
-        fit: TOP_GUARD_HQ_ADVANCED
-      - type: fit
-        hull: Guardian
-        fit: TOP_GUARD_HQ_ELITE
-      - type: skills
-        from: Guardian
-        tier: elite
-
-  - name: NESTOR ELITE
-    description: >
-      This skill plan trains you into elite Nestor.
-    plan:
-      - type: tank
-        from: min
-      - type: skill
-        from: Cybernetics
-        level: 5
+        level: 5        
+      # - type: fit
+      #   hull: Nestor
+      #   fit: Elite Hybrid Nestor
       - type: skills
         from: Nestor
         tier: min
-      - type: fit
-        hull: Nestor
-        fit: TOP_NESTOR_HQ_ELITE_HYBRID
-      - type: fit
-        hull: Nestor
-        fit: TOP_NESTOR_HQ_ELITE_ASCENDANCY
-      - type: skills
-        from: Nestor
-        tier: elite
 
-  - name: EOS ELITE
-    description: >
-      TOP's primary booster. Elite level skills.
+  - name: Eos Booster
+    description:
+    tier: Minimum
     plan:
       - type: tank
         from: min
       - type: skill
         from: Cybernetics
-        level: 5
-      - type: skills
-        from: Eos
-        tier: min
+        level: 5    
       - type: fit
         hull: Eos
         fit: TOP_EOS
       - type: skills
         from: Eos
-        tier: elite
-
-  - name: DAMNATION ELITE
-    description: >
-      TOP's secondary booster. Elite level skills.
-    plan:
-      - type: tank
-        from: min
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: skills
-        from: Damnation
         tier: min
-      - type: fit
-        hull: Damnation
-        fit: TOP_DAMNATION
-      - type: skills
-        from: Damnation
-        tier: elite
+  
+  - name: TII Blasters
+    description:
+    tier: Minimum
+    plan:
+      - type: skill
+        from: Large Blaster Specialization
+        level: 1
 
-  - name: EVERYTHING GOLD
-    description: >
-      Train the entire TOP doctrine, including boosters! Not really a serious skill plan. Trains everything to Elite Gold level.
+  - name: TII Lasers
+    description:
+    tier: Minimum
+    plan:
+      - type: skill
+        from: Large Pulse Laser Specialization
+        level: 1
+
+  - name: Elite Vindicator
+    description: Requires a W badge after 130 Hours.
+    tier: Elite
     plan:
       - type: tank
         from: min
-      - type: skill
-        from: Cybernetics
-        level: 5
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_ELITE_HYBRID
-      - type: fit
-        hull: Vindicator
-        fit: TOP_VINDI_ELITE
-      - type: fit
-        hull: Kronos
-        fit: TOP_KRONOS_ELITE
-      - type: fit
-        hull: Paladin
-        fit: TOP_PALLY_ELITE
-      - type: fit
-        hull: Nightmare
-        fit: TOP_NM_ADVANCED
-      - type: fit
-        hull: Oneiros
-        fit: TOP_ONI_HQ_ELITE
-      - type: fit
-        hull: Guardian
-        fit: TOP_GUARD_HQ_ELITE
-      - type: fit
-        hull: Nestor
-        fit: TOP_NESTOR_HQ_ELITE_HYBRID
-      - type: fit
-        hull: Nestor
-        fit: TOP_NESTOR_HQ_ELITE_ASCENDANCY
-
       - type: skills
         from: Vindicator
-        tier: gold
+        tier: min
+      - type: fit
+        hull: Vindicator
+        fit: TOP Vindicator Basic
+      - type: fit
+        hull: Vindicator
+        fit: TOP Vindicator Advanced        
+      - type: skill
+        from: Cybernetics
+        level: 5
+      - type: skills
+        from: Vindicator
+        tier: elite
+      - type: fit
+        hull: Vindicator
+        fit: TOP Vindicator Elite
+
+  - name: Elite Kronos
+    description: 
+    tier: Elite
+    plan:
+      - type: tank
+        from: min
       - type: skills
         from: Kronos
-        tier: gold
+        tier: min
+      - type: fit
+        hull: Kronos
+        fit: TOP Kronos Basic
+      - type: fit
+        hull: Kronos
+        fit: TOP Kronos Advanced        
+      - type: skill
+        from: Cybernetics
+        level: 5
+      - type: skills
+        from: Kronos
+        tier: elite
+      - type: fit
+        hull: Kronos
+        fit: TOP Kronos Elite
+
+  - name: Elite Paladin
+    description: 
+    tier: Elite
+    plan:
+      - type: tank
+        from: min
       - type: skills
         from: Paladin
-        tier: gold
+        tier: min
+      - type: fit
+        hull: Paladin
+        fit: TOP Paladin Basic
+      - type: fit
+        hull: Paladin
+        fit: TOP Paladin Advanced        
+      - type: skill
+        from: Cybernetics
+        level: 5
       - type: skills
-        from: Nightmare
+        from: Paladin
         tier: elite
-      - type: skills
-        from: Oneiros
-        tier: gold
-      - type: skills
-        from: Guardian
-        tier: gold
+      - type: fit
+        hull: Paladin
+        fit: TOP Paladin Elite
+
+  - name: Elite Nestor
+    description: Required for an L Badge
+    tier: Elite
+    plan:
+      - type: tank
+        from: min
+      - type: skill
+        from: Cybernetics
+        level: 5
       - type: skills
         from: Nestor
-        tier: gold
-
-      - type: fit
-        hull: Eos
-        fit: TOP_EOS
-      - type: fit
-        hull: Damnation
-        fit: TOP_DAMNATION
+        tier: min     
       - type: skills
-        from: Eos
+        from: Nestor
         tier: elite
-      - type: skills
-        from: Damnation
-        tier: elite
-      - type: skills
-        from: Eos
-        tier: gold
-      - type: skills
-        from: Damnation
-        tier: gold
+      - type: fit
+        hull: Nestor
+        fit: Elite Hybrid Nestor
