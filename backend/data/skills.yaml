@@ -590,8 +590,6 @@ requirements:
       min: 3
     Large Hybrid Turret:
       min: 4
-    Propulsion Jamming:
-      min: 4
 
   Apocalypse Navy Issue:
     <<: [*generic, *gunnery, *sideeffects, *rigging]

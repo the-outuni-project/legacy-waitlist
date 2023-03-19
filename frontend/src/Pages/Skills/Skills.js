@@ -2,7 +2,6 @@ import React from "react";
 import { AuthContext } from "../../contexts";
 import { useLocation, useHistory } from "react-router-dom";
 import { PageTitle, Content } from "../../Components/Page";
-import { AButton } from "../../Components/Form";
 import { useApi } from "../../api";
 import { usePageTitle } from "../../Util/title";
 
@@ -44,9 +43,6 @@ function SkillsAuth({ authContext }) {
   return (
     <>
       <PageTitle>{basicInfo ? `Skills for ${basicInfo.name}` : "Skills"}</PageTitle>
-      <AButton href="/skills/plans" style={{ float: "right" }}>
-        Skill Plans
-      </AButton>
       <SkillDisplay characterId={characterId} ship={ship} setShip={setShip} />
     </>
   );

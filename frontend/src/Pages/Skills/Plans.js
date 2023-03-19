@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useApi } from "../../api";
 import { usePageTitle } from "../../Util/title";
 import Spinner from "../../Components/Spinner";
 import styled from "styled-components";
+import PlanModal from './PlanModal';
 import alphaIcon from "../../App/alpha.png";
 import A from "../../Components/A";
 
@@ -77,7 +79,7 @@ const PlanSummaryCard = styled.a`
   }
 `;
 
-const PlanSummary = ({ ships, source, href }) => {
+const PlanSummary = ({ levels, ships, source, onClick }) => {
   {source.name === "TII Blasters" && (
     <img src={`https://images.evetech.net/types/3186/icon`} />
   )}
@@ -90,7 +92,7 @@ const PlanSummary = ({ ships, source, href }) => {
     imgSrc = `https://images.evetech.net/types/${id}/icon`;
   }
   return (
-    <PlanSummaryCard href={href}>
+    <PlanSummaryCard onClick={e => onClick({levels, shipId: ships[0]?.id, source})}>
       <div style={{ width: "70px", display: "relative" }}>
         <img src={imgSrc} className="icon" />
         {source.alpha && (
@@ -108,14 +110,10 @@ const PlanSummary = ({ ships, source, href }) => {
 
 const Plans = () => {
     const [ skillPlans ] = useApi(`/api/skills/plans`);
-    
+    const [ selected, setSelected ] = useState(false);
+  
     usePageTitle("Skill Plans");
 
-    const UrlHelper = (u) => {
-      u = u.toLowerCase();
-      return `/skills/plans/` + u.replace(/ /g, '-');
-    }
-      
     return (
         <>
           <Header>
@@ -130,14 +128,14 @@ const Plans = () => {
 
               <div style={{ display: "flex", flexWrap: "wrap"}}>
               {skillPlans?.filter(plan => plan.source.tier === "Minimum")?.map((plan, key) => {
-                  return <PlanSummary {...plan} key={key} href={UrlHelper(plan.source.name)} />
+                  return <PlanSummary {...plan} key={key} onClick={setSelected} />
               })}
               </div>
               
               <H2>Weapon Plans</H2>
               <div style={{ display: "flex", flexWrap: "wrap"}}>
                 {skillPlans?.filter(plan => plan.source.tier === "Weapon")?.map((plan, key) => {
-                  return <PlanSummary {...plan} key={key} href={UrlHelper(plan.source.name)} />
+                  return <PlanSummary {...plan} key={key} onClick={setSelected} />
                 })}
               </div>
 
@@ -147,9 +145,11 @@ const Plans = () => {
               </p>
               <div style={{ display: "flex", flexWrap: "wrap"}}>
                 {skillPlans?.filter(plan => plan.source.tier === "Elite")?.map((plan, key) => {
-                  return <PlanSummary {...plan} key={key} href={UrlHelper(plan.source.name)} />
+                  return <PlanSummary {...plan} key={key} onClick={setSelected} />
                 })}
               </div>
+
+              <PlanModal {...selected} setOpen={(e) => setSelected(false)} />
             </>
           )}
         </>

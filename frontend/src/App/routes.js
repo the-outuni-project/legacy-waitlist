@@ -66,7 +66,7 @@ export function Routes() {
         <Skills />
       </Route>
       <Route exact path="/skills/plans">
-        { <AuthenticatedRoute component={<Plans />} loginRequired /> }
+        <AuthenticatedRoute component={<Plans />} loginRequired />
       </Route>
 
       {/* Fleet Commander Routes */}
