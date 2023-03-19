@@ -10,6 +10,9 @@ notes:
   - name: Elite
     description: >
       **These fits are eligible for the [Elite and Elite Gold badges](https://wiki.42outunis.com/guides/badges)**.
+  - name: Logistics
+    description: >
+      There are a limited number of spots in fleet for logistics ships. Boosters can only be flown by alts and are not guaranteed a payout.
   - name: Antigank
     description: >
       These fits are to be used in situations with active gankers. "The Outuni Project" MOTD will notify you if these fits are to be used.
