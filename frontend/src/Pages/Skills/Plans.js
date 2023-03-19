@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { AuthContext } from "../../contexts";
 import { useApi } from "../../api";
 import { usePageTitle } from "../../Util/title";
 import Spinner from "../../Components/Spinner";
@@ -23,22 +21,23 @@ const H2 = styled.h2`
   font-size: 26px;
 `;
 
-const PlanSummaryCard = styled.div`
+const PlanSummaryCard = styled.a`
   background-color: ${(props) => props.theme.colors.accent1};
 
   &:hover {
     background-color: ${(props) => props.theme.colors.accent2};
   }
 
-  border-radius: 5px;
+  border-radius: 5px;  
+  color: unset;
   cursor: pointer;
-  
+  display: flex;   
   margin: 0px 10px 10px 0px;
   padding: .5em;
   position: relative;
-
   width: 25vw;
   max-width: 450px;
+  text-decoration: none;
 
   @media (max-width: 1600px) {
     width: 45vw;
@@ -48,7 +47,7 @@ const PlanSummaryCard = styled.div`
     width: 95vw;
   }
 
-  display: flex;
+  
   @media (max-width: 450px) {
     flex-direction: column;
     align-items: center;
@@ -74,10 +73,11 @@ const PlanSummaryCard = styled.div`
   h3 {
     display: inline;
     font-size: 18px;
+    margin-right: 5px;
   }
 `;
 
-const PlanSummary = ({ ships, source }) => {
+const PlanSummary = ({ ships, source, href }) => {
   {source.name === "TII Blasters" && (
     <img src={`https://images.evetech.net/types/3186/icon`} />
   )}
@@ -90,7 +90,7 @@ const PlanSummary = ({ ships, source }) => {
     imgSrc = `https://images.evetech.net/types/${id}/icon`;
   }
   return (
-    <PlanSummaryCard>
+    <PlanSummaryCard href={href}>
       <div style={{ width: "70px", display: "relative" }}>
         <img src={imgSrc} className="icon" />
         {source.alpha && (
@@ -107,14 +107,15 @@ const PlanSummary = ({ ships, source }) => {
 }
 
 const Plans = () => {
-    const authContext = useContext(AuthContext);
     const [ skillPlans ] = useApi(`/api/skills/plans`);
-    const [ mySkills ] = useApi(`/api/skills?character_id=${authContext?.current?.id}`);
     
     usePageTitle("Skill Plans");
-      
-    console.log(mySkills)
 
+    const UrlHelper = (u) => {
+      u = u.toLowerCase();
+      return `/skills/plans/` + u.replace(/ /g, '-');
+    }
+      
     return (
         <>
           <Header>
@@ -129,14 +130,14 @@ const Plans = () => {
 
               <div style={{ display: "flex", flexWrap: "wrap"}}>
               {skillPlans?.filter(plan => plan.source.tier === "Minimum")?.map((plan, key) => {
-                return <PlanSummary {...plan} key={key} />
+                  return <PlanSummary {...plan} key={key} href={UrlHelper(plan.source.name)} />
               })}
               </div>
               
               <H2>Weapon Plans</H2>
               <div style={{ display: "flex", flexWrap: "wrap"}}>
                 {skillPlans?.filter(plan => plan.source.tier === "Weapon")?.map((plan, key) => {
-                  return <PlanSummary {...plan} key={key} />
+                  return <PlanSummary {...plan} key={key} href={UrlHelper(plan.source.name)} />
                 })}
               </div>
 
@@ -146,7 +147,7 @@ const Plans = () => {
               </p>
               <div style={{ display: "flex", flexWrap: "wrap"}}>
                 {skillPlans?.filter(plan => plan.source.tier === "Elite")?.map((plan, key) => {
-                  return <PlanSummary {...plan} key={key} />
+                  return <PlanSummary {...plan} key={key} href={UrlHelper(plan.source.name)} />
                 })}
               </div>
             </>
