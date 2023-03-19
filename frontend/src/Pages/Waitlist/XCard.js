@@ -26,9 +26,6 @@ import { Title } from "../../Components/Page";
 import { Button, Buttons } from "../../Components/Form";
 
 const badgeOrder = [
-  "AMULET",
-  "WARPSPEED",
-  "HYBRID",
   "HQ-FC",
   "TRAINEE",
   "LOGI",
@@ -36,6 +33,9 @@ const badgeOrder = [
   "WEB",
   "ELITE",
   "ELITE-GOLD",
+  "AMULET",
+  "WARPSPEED",
+  "HYBRID",
 ];
 
 async function approveFit(id) {
