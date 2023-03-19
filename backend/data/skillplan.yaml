@@ -79,8 +79,8 @@ plans:
         from: Nestor
         tier: min
 
-  - name: Eos Booster
-    description:
+  - name: Primary Booster
+    description: FCs are required to have an Eos alt.
     tier: Minimum
     plan:
       - type: tank
@@ -90,10 +90,26 @@ plans:
         level: 5    
       - type: fit
         hull: Eos
-        fit: TOP_EOS
+        fit: TOP Support Eos
       - type: skills
         from: Eos
         tier: min
+
+  - name: Secondary Booster
+    description: The Eos is the preferred booster.
+    tier: Minimum
+    plan:
+      - type: tank
+        from: min
+      - type: skill
+        from: Cybernetics
+        level: 5    
+      - type: fit
+        hull: Damnation
+        fit: TOP Support Damnation
+      - type: skills
+        from: Damnation
+        tier: min        
   
   - name: TII Blasters
     description: Train Large Blasters & Motion Prediction to V.
@@ -134,7 +150,7 @@ plans:
         tier: elite
       - type: fit
         hull: Vindicator
-        fit: TOP Vindicator Elite
+        fit: TOP Web Specialist Vindicator
 
   - name: Elite Kronos
     description: 
