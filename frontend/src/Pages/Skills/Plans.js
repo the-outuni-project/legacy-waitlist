@@ -48,6 +48,10 @@ const PlanSummaryCard = styled.a`
   @media (max-width: 800px) {
     width: 95vw;
   }
+  
+  @media (max-width: 500px) {
+    text-align: center;
+  }
 
   
   @media (max-width: 450px) {
