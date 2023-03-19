@@ -88,6 +88,19 @@ const DisplayDOM = styled.div`
   }
 `;
 
+const hullOrder = [
+  641,    // Mega
+  17726,  // Navy Apoc
+  17740,  // Vindicator
+  28661,  // Kronos
+  17736,  // Nightmare
+  28659,  // Paladin
+  11989,  // Oneiros
+  33472,  // Nestor
+  22442,  // Eos
+  22474,  // Damnation
+];
+
 function Fitout({ data, tier }) {
   var fits = {
     antigank: [],
@@ -114,6 +127,10 @@ function Fitout({ data, tier }) {
     notes[note.name] = note.description;
   });
   
+  ships = _.sortBy(ships, (ship) => {
+    return hullOrder.indexOf(parseInt(ship.dna.split(":", 1)[0]))
+  })
+
   ships.forEach((ship) => {
     if (!(ship.dna && ship.name)) {
       return;
