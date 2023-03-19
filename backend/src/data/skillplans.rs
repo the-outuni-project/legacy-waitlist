@@ -28,6 +28,7 @@ pub struct SkillPlan {
     #[serde(default)]
     pub alpha: bool,
     pub plan: Vec<SkillPlanLevel>,
+    pub tier: String
 }
 
 #[derive(Debug, Deserialize, Serialize)]
