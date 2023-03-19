@@ -15,19 +15,11 @@ notes:
       These fits are to be used in situations with active gankers. "The Outuni Project" MOTD will notify you if these fits are to be used.
 
   # Ship specific notes
-  ## Logi Ships
   - name: Basic Oneiros
     description: >
       Skill exception: Logistics Cruiser 4
-  - name: Basic Guardian (Retired)
-    description: >
-      This fit requires the EM-806 Implant & Energy Grid Upgrades 5.
-  - name: Advanced Guardian (Retired)
-    description: >
-      Implant Required: EM-806
-  - name: Elite Guardian (Retired)
-    description: >
-      Implant Required: EM-806
+  
+  ## Nestors
   - name: Elite Ascendancy Nestor
     description: >
       Implant Required: EM-806. You are required to be approved logi (Logistics Specialist) to fly this ship.

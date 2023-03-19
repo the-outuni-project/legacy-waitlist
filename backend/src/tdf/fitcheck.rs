@@ -139,9 +139,9 @@ impl<'a> FitChecker<'a> {
     }
 
     fn check_logi_implants(&mut self) {
-        if (self.fit.hull == type_id!("Nestor") || self.fit.hull == type_id!("Guardian"))
-            && !self.pilot.implants.contains(&type_id!("% EM-806"))
+        if self.fit.hull == type_id!("Nestor") && !self.pilot.implants.contains(&type_id!("% EM-806"))
         {
+            self.approved = false;
             self.tags.insert("NO-EM-806");
         }
     }
@@ -216,13 +216,6 @@ impl<'a> FitChecker<'a> {
                 "Missing Armor Compensation skills: level {} required",
                 comp_reqs
             ));
-        }
-
-        if let Some(fit) = self.doctrine_fit {
-            if fit.name.contains("Basic Guardian") && self.pilot.skills.get(type_id!("Energy Grid Upgrades")) < 5 {
-                self.errors.push("Missing Engineering Skill: Energy Grid Upgrades 5 required".to_string());
-                self.approved = false;
-            }
         }
 
         if self
@@ -314,7 +307,6 @@ impl<'a> FitChecker<'a> {
                         && !(doctrine_fit.name.contains("Amulet")
                             || doctrine_fit.name.contains("Hybrid")))
                     || self.fit.hull == type_id!("Oneiros")
-                    || self.fit.hull == type_id!("Guardian")
                     || (set_tag == "AMULET" && doctrine_fit.name.contains("Hybrid"))
                 {
                     self.tags.insert(set_tag);

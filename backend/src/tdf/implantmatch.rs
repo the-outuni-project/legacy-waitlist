@@ -73,8 +73,7 @@ fn detect_slot7(hull: TypeID, implants: &[TypeID]) -> Option<()> {
     if implants.contains(&type_id!("Ogdin's Eye Coordination Enhancer"))
         || implants.contains(&type_id!("% MR-706"))
         || ((hull == type_id!("Nestor")
-            || hull == type_id!("Oneiros")
-            || hull == type_id!("Guardian"))
+            || hull == type_id!("Oneiros"))
             && implants.contains(&type_id!("% RA-706")))
     {
         Some(())
@@ -89,8 +88,7 @@ fn detect_slot8(hull: TypeID, implants: &[TypeID]) -> Option<()> {
     } else if (implants.contains(&type_id!("Zor's Custom Navigation Hyper-Link"))
         || implants.contains(&type_id!("% MR-807")))
         && !(hull == type_id!("Nestor")
-            || hull == type_id!("Oneiros")
-            || hull == type_id!("Guardian"))
+            || hull == type_id!("Oneiros"))
     {
         Some(())
     } else {
@@ -100,7 +98,7 @@ fn detect_slot8(hull: TypeID, implants: &[TypeID]) -> Option<()> {
 
 #[allow(clippy::if_same_then_else)]
 fn detect_slot9(hull: TypeID, implants: &[TypeID]) -> Option<()> {
-    if hull == type_id!("Nestor") || hull == type_id!("Oneiros") || hull == type_id!("Guardian") {
+    if hull == type_id!("Nestor") || hull == type_id!("Oneiros") {
         // No useful implants.
         Some(())
     } else if implants.contains(&type_id!("% RF-906"))
@@ -128,18 +126,7 @@ pub fn detect_slot10(hull: TypeID, implants: &[TypeID]) -> Option<()> {
         } else {
             None
         }
-    // disabled, logi's don't need slot 10 for an implant tag for now
-    }
-    /*else if hull == type_id!("Nestor")
-        || hull == type_id!("Oneiros")
-        || hull == type_id!("Guardian")
-    {
-        if implants.contains(&type_id!("% HG-1006")) || implants.contains(&type_id!("% HG-1008")) {
-            Some(())
-        } else {
-            None
-        }
-    } */
+    } 
     else {
         // What ship is that?! Probably doesn't need slot 10?
         Some(())

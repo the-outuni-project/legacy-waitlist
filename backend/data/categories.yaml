@@ -20,8 +20,6 @@ rules:
   # Logi
   - item: Oneiros
     category: logi
-  - item: Guardian
-    category: logi
   - item: Nestor
     category: logi
   # Bastion
