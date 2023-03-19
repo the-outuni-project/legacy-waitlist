@@ -29,6 +29,9 @@ function FitsDisplay({ tier, setTier = null }) {
   return (
     <>
       <PageTitle>HQ FITS</PageTitle>
+      <AButton href="/skills/plans" style={{ float: "right" }}>
+        Skill Plans
+      </AButton>
       {setTier != null && (
         <Buttons style={{ marginBottom: "0.5em" }}>
           <InputGroup>

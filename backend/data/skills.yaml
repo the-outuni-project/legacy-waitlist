@@ -567,7 +567,7 @@ requirements:
       priority: 10
     Gallente Battleship:
       min: 3
-      elite: 4
+      elite: 5
     Minmatar Battleship:
       min: 3
       elite: 5
@@ -590,7 +590,12 @@ requirements:
       min: 3
     Large Hybrid Turret:
       min: 4
-    Propulsion Jamming:
+
+  Apocalypse Navy Issue:
+    <<: [*generic, *gunnery, *sideeffects, *rigging]
+    Amarr Battleship:
+      min: 3
+    Large Energy Turret:
       min: 4
 
   Guardian:
