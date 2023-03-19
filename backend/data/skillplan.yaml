@@ -34,7 +34,7 @@ plans:
 
   - name: Starter Vindicator
     alpha: true
-    description: By 85H have T2 guns or be in a Paladin.
+    description: By 85H have T2 guns or be in a Kronos.
     tier: Minimum
     plan:
       - type: tank
@@ -111,8 +111,8 @@ plans:
         from: Large Pulse Laser Specialization
         level: 1
 
-  - name: Elite Vindicator
-    description: Requires a W badge after 130 Hours.
+  - name: Web Specialist Vindicator
+    description: Requires a W badge by 130 Hours.
     tier: Elite
     plan:
       - type: tank
