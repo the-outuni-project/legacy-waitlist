@@ -121,11 +121,19 @@ const PlanModal = ({ levels, shipId, source, setOpen }) => {
       return !filter || !row.Trained;
     });
 
+    let src = `https://images.evetech.net/types/${shipId}/icon`;
+    if (source?.name === "TII Blasters") {
+      src = "https://images.evetech.net/types/3186/icon";
+    }
+    else if (source.name === "TII Lasers") {
+      src = "https://images.evetech.net/types/3057/icon";
+    }
+
     return !authContext ? null : (
         <Modal open={!!source} setOpen={setOpen}>
             <Box>
                 <PlanTitle>
-                    <img src={`https://images.evetech.net/types/${shipId}/icon`}/>
+                    <img src={src}/>
                     <h4>
                         { source?.name }
                         { source?.alpha && <img src={alphaIcon} title="Alpha clones can fly this ship!" className="alpha" /> }
