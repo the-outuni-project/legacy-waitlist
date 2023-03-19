@@ -350,7 +350,6 @@ export function DNADisplay({ dna, analysis = null, name = null }) {
   }
 
   let displayName = name ? name : analysis && analysis.name ? analysis.name : moduleInfo[hull].name;
-  console.log(displayName)
   return (
     <div>
       <DOM.Hull>
