@@ -49,8 +49,8 @@ function FitsDisplay({ tier, setTier = null }) {
             </Button>
           </InputGroup>
           <InputGroup>
-            <Button active={tier === "Other"} onClick={(evt) => setTier("Other")}>
-              Support
+            <Button active={tier === "Logistics"} onClick={(evt) => setTier("Logistics")}>
+            Logistics
             </Button>
           </InputGroup>
           <InputGroup>
@@ -77,8 +77,8 @@ function FitsDisplay({ tier, setTier = null }) {
         <Fitout data={fitData} tier="Advanced" />
       ) : tier === "Elite" ? (
         <Fitout data={fitData} tier="Elite" />
-      ) : tier === "Other" ? (
-        <Fitout data={fitData} tier="Other" />
+      ) : tier === "Logistics" ? (
+        <Fitout data={fitData} tier="Logistics" />
       ) : tier === "Antigank" ? (
         <Fitout data={fitData} tier="Antigank" />
       ) : null}

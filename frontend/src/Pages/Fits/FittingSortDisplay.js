@@ -88,9 +88,26 @@ const DisplayDOM = styled.div`
   }
 `;
 
+const hullOrder = [
+  641,    // Mega
+  17726,  // Navy Apoc
+  17740,  // Vindicator
+  28661,  // Kronos
+  17736,  // Nightmare
+  28659,  // Paladin
+  11989,  // Oneiros
+  33472,  // Nestor
+  22442,  // Eos
+  22474,  // Damnation
+];
+
 function Fitout({ data, tier }) {
-  var dps = [];
-  var logi = [];
+  var fits = {
+    antigank: [],
+    dps: [],
+    logi: []    
+  };
+
   var logiid = [];
   var notes = {};
   var fitnote;
@@ -109,65 +126,66 @@ function Fitout({ data, tier }) {
   _.forEach(data.notes, (note) => {
     notes[note.name] = note.description;
   });
+  
+  ships = _.sortBy(ships, (ship) => {
+    return hullOrder.indexOf(parseInt(ship.dna.split(":", 1)[0]))
+  })
 
   ships.forEach((ship) => {
-    if (
-      ship.dna &&
-      ship.name &&
-      ((tier === "Other" && ship.name.split("_").length === 2) ||
-        ship.name.toLowerCase().indexOf(tier.toLowerCase()) !== -1)
-    ) {
-      if (!(tier !== "Antigank" && ship.name.toLowerCase().indexOf("antigank") !== -1)) {
-        const id = ship.dna.split(":", 1)[0];
-        if (ship.name in notes) {
-          fitnote = notes[ship.name];
-        } else {
-          fitnote = null;
-        }
-        if (logiid.includes(parseInt(id))) {
-          logi.push(<ShipDisplay key={ship.name} fit={ship} id={id} note={fitnote} />);
-        } else {
-          dps.push(<ShipDisplay key={ship.name} fit={ship} id={id} note={fitnote} />);
-        }
+    if (!(ship.dna && ship.name)) {
+      return;
+    }
+
+    ship.id = parseInt(ship.dna.split(":", 1)[0]);
+
+    if (ship.name in notes) {
+      fitnote = notes[ship.name];
+    }
+    else
+    {
+      fitnote = null;
+    }
+
+    if (ship.name.toLowerCase().includes("antigank")) {
+      fits['antigank'].push(
+        <ShipDisplay key={ship.name} fit={ship} id={ship.id} note={fitnote} />
+      );
+    }
+    else if (logiid.includes(ship.id)) {
+      fits['logi'].push(
+        <ShipDisplay key={ship.name} fit={ship} id={ship.id} note={fitnote} />
+      );
+    }
+    else
+    {
+      if (ship.name.toLowerCase().includes(tier.toLowerCase()) || tier == "Elite" && ship.name.toLowerCase().includes("web specialist")) {
+        fits['dps'].push(
+          <ShipDisplay key={ship.name} fit={ship} id={ship.id} note={fitnote} />
+        );
       }
     }
   });
-  if (tier === "Other") {
-    return (
-      <>
-        <div>
-          <div style={{ padding: "1em 0 0.4em" }}>
-            <p>These ships are never used as main characters in fleet.</p>
-          </div>
-          <Title>Secondary Support Ships</Title>
-          <DisplayDOM>{dps}</DisplayDOM>
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
+  
+  return (
+    <>
         <div>
           <div style={{ padding: "1em 0 0.4em" }}>
             {tier in notes ? <Markdown>{notes[tier]}</Markdown> : <br />}
           </div>
-          {dps.length !== 0 && (
+          {fits.length !== 0 && (
             <>
-              <Title>DPS</Title>
-              <DisplayDOM>{dps}</DisplayDOM>
-            </>
-          )}
-          <br />
-          {logi.length !== 0 && (
-            <>
-              <Title>LOGISTICS</Title>
-              <DisplayDOM>{logi}</DisplayDOM>
+              { tier == "Antigank" ? (
+                <DisplayDOM>{fits['antigank']}</DisplayDOM>
+              ) : tier == "Logistics" ? (
+                <DisplayDOM>{fits['logi']}</DisplayDOM>
+              ) : (
+                <DisplayDOM>{fits['dps']}</DisplayDOM>
+              )}
             </>
           )}
         </div>
       </>
-    );
-  }
+  )  
 }
 
 function ShipDisplay({ fit, id, note }) {
@@ -222,7 +240,7 @@ function ShipDisplay({ fit, id, note }) {
                 ) : fit.name.toLowerCase().indexOf("ascendancy") !== -1 ? (
                   <Shield color="red" letter="W" title="Requires Ascendancy Clone" />
                 ) : null}
-                {fit.name.toLowerCase().indexOf("vindicator elite") !== -1 && (
+                {fit.name.toLowerCase().includes("web specialist") && (
                   <BadgeIcon type="WEB" />
                 )}
               </FitCard.Content.Badges>

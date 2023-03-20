@@ -18,9 +18,11 @@ categories:
 
 rules:
   # Logi
-  - item: Oneiros
+  - item: Damnation
     category: logi
-  - item: Guardian
+  - item: Eos
+    category: logi
+  - item: Oneiros
     category: logi
   - item: Nestor
     category: logi
