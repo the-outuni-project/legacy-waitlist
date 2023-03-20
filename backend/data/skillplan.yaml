@@ -96,7 +96,7 @@ plans:
         tier: min
 
   - name: Secondary Booster
-    description: The Eos is the preferred booster.
+    description:
     tier: Minimum
     plan:
       - type: tank
