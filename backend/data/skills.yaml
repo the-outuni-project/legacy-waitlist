@@ -417,7 +417,7 @@ requirements:
       min: 3
       Elite: 4
     Astronautics Rigging:
-      min: 3
+      min: 0
       Elite: 4
 
   # Start of per-ship skills
