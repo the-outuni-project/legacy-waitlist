@@ -191,9 +191,11 @@ export function Waitlist() {
   );
 
   const UsersOnWaitlist = ({ open, waitlist }) => {
-    if (open) {
+    const authContext = useContext(AuthContext);
+
+    if (open && authContext.access["waitlist-tag:TRAINEE"]) {
       return (
-        <span>
+        <span title={`${waitlist.length} characters on the waitlist.`}>
           <FontAwesomeIcon fixedWidth icon={faUsers} /> {waitlist.length}
         </span>
       )
