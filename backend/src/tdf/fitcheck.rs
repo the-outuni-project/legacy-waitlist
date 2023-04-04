@@ -267,7 +267,7 @@ impl<'a> FitChecker<'a> {
             else if self.pilot.time_in_fleet >= (130 * 3600) {
                 // Vindicator requires the Web Badge by 130H
                 if self.fit.hull == type_id!("Vindicator") {
-                    if !self.tags.contains("WEB") {
+                    if !self.badges.contains("WEB") {
                         self.tags.insert("UPGRADE-HOURS-REACHED");    
                     }
                 // and Marauders require T2 guns
