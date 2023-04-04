@@ -38,14 +38,6 @@ const Users = styled.div`
   }
 `;
 
-Users.DOM = () => {
-  return (
-    <span>
-      <FontAwesomeIcon fixedWidth icon={faUsers} /> 42
-    </span>
-  )
-}
-
 function coalesceCalls(func, wait) {
   var nextCall = null;
   var timer = null;
@@ -198,11 +190,23 @@ export function Waitlist() {
     (entry) => entry.character && entry.character.id === authContext.account_id
   );
 
+  const UsersOnWaitlist = ({ open, waitlist }) => {
+    if (open) {
+      return (
+        <span>
+          <FontAwesomeIcon fixedWidth icon={faUsers} /> {waitlist.length}
+        </span>
+      )
+    }
+    return null;
+  }
+
   return (
     <>
-      <Users.DOM>
+      <Users>
+        <UsersOnWaitlist {...waitlistData} />
+      </Users>
 
-      </Users.DOM>
       <Buttons>
         <JoinWaitlist hasFits={myEntry} />
 
