@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React from "react";
+import React, { useContext } from "react";
 import { AuthContext, ToastContext, EventContext } from "../../contexts";
 import { apiCall, errorToaster, useApi } from "../../api";
 import { InputGroup, Button, Buttons } from "../../Components/Form";
@@ -195,7 +195,7 @@ export function Waitlist() {
 
     if (open && authContext.access["waitlist-tag:TRAINEE"]) {
       return (
-        <span title={`${waitlist.length} characters on the waitlist.`}>
+        <span>
           <FontAwesomeIcon fixedWidth icon={faUsers} /> {waitlist.length}
         </span>
       )
