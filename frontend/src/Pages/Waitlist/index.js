@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from "react";
 import { AuthContext, ToastContext, EventContext } from "../../contexts";
 import { apiCall, errorToaster, useApi } from "../../api";
@@ -12,11 +13,38 @@ import {
   CategoryHeading,
 } from "./displaymodes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faColumns } from "@fortawesome/free-solid-svg-icons";
+import { faColumns, faUsers } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
 import { useQuery } from "../../Util/query";
 import { usePageTitle } from "../../Util/title";
 import JoinWaitlist from "./JoinWaitlist";
+import styled from "styled-components";
+
+const Users = styled.div`
+  margin-bottom: 10px;
+
+  span {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: .75em;
+    font-weight: 700;
+    line-height: 1;
+    color: ${(props) => props.theme.colors.text};
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: ${(props) => props.theme.colors.accent2};
+    border-radius: 20px;
+  }
+`;
+
+Users.DOM = () => {
+  return (
+    <span>
+      <FontAwesomeIcon fixedWidth icon={faUsers} /> 42
+    </span>
+  )
+}
 
 function coalesceCalls(func, wait) {
   var nextCall = null;
@@ -172,6 +200,9 @@ export function Waitlist() {
 
   return (
     <>
+      <Users.DOM>
+
+      </Users.DOM>
       <Buttons>
         <JoinWaitlist hasFits={myEntry} />
 
