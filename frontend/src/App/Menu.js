@@ -8,6 +8,7 @@ import BrowserNotification from "../Components/Event";
 import { ThemeSelect } from "../Components/ThemeSelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faTeamspeak } from "@fortawesome/free-brands-svg-icons";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { NavLinks, MobileNavButton, MobileNav } from "./Navigation";
 
 const NavBar = styled.div`
@@ -142,7 +143,7 @@ export function Menu({ onChangeCharacter, theme, setTheme, sticker, setSticker }
                         ))}
                       </Select>
                       <NavButton exact to="/auth/start/alt">
-                        +
+                        <FontAwesomeIcon fixedWidth icon={faUserPlus} />
                       </NavButton>
                     </InputGroup>
                   </NavBar.Name>
