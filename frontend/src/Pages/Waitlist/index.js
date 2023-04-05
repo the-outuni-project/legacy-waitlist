@@ -26,7 +26,7 @@ const Users = styled.div`
   span {
     display: inline-block;
     padding: 0.35em 0.65em;
-    font-size: .75em;
+    font-size: .80em;
     font-weight: 700;
     line-height: 1;
     color: ${(props) => props.theme.colors.text};
