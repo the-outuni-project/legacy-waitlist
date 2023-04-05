@@ -194,7 +194,7 @@ export function Waitlist() {
     const authContext = useContext(AuthContext);
 
     // Don't render when WL is closed or user is not an FC.
-    if (!open || authContext.access["waitlist-tag:TRAINEE"]) {
+    if (!open || !authContext.access["waitlist-tag:TRAINEE"]) {
       return null;
     }
 
