@@ -193,14 +193,26 @@ export function Waitlist() {
   const UsersOnWaitlist = ({ open, waitlist }) => {
     const authContext = useContext(AuthContext);
 
-    if (open && authContext.access["waitlist-tag:TRAINEE"]) {
-      return (
-        <span>
-          <FontAwesomeIcon fixedWidth icon={faUsers} /> {waitlist.length}
-        </span>
-      )
+    // Don't render when WL is closed or user is not an FC.
+    if (!open || authContext.access["waitlist-tag:TRAINEE"]) {
+      return null;
     }
-    return null;
+
+   let ids = [];
+   for (let i = 0; i < waitlist.length; i++) {
+    let fits = waitlist[i].fits;
+    for (let ii = 0; ii < fits.length; ii++) {
+      if (!ids.includes(fits[ii].character.id)) {
+        ids.push(fits[ii].character.id);
+      }
+    }
+   }
+
+    return (
+      <span>
+        <FontAwesomeIcon fixedWidth icon={faUsers} /> {ids.length}
+      </span>
+    )
   }
 
   return (
