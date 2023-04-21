@@ -40,9 +40,9 @@ const ReportsPage = () => {
       sortable: true,
       sortFunction: (rowA, rowB) => special_sort(rowA.character, rowB.character),
       grow: 2,
-      selector: (row) => <CharacterName {...row.character} />
+      selector: (row) => <CharacterName id={row.id} name={row.name} />
     },
-    { name: "Type", selector: "Logi" },
+    { name: "Type", selector: (row) => row['type'] },
     {
       name: "Last Seen",
       sortable: true,
@@ -86,7 +86,7 @@ const ReportsPage = () => {
             }}
           >
             <option value={-1}>Any</option>
-            {["FC Activity", "Logi Activity"].map((type, key) => {
+            {["Fleet Boss", "Nestor"].map((type, key) => {
               return (
                 <option value={type} key={key} readOnly>
                   {type}
@@ -134,7 +134,7 @@ const ReportsPage = () => {
   (report?.fc ?? []).forEach((el) => {
     data.push({
       ...el,
-      type: "FC Activity"
+      type: "Fleet Boss"
     })
   });
   
@@ -145,6 +145,13 @@ const ReportsPage = () => {
     })
   });
 
+  const filteredData = data.filter(
+    (row) => 
+      row &&
+      (!filters.type || row.type == filters.type) &&
+      row.name.toLowerCase().includes(filters?.name.toLowerCase())
+  )
+
   return (
     <>
       <Header>
@@ -153,7 +160,7 @@ const ReportsPage = () => {
 
       <Table
         columns={columns}
-        data={data}
+        data={filteredData}
         subHeader
         subHeaderComponent={TableHeader}
         progressPending={!report}
