@@ -10,6 +10,7 @@ import {
   faUserShield,
   faBullhorn,
   faBan,
+  faSquarePollVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import { usePageTitle } from "../../Util/title";
 
@@ -52,6 +53,9 @@ export function FCMenu() {
         )}
         {authContext && authContext.access["stats-view"] && (
           <GuideCard slug="stats" name="Statistics" icon={faChartLine} />
+        )}
+        {authContext && authContext.access["report-view"] && (
+          <GuideCard slug="reports" name="Activity Reports" icon={faSquarePollVertical} />
         )}
       </CardArray>
     </>

@@ -96,3 +96,15 @@ export const PageTitle = styled.h1`
 export const Title = styled.h2`
   font-size: 1.5em;
 `;
+
+export const Header = styled.div`
+  padding-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+
+  h1 {
+    font-size: 32px;
+  }
+`;

@@ -2,7 +2,54 @@ import React from "react";
 import PropTypes from "prop-types";
 import DataTable, { createTheme } from "react-data-table-component";
 import themes from "../App/theme";
-import { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components";
+import Spinner from "./Spinner";
+
+const TableControls = styled.div`
+  align-content: space-between;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+
+  > button {
+    @media (max-width: 800px) {
+      width: 100%;
+    }
+  }
+
+  #filters {
+    flex-grow: 1;
+
+    span:first-of-type {
+      font-style: italic;
+      margin-right: 10px;
+
+      @media (max-width: 800px) {
+        display: block;
+        margin-bottom: 5px;
+      }
+    }
+
+    @media (max-width: 800px) {
+      input,
+      select {
+        width: calc(calc(100vw - 158px) / 2);
+      }
+    }
+
+    @media (max-width: 500px) {
+      input,
+      select {
+        width: 100%;
+      }
+      button {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+`;
+
 
 const Table = (props) => {
   const themeContext = React.useContext(ThemeContext);
@@ -60,6 +107,7 @@ Table.defaultProps = {
   paginationPerPage: 50,
   paginationRowsPerPageOptions: [10, 25, 50, 75, 100],
   persistTableHead: true,
+  progressComponent: <Spinner />
 };
 
 export default Table;
@@ -85,4 +133,4 @@ const SortByEntityCategory = (a, b) => {
   return 0;
 };
 
-export { SortAlphabetical, SortByEntityCategory, SortDate };
+export { SortAlphabetical, SortByEntityCategory, SortDate, TableControls };
