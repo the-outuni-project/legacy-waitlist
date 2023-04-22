@@ -34,7 +34,7 @@ async fn get_reports(
             c.id as `id!`,
             c.name as `name!`,
             (SELECT fa.last_seen FROM `fleet_activity` AS fa WHERE fa.character_id=c.id AND fa.is_boss=true AND (fa.last_seen - fa.first_seen > 300) ORDER BY fa.last_seen DESC LIMIT 1) as `last_seen`,
-            (SELECT SUM(fa.last_seen - fa.first_seen)  FROM `fleet_activity` as fa WHERE fa.character_id = c.id AND fa.is_boss = true AND ((fa.last_seen - fa.first_seen) > 300)) as `hours_last_month: i64`
+            (SELECT SUM(fa.last_seen - fa.first_seen)  FROM `fleet_activity` as fa WHERE fa.character_id = c.id AND fa.is_boss = true AND (fa.last_seen - fa.first_seen) > 300) as `hours_last_month: i64`
         FROM
             `character` as c
         WHERE
@@ -50,7 +50,7 @@ async fn get_reports(
             c.id as `id!`,
             c.name as `name!`,
             (SELECT fa.last_seen FROM `fleet_activity` AS fa WHERE fa.character_id=c.id AND (fa.hull=? OR fa.hull=?) AND (fa.last_seen - fa.first_seen > 300) ORDER BY fa.last_seen DESC LIMIT 1) as `last_seen`,
-            (SELECT SUM(ff.last_seen - ff.first_seen)  FROM `fleet_activity` as ff WHERE ff.character_id = c.id AND (ff.hull=? OR ff.hull=?) AND ((ff.last_seen - ff.first_seen) > 300)) as `hours_last_month: i64`
+            (SELECT (SUM(ff.last_seen - ff.first_seen))  FROM `fleet_activity` as ff WHERE ff.character_id = c.id AND (ff.hull=? OR ff.hull=?) AND (ff.last_seen - ff.first_seen) > 300) as `hours_last_month: i64`            
         FROM
             `character` as c
         WHERE

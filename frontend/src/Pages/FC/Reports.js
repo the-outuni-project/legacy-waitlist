@@ -123,7 +123,7 @@ const ReportsPage = () => {
         />
 
         <Button variant={"primary"} onClick={fetchReport}>
-          <FontAwesomeIcon fixedWidth icon={faRefresh} /> Refresh Report
+          <FontAwesomeIcon fixedWidth icon={faRefresh} /> Refresh Reports
         </Button>
       </TableControls>
     )
