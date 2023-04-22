@@ -55,7 +55,7 @@ const FilterComponents = ({ filters, onChange, onClear}) => {
         }}
       >
         <option value={-1}>Any</option>
-        {["Fleet Boss", "Nestor"].map((type, key) => {
+        {["Fleet Boss", "Nestor/Oneiros"].map((type, key) => {
           return (
             <option value={type} key={key} readOnly>
               {type}
@@ -88,7 +88,7 @@ const ReportsPage = () => {
     {
       name: "Pilot Name",
       sortable: true,
-      sortFunction: (rowA, rowB) => special_sort(rowA.character, rowB.character),
+      sortFunction: (rowA, rowB) => special_sort(rowA, rowB),
       grow: 2,
       selector: (row) => <CharacterName id={row.id} name={row.name} />
     },
@@ -97,13 +97,13 @@ const ReportsPage = () => {
       name: "Last Seen",
       sortable: true,
       sortFunction: (rowA, rowB) => SortDate(rowA.last_seen, rowB.last_seen),
-      selector: (row) => formatDatetime(new Date(row.last_seen * 1000))
+      selector: (row) => row?.last_seen ? formatDatetime(new Date(row.last_seen * 1000)) : "Never"
     },
     {
       name: "Hours (last 28 Days)",
       sortable: true,
-      sortFunction: (rowA, rowB) => special_sort(rowA.hours_last_month, rowB.hours_last_month),
-      selector: (row) => row.hours_last_month / (60 * 60)
+      // sortFunction: (rowA, rowB) => special_sort(rowA.hours_last_month, rowB.hours_last_month),
+      selector: (row) => row?.hours_last_month ? row.hours_last_month / (60 * 60) : "-"
     }
   ]
 
@@ -141,7 +141,7 @@ const ReportsPage = () => {
   (report?.logi ?? []).forEach((el) => {
     data.push({
       ...el,
-      type: "Logi Activity"
+      type: "Nestor/Oneiros"
     })
   });
 

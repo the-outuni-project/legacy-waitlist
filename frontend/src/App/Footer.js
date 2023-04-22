@@ -130,7 +130,7 @@ const Footer = () => {
           <TeamDirectory />
         </li>
         <li>
-          <A href="https://github.com/samuelgrant/top-waitlist" target="_blank">
+          <A href="https://github.com/the-outuni-project/legacy-waitlist" target="_blank">
             Source Code
           </A>
         </li>
