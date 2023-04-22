@@ -29,6 +29,56 @@ const special_sort = (charA, charB) => {
   else return 0;
 };
 
+const FilterComponents = ({ filters, onChange, onClear}) => {
+  const handleSelect = (evt) => {
+    let f = filters;
+    f.type = evt.target.value === "-1" ? null : evt.target.value;
+    onChange(f);
+  };
+  
+  const handleNameChange = (evt) => {
+    let f = filters;
+    f.name = evt.target.value;
+    onChange(f);
+  };
+
+  return (
+    <div id="filters">
+      <span>Report Type: </span>
+      <Select
+        value={filters?.type ?? ""}
+        onChange={handleSelect}
+        style={{
+          marginRight: "10px",
+          marginBottom: "10px",
+          appearance: "auto"
+        }}
+      >
+        <option value={-1}>Any</option>
+        {["Fleet Boss", "Nestor"].map((type, key) => {
+          return (
+            <option value={type} key={key} readOnly>
+              {type}
+            </option>
+          )
+        })}
+      </Select>
+      <Input
+        value={filters?.name ?? ""}
+        onChange={handleNameChange}
+        placeholder="pilot name"
+        style={{ 
+          marginRight: "10px",
+          marginBottom: "10px" 
+        }}
+      />
+      <Button variant={"primary"} onClick={onClear} style={{ marginBottom: "10px" }}>
+        Clear
+      </Button>
+    </div>
+  )
+}
+
 const ReportsPage = () => {
   const [ report, fetchReport ] = useApi("/api/reports");  
   const [ filters, setFilters ] = React.useState({ type: null, name: "" });
@@ -53,62 +103,12 @@ const ReportsPage = () => {
       name: "Hours (last 28 Days)",
       sortable: true,
       sortFunction: (rowA, rowB) => special_sort(rowA.hours_last_month, rowB.hours_last_month),
-      selector: (row) => row?.hours_last_month
+      selector: (row) => row.hours_last_month / (60 * 60)
     }
   ]
 
   const TableHeader = React.useMemo(() => {
     const handleClear = () => setFilters({ type: null, name: "" });
-
-    const FilterComponents = ({ filters, onChange, onClear}) => {
-      const handleSelect = (evt) => {
-        let f = filters;
-        f.type = evt.target.value === "-1" ? null : evt.target.value;
-        onChange(f);
-      };
-      
-      const handleNameChange = (evt) => {
-        let f = filters;
-        f.name = evt.target.value;
-        onChange(f);
-      };
-
-      return (
-        <div id="filters">
-          <span>Report Type: </span>
-          <Select
-            value={filters?.type ?? ""}
-            onChange={handleSelect}
-            style={{
-              marginRight: "10px",
-              marginBottom: "10px",
-              appearance: "auto"
-            }}
-          >
-            <option value={-1}>Any</option>
-            {["Fleet Boss", "Nestor"].map((type, key) => {
-              return (
-                <option value={type} key={key} readOnly>
-                  {type}
-                </option>
-              )
-            })}
-          </Select>
-          <Input
-            value={filters?.name ?? ""}
-            onChange={handleNameChange}
-            placeholder="pilot name"
-            style={{ 
-              marginRight: "10px",
-              marginBottom: "10px" 
-            }}
-          />
-          <Button variant={"primary"} onClick={onClear} style={{ marginBottom: "10px" }}>
-            Clear
-          </Button>
-        </div>
-      )
-    }
 
     return (
       <TableControls>

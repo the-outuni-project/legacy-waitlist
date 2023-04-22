@@ -54,7 +54,7 @@ export function FCMenu() {
         {authContext && authContext.access["stats-view"] && (
           <GuideCard slug="stats" name="Statistics" icon={faChartLine} />
         )}
-        {authContext && authContext.access["report-view"] && (
+        {authContext && authContext.access["reports-view"] && (
           <GuideCard slug="reports" name="Activity Reports" icon={faSquarePollVertical} />
         )}
       </CardArray>
