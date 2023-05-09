@@ -19,6 +19,8 @@ import { useQuery } from "../../Util/query";
 import { usePageTitle } from "../../Util/title";
 import JoinWaitlist from "./JoinWaitlist";
 import styled from "styled-components";
+import { InfoNote } from "../../Components/NoteBox";
+import Fitcheck from "./Fitcheck";
 
 const Users = styled.div`
   margin-bottom: 10px;
@@ -174,7 +176,8 @@ export function Waitlist() {
   if (!waitlistData.open) {
     return (
       <>
-        <em>The waitlist is currently closed.</em>
+        <InfoNote>The waitlist is currently closed.</InfoNote>
+        <Fitcheck />
       </>
     );
   }
