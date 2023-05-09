@@ -164,7 +164,7 @@ const Fitcheck = () => {
             Reset
           </Button>
           <InfoNote>There is something wrong with one (or more) of your fits.</InfoNote>
-          <p><FontAwesomeIcon fixedWidth icon={faCheck} /> You have the required skills </p>
+          <p><FontAwesomeIcon fixedWidth icon={faCheck} /> You have the minimum skills </p>
           <p><FontAwesomeIcon fixedWidth icon={faTimes} /> Your fit is incorrect, please fix the red and yellow items below</p>
         </div>
 
