@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/display-name */
+import React, { useContext } from "react";
 import { AuthContext, ToastContext, EventContext } from "../../contexts";
 import { apiCall, errorToaster, useApi } from "../../api";
 import { InputGroup, Button, Buttons } from "../../Components/Form";
@@ -12,11 +13,32 @@ import {
   CategoryHeading,
 } from "./displaymodes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faColumns } from "@fortawesome/free-solid-svg-icons";
+import { faColumns, faUsers } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
 import { useQuery } from "../../Util/query";
 import { usePageTitle } from "../../Util/title";
 import JoinWaitlist from "./JoinWaitlist";
+import styled from "styled-components";
+import { InfoNote } from "../../Components/NoteBox";
+import Fitcheck from "./Fitcheck";
+
+const Users = styled.div`
+  margin-bottom: 10px;
+
+  span {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: .80em;
+    font-weight: 700;
+    line-height: 1;
+    color: ${(props) => props.theme.colors.text};
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: ${(props) => props.theme.colors.accent2};
+    border-radius: 20px;
+  }
+`;
 
 function coalesceCalls(func, wait) {
   var nextCall = null;
@@ -154,7 +176,8 @@ export function Waitlist() {
   if (!waitlistData.open) {
     return (
       <>
-        <em>The waitlist is currently closed.</em>
+        <InfoNote>The waitlist is currently closed.</InfoNote>
+        <Fitcheck />
       </>
     );
   }
@@ -170,8 +193,37 @@ export function Waitlist() {
     (entry) => entry.character && entry.character.id === authContext.account_id
   );
 
+  const UsersOnWaitlist = ({ open, waitlist }) => {
+    const authContext = useContext(AuthContext);
+
+    // Don't render when WL is closed or user is not an FC.
+    if (!open || !authContext.access["waitlist-tag:TRAINEE"]) {
+      return null;
+    }
+
+   let ids = [];
+   for (let i = 0; i < waitlist.length; i++) {
+    let fits = waitlist[i].fits;
+    for (let ii = 0; ii < fits.length; ii++) {
+      if (!ids.includes(fits[ii].character.id)) {
+        ids.push(fits[ii].character.id);
+      }
+    }
+   }
+
+    return (
+      <span>
+        <FontAwesomeIcon fixedWidth icon={faUsers} /> {ids.length}
+      </span>
+    )
+  }
+
   return (
     <>
+      <Users>
+        <UsersOnWaitlist {...waitlistData} />
+      </Users>
+
       <Buttons>
         <JoinWaitlist hasFits={myEntry} />
 
