@@ -38,6 +38,9 @@ async fn fittings() -> Result<Json<FittingResponse>, Madness> {
     let mut fittingformatted = BTreeMap::new();
     let mut id = 0;
     for fit in crate::data::fits::get_fits().values().flatten() {
+        if fit.hidden {
+            continue;
+        }
         let fitname = fit.name.clone();
         let dna = fit.fit.to_dna().unwrap();
         fittingformatted.entry(id).or_insert_with(|| DNAFitting {

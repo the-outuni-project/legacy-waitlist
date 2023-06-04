@@ -13,23 +13,26 @@ lazy_static::lazy_static! {
 pub struct DoctrineFit {
     pub name: String,
     pub fit: Fitting,
+    pub hidden: bool
 }
 
 fn load_fits() -> FitData {
     let mut fits = BTreeMap::new();
 
     let fit_data = std::fs::read_to_string("./data/fits.dat").expect("Could not load fits.dat");
-    let fit_regex = Regex::new(r#"<a href="fitting:([0-9:;_]+)">([^<]+)</a>"#).unwrap();
+    let fit_regex = Regex::new(r#"<a href="fitting:([0-9:;_]+)" ?(hidden)?>([^<]+)</a>"#).unwrap();
 
     for fit_match in fit_regex.captures_iter(&fit_data) {
         let dna = fit_match.get(1).unwrap().as_str();
-        let fit_name = fit_match.get(2).unwrap().as_str();
+        let is_hidden = fit_match.get(2);
+        let fit_name = fit_match.get(3).unwrap().as_str();
         let parsed = Fitting::from_dna(dna).unwrap();
         fits.entry(parsed.hull)
             .or_insert_with(Vec::new)
             .push(DoctrineFit {
                 name: fit_name.to_string(),
                 fit: parsed,
+                hidden: is_hidden.is_some(),
             });
     }
 
