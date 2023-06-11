@@ -4,6 +4,7 @@ import { Fitout, ImplantOut } from "./FittingSortDisplay";
 import { PageTitle } from "../../Components/Page";
 import { useLocation, useHistory } from "react-router-dom";
 import { usePageTitle } from "../../Util/title";
+import { InfoNote } from "../../Components/NoteBox";
 
 export function Fits() {
   const queryParams = new URLSearchParams(useLocation().search);
@@ -53,11 +54,11 @@ function FitsDisplay({ tier, setTier = null }) {
             Logistics
             </Button>
           </InputGroup>
-          <InputGroup>
+          {/* <InputGroup>
             <Button active={tier === "Antigank"} onClick={(evt) => setTier("Antigank")}>
               Antigank
             </Button>
-          </InputGroup>
+          </InputGroup> */}
           <InputGroup>
             <AButton
               href={`https://wiki.${window.location.host}/guides/travelling-between-focuses#incursion-ship-travel-fits`}
@@ -80,7 +81,7 @@ function FitsDisplay({ tier, setTier = null }) {
       ) : tier === "Logistics" ? (
         <Fitout data={fitData} tier="Logistics" />
       ) : tier === "Antigank" ? (
-        <Fitout data={fitData} tier="Antigank" />
+        <InfoNote>Our antigank fits need to be updated for the Viridian expansion. Please checkback later!</InfoNote>// <Fitout data={fitData} tier="Antigank" />
       ) : null}
     </>
   );
