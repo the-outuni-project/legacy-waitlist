@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { processAuth } from "../Pages/Auth";
 import { ToastDisplay } from "../Components/Toast";
-import { AuthContext, ToastContext, EventContext } from "../contexts";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import { AuthContext, EventContext, ToastContext } from "../contexts";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { Routes } from "./routes";
 import { Container } from "react-awesome-styled-grid";
 
@@ -12,6 +12,7 @@ import "./reset.css";
 import theme from "./theme.js";
 import AnnouncementBanner from "../Components/AnnouncementBanner";
 import Footer from "./Footer";
+import { HeaderMenu } from "./HeaderMenu"; 
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -35,7 +36,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: bold;
   }
 `;
-
+ 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -92,6 +93,7 @@ export default class App extends React.Component {
             <EventContext.Provider value={this.state.events}>
               <AuthContext.Provider value={this.state.auth}>
                 <Router>
+                  <HeaderMenu />
                   <Container style={{ height: "auto", minHeight: `calc(100vh - 70px)` }}>
                     <Menu
                       onChangeCharacter={(char) => this.changeCharacter(char)}
