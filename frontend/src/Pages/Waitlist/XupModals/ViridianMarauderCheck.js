@@ -67,9 +67,10 @@ const VirdianMarauderCheck = ({ onPass }) => {
         Bastion Check
       </H2>
       <form onSubmit={(e) => onSubmit(e)}>
-      <Label>What is the cycle time for bastion?</Label>
+      <Label htmlFor="iq">What is the cycle time for bastion?</Label>
         <FormGroup>
-          <Input type="number"
+          <Input id="tq"
+            type="number"
             min="0"
             max="300"
             value={val ?? ''}
