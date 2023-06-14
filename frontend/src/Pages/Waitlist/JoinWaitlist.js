@@ -1,14 +1,16 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { apiCall, errorToaster, useApi } from "../../api";
 import { Box as BaseBox } from "../../Components/Box";
-import { FitDisplay, ImplantDisplay } from "../../Components/FitDisplay";
-import { Button, Label, Textarea } from "../../Components/Form";
+import { Button } from "../../Components/Form";
 import { Modal } from "../../Components/Modal";
 import { addToast } from "../../Components/Toast";
-import A from "../../Components/A";
 import { AuthContext, ToastContext } from "../../contexts";
+import VirdianMarauderCheck from "./XupModals/ViridianMarauderCheck";
+import WrongFit from "./XupModals/WrongFit";
+import ValidateFit from "./XupModals/ValidateFit";
 
 const Box = styled(BaseBox)`
   display: flex;
@@ -66,53 +68,12 @@ const Box = styled(BaseBox)`
   }
 `;
 
-const exampleFit = String.raw`
-[Vindicator, Vindicator]
-Shadow Serpentis Damage Control
-Centum A-Type Multispectrum Energized Membrane
-Centum A-Type Multispectrum Energized Membrane
-Federation Navy Magnetic Field Stabilizer
-Federation Navy Magnetic Field Stabilizer
-Federation Navy Magnetic Field Stabilizer
-Federation Navy Magnetic Field Stabilizer
 
-Core X-Type 500MN Microwarpdrive
-Federation Navy Stasis Webifier
-Federation Navy Stasis Webifier
-Federation Navy Stasis Webifier
-Large Micro Jump Drive
 
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-
-Large Hybrid Locus Coordinator II
-Large Explosive Armor Reinforcer II
-Large Hyperspatial Velocity Optimizer II
-
-'Augmented' Ogre x5
-
-...
-`.trim();
-
-async function validateFit({ character_id, eft }) {
-  return await apiCall("/api/fit-check", {
-    json: {
-      eft,
-      character_id,
-    },
-  });
-}
-
-async function submitFit({ character_id, fit, waitlist_id, is_alt }) {
+async function submitFit({ character_id, fits, waitlist_id, is_alt }) {
   await apiCall("/api/waitlist/xup", {
     json: {
-      eft: fit,
+      eft: fits,
       character_id,
       waitlist_id: parseInt(waitlist_id),
       is_alt,
@@ -124,25 +85,33 @@ const JoinWaitlist = ({ hasFits }) => {
   const authContext = useContext(AuthContext);
   const toastContext = useContext(ToastContext);
   const queryParams = new URLSearchParams(useLocation().search);
-  
-  const [alt, setAlt] = useState(false);
-  const [badFits, setBadFits] = useState(undefined);
-  const [fit, setFit] = useState(undefined);
-  const [implants] = useApi(`/api/implants?character_id=${authContext.current.id}`);
-  const [open, setOpen] = useState(false);
-  const [pending, setPending] = useState(false);  
+
+  const [ open, setOpen ] = useState(false);
+
+  const [ alt, setAlt ] = useState(false);
+  const [ badFits, setBadFits ] = useState(undefined);
+  const [ fits, setFits ] = useState(undefined);
+  const [ validatedFits, setValidatedFits ] = useState(undefined);
+  const [ isMarauder, setMarauder ] = useState(false);
 
   const waitlist_id = queryParams.get("wl");
   if (!waitlist_id) {
     return <em>Missing waitlist information</em>;
   }
+  
+  const reset = () => {
+    setAlt(false);
+    setBadFits(null);
+    setFits(null);
+    setMarauder(false);
+  }
 
-  const handleSubmit = () => {
+  const submit = () => {   
     errorToaster(
       toastContext,
       submitFit({
         character_id: authContext.current.id,
-        fit,
+        fits,
         waitlist_id,
         is_alt: alt,
       })
@@ -151,75 +120,12 @@ const JoinWaitlist = ({ hasFits }) => {
             variant: "success",
             message: "Your fits are updated on the waitlist!",
           });
-          setAlt(false);
-          setFit("");
-          setBadFits(undefined);
+          reset();
           setOpen(false);
         })
-        .finally(() => {
-          setPending(false);
-        })
+        .finally(() => setMarauder(false))
     );
-  };
-
-  const handleFitValidation = (e) => {
-    e.preventDefault();
-
-    if (pending) {
-      return; // Stop users from clicking the button twice
-    }
-    setPending(true);
-
-    errorToaster(
-      toastContext,
-      validateFit({
-        character_id: authContext.current.id,
-        eft: fit,
-      })
-        .then((res) => {
-          if (!res.some((xup) => !xup.approved)) {
-            return handleSubmit();
-          }
-          setBadFits(res);
-        })
-        .finally(() => {
-          setPending(false);
-        })
-    );
-  };
-
-  const FailedFitsDisplay = () => {
-    return (
-      <>
-        <h2 style={{ paddingBottom: "0px" }}>Whoops!</h2>
-        <p style={{ paddingBottom: "10px", fontSize: "larger", flex: "0 0 100%" }}>
-          There is something wrong with one (or more) of your fits.
-        </p>
-        {badFits?.map((fit, key) => {
-          return (
-            !fit.approved && (
-              <div style={{ marginBottom: "20px" }} key={key}>
-                <FitDisplay fit={fit} />
-              </div>
-            )
-          );
-        })}
-
-        <div style={{ flex: "0 0 100%" }}>
-          <Button variant="warning" style={{ marginRight: "5px" }} onClick={handleSubmit}>
-            Confirm X-UP
-          </Button>
-          <Button
-            onClick={() => {
-              setBadFits(undefined);
-            }}
-          >
-            Fix My Fit
-          </Button>
-        </div>
-      </>
-    );
-  };
+  }
 
   return (
     <>
@@ -230,49 +136,39 @@ const JoinWaitlist = ({ hasFits }) => {
       <Modal open={open} setOpen={setOpen}>
         <Box>
           {badFits ? (
-            <FailedFitsDisplay />
+            <WrongFit fits={badFits} goBack={() => reset()} xupAnyway={() => {
+              setBadFits(null);
+              // Check if the ship has a 'Bastion Module I' fitted
+              if (validatedFits.some((fit) => fit?.dna.includes(':33400'))) {
+                setMarauder(true);
+                return;
+              }
+              submit();
+            }} />
+          ) : isMarauder ? (
+            <VirdianMarauderCheck onPass={() => submit()} />
           ) : (
-            <>
-              <h2>{!hasFits ? "Join" : "Update fits on the"} Waitlist</h2>
+            <ValidateFit
+              alt={alt} setAlt={(a) => setAlt(a)}
+              fits={fits} setFits={(f) => setFits(f)}
+              callback={(fits) => {
+                setValidatedFits(fits);
 
-              <form onSubmit={handleFitValidation}>
-                <div>
-                  <Label htmlFor="fit" required>
-                    Paste your fit(s) here:
-                  </Label>
-                  <Textarea
-                    value={fit}
-                    onChange={(e) => setFit(e.target.value)}
-                    placeholder={exampleFit}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="alt">
-                    <input id="alt" type="checkbox" checked={alt} onChange={(e) => setAlt(!alt)} />I
-                    already have a character in fleet
-                  </Label>
-                </div>
-
-                <Button variant="success" disabled={pending}>
-                  X UP
-                </Button>
-                <A href={`https://wiki.${window.location.host}/guides/waitlist`} target="_blank">
-                  How do I join the waitlist?
-                </A>
-              </form>
-
-              <div id="implants">
-                {implants && (
-                  <ImplantDisplay
-                    implants={implants.implants}
-                    name={`${authContext.current.name}'s capsule`}
-                  />
-                )}
-              </div>
-            </>
+                let f = fits.filter((fit) => !fit.approved);
+                if (f.length > 0) {
+                  setBadFits(f);
+                  return;
+                }
+                // Check if the ship has a 'Bastion Module I' fitted
+                if (fits.some((fit) => fit?.dna.includes(':33400'))) {
+                  setMarauder(true);
+                  return;
+                }
+                submit();
+              }}
+            />
           )}
+
         </Box>
       </Modal>
     </>
