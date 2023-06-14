@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import A from "../../../Components/A";
 
-
 const H2 = styled.h2`
   padding-bottom: 12px;
   font-size: 1.75em;
@@ -60,10 +59,13 @@ const VirdianMarauderCheck = ({ onPass }) => {
   }
 
   const bastionGuideUrl = `https://wiki.${window.location.hostname}/guides/bastion`;
-
+  
   return (
     <>
-      <H2>Bastion Check</H2>
+      <H2>
+        <img src="https://images.evetech.net/types/33400/icon" style={{ verticalAlign: 'middle' }} />
+        Bastion Check
+      </H2>
       <form onSubmit={(e) => onSubmit(e)}>
       <Label>What is the cycle time for bastion?</Label>
         <FormGroup>
