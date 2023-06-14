@@ -252,7 +252,7 @@ function PilotDisplay({ authContext }) {
           />
         </Col>
         <Col xs={4} md={2}>
-          {authContext.access['waitlist-tag:TRAINEE'] && (
+          {authContext?.access['waitlist-tag:TRAINEE'] && authContext.account_id === characterId && (
             <ControlButtons>
               <div>FC Account Actions</div>
               <div>
