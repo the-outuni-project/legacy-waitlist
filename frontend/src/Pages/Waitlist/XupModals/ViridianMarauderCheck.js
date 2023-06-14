@@ -4,6 +4,7 @@ import { Input as BaseInput, Button, Label } from "../../../Components/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import A from "../../../Components/A";
+import Spinner from "../../../Components/Spinner";
 
 const H2 = styled.h2`
   padding-bottom: 12px;
@@ -29,6 +30,7 @@ const Input = styled(BaseInput)`
 const VirdianMarauderCheck = ({ onPass }) => {
   const [ val, setVal ] = useState(undefined);
   const [ error, displayError ] = useState(false);
+  const [ ready, isReady ] = useState(false);
 
   useEffect(() => {
     let check = window.localStorage.getItem("viridan");
@@ -41,6 +43,11 @@ const VirdianMarauderCheck = ({ onPass }) => {
         window.localStorage.setItem("viridan", JSON.stringify(check));
         onPass();
       }
+      else {
+        isReady(true);
+      }
+    } else {
+      isReady(true);
     }
   }, [])
 
@@ -60,10 +67,14 @@ const VirdianMarauderCheck = ({ onPass }) => {
 
   const bastionGuideUrl = `https://wiki.${window.location.hostname}/guides/bastion`;
   
-  return (
+  return !ready ? (
+    <div style={{ margin: 'auto' }}>
+      <Spinner />
+    </div> 
+  ) : (
     <>
       <H2>
-        <img src="https://images.evetech.net/types/33400/icon" style={{ verticalAlign: 'middle' }} />
+        <img src="https://images.evetech.net/types/33400/icon" alt="Bastion Module I" style={{ verticalAlign: 'middle' }} />
         Bastion Check
       </H2>
       <form onSubmit={(e) => onSubmit(e)}>
