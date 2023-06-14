@@ -35,7 +35,8 @@ bcrypt = "*"
 zxcvbn = "*"
 itertools = "*"
 Inflector = "*"
+bigdecimal = { version = "*", features = ["serde"] }
 
 [features]
 default = ["mysql"]
-mysql = ["sqlx/mysql"]
+mysql = ["sqlx/mysql", "sqlx/bigdecimal"]

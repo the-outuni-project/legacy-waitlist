@@ -6,6 +6,7 @@ use crate::{
 
 use serde::Serialize;
 use rocket::serde::json::Json;
+use bigdecimal::BigDecimal;
 
 #[derive(Debug, Serialize)]
 struct Report {
@@ -17,7 +18,7 @@ struct Report {
 struct ReportRow {
     id: i64,
     name: String,
-    hours_last_month: Option<i64>,
+    seconds_last_month: Option<BigDecimal>,
     last_seen: Option<i64>
 }
 
@@ -30,35 +31,16 @@ async fn get_reports(
 
     let fc = sqlx::query_as!(
         ReportRow,
-        "SELECT
-            c.id as `id!`,
-            c.name as `name!`,
-            (SELECT fa.last_seen FROM `fleet_activity` AS fa WHERE fa.character_id=c.id AND fa.is_boss=true AND (fa.last_seen - fa.first_seen > 300) ORDER BY fa.last_seen DESC LIMIT 1) as `last_seen`,
-            (SELECT SUM(fa.last_seen - fa.first_seen)  FROM `fleet_activity` as fa WHERE fa.character_id = c.id AND fa.is_boss = true AND (fa.last_seen - fa.first_seen) > 300) as `hours_last_month: i64`
-        FROM
-            `character` as c
-        WHERE
-            c.id IN (SELECT DISTINCT `character_id` FROM `admin`)
-        "
+        "SELECT c.id AS `id`, c.name AS `name`, MAX(fa.last_seen) AS `last_seen`, SUM(fa.last_seen - fa.first_seen) AS `seconds_last_month` FROM `character` AS c JOIN `admin` AS a on a.character_id = c.id LEFT JOIN fleet_activity AS fa ON fa.character_id = c.id AND fa.is_boss = 'true' AND (fa.last_seen - fa.first_seen) > 300 GROUP BY `id`, `name`"
     )
     .fetch_all(app.get_db())
     .await?;
 
     let logi = sqlx::query_as!(
         ReportRow,
-        "SELECT
-            c.id as `id!`,
-            c.name as `name!`,
-            (SELECT fa.last_seen FROM `fleet_activity` AS fa WHERE fa.character_id=c.id AND (fa.hull=? OR fa.hull=?) AND (fa.last_seen - fa.first_seen > 300) ORDER BY fa.last_seen DESC LIMIT 1) as `last_seen`,
-            (SELECT (SUM(ff.last_seen - ff.first_seen))  FROM `fleet_activity` as ff WHERE ff.character_id = c.id AND (ff.hull=? OR ff.hull=?) AND (ff.last_seen - ff.first_seen) > 300) as `hours_last_month: i64`            
-        FROM
-            `character` as c
-        WHERE
-            c.id IN (SELECT DISTINCT `character_id` FROM `admin`)",
+        "SELECT c.id AS `id!`, c.name AS `name!`, MAX(fa.last_seen) AS `last_seen`, SUM(fa.last_seen - fa.first_seen) AS `seconds_last_month` FROM `character` AS c JOIN badge_assignment AS ba ON ba.characterId = c.id JOIN badge AS b ON b.id = ba.badgeID AND b.name = 'LOGI' LEFT JOIN fleet_activity AS fa ON fa.character_id = c.id AND (fa.hull=? OR fa.hull=?) AND (fa.last_seen - fa.first_seen) > 300 GROUP BY c.id, c.name",
             type_id!("Nestor"),
             type_id!("Oneiros"),
-            type_id!("Nestor"),
-            type_id!("Oneiros")
     )
     .fetch_all(app.get_db())
     .await?;
@@ -67,6 +49,7 @@ async fn get_reports(
         fc,
         logi
     };
+    println!("{:#?}", reports);
     return Ok(Json(reports))
 }
 
