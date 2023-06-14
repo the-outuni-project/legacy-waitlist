@@ -7,7 +7,7 @@ import { formatDate } from "../../Util/time";
 import Table, { SortDate, TableControls } from "../../Components/DataTable";
 import { Button, Input, Select } from "../../Components/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { faUndo } from "@fortawesome/free-solid-svg-icons";
 
 const Header = styled.div`
   padding-bottom: 10px;
@@ -133,7 +133,7 @@ const ReportsPage = () => {
         />
 
         <Button variant={"primary"} onClick={fetchReport}>
-          <FontAwesomeIcon fixedWidth icon={faRefresh} /> Refresh Reports
+          <FontAwesomeIcon fixedWidth icon={faUndo} /> Refresh Reports
         </Button>
       </TableControls>
     )

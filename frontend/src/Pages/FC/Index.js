@@ -9,7 +9,8 @@ import {
   faShieldAlt,
   faUserShield,
   faBullhorn,
-  faBan
+  faBan,
+  faPoll
 } from "@fortawesome/free-solid-svg-icons";
 import { usePageTitle } from "../../Util/title";
 
@@ -54,7 +55,7 @@ export function FCMenu() {
           <GuideCard slug="stats" name="Statistics" icon={faChartLine} />
         )}
         {authContext && authContext.access["reports-view"] && (
-          <GuideCard slug="reports" name="Activity Reports" icon={faChartLine} />
+          <GuideCard slug="reports" name="Activity Reports" icon={faPoll} />
         )}
       </CardArray>
     </>
