@@ -24,6 +24,7 @@ struct FleetStatusFleet {
 
 #[derive(Debug, Serialize)]
 struct FleetStatusResponse {
+    wl_open: bool,
     fleets: Vec<FleetStatusFleet>,
 }
 
@@ -44,7 +45,11 @@ async fn fleet_status(
         }
     }).collect();
 
-    Ok(Json(FleetStatusResponse { fleets }))
+    let res = sqlx::query!("SELECT count(*) as `count` FROM waitlist WHERE is_open=1")
+        .fetch_one(app.get_db())
+        .await?;
+
+    Ok(Json(FleetStatusResponse { fleets, wl_open: res.count > 0 }))
 }
 
 async fn get_current_fleet_id(

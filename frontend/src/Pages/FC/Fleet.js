@@ -1,12 +1,10 @@
-import React, { useContext, useState } from "react";
-import { AuthContext, ToastContext } from "../../contexts";
-import { Confirm, Modal } from "../../Components/Modal";
+import React, { useContext, useEffect } from "react";
+import { AuthContext, EventContext, ToastContext } from "../../contexts";
+import { Confirm } from "../../Components/Modal";
 import {
   Button,
   Buttons,
-  Input,
   InputGroup,
-  Label,
   NavButton,
   Select,
 } from "../../Components/Form";
@@ -14,10 +12,8 @@ import { Content, Title } from "../../Components/Page";
 import { apiCall, errorToaster, toaster, useApi } from "../../api";
 import { Cell, CellHead, Row, Table, TableBody, TableHead } from "../../Components/Table";
 import { BorderedBox } from "../../Components/NoteBox";
-import _ from "lodash";
 import { usePageTitle } from "../../Util/title";
-import { Box } from "../../Components/Box";
-import A from "../../Components/A";
+import _ from "lodash";
 
 const marauders = ["Paladin", "Kronos"];
 const logi = ["Nestor", "Guardian", "Oneiros"];
@@ -41,90 +37,29 @@ async function closeFleet(characterId) {
   });
 }
 
-async function setWikiPassword(password) {
-  return await apiCall("/api/auth/wiki", {
-    method: "POST",
-    json: {
-      password: password,
-    },
-  });
-}
-
-const WikiPassword = () => {
-  const authContext = useContext(AuthContext);
-  const toastContext = useContext(ToastContext);
-
-  const [open, isOpen] = useState(false);
-  const [value, setValue] = useState(undefined);
-
-  const onClick = (e) => {
-    e.preventDefault();
-
-    errorToaster(
-      toastContext,
-      setWikiPassword(value).then(() => {
-        isOpen(false);
-        setValue(undefined);
-      })
-    );
-  };
-
-  return (
-    <>
-      <Button onClick={() => isOpen(true)}>Set Wiki Password</Button>
-      <Modal open={open} setOpen={isOpen}>
-        <Box>
-          <h2 style={{ fontSize: "1.5em" }}>Set a Wiki Password</h2>
-
-          <p style={{ paddingBottom: "10px" }}>
-            <A href={`https://wiki.${window.location.host}?do=login`} target="_blank">
-              Wiki Login
-            </A>
-          </p>
-
-          <form style={{ paddingTop: "15px" }}>
-            <div style={{ paddingBottom: "10px" }}>
-              <Label htmlFor="username">Your wiki username:</Label>
-              <Input
-                id="username"
-                value={(authContext?.characters[0]?.name ?? "")
-                  .toLowerCase()
-                  .replace(/ /g, "_")
-                  .replace(/'/g, "")}
-                disabled
-              />
-            </div>
-
-            <div style={{ paddingBottom: "20px" }}>
-              <Label htmlFor="password">Set a New Password:</Label>
-              <Input
-                id="password"
-                type="password"
-                value={value}
-                minLength="8"
-                onChange={(e) => setValue(e.target.value)}
-                required
-              />
-            </div>
-
-            <Button variant="success" onClick={onClick}>
-              Save Password
-            </Button>
-          </form>
-        </Box>
-      </Modal>
-    </>
-  );
-};
 
 export function Fleet() {
   const [fleetCloseModalOpen, setFleetCloseModalOpen] = React.useState(false);
   const [emptyWaitlistModalOpen, setEmptyWaitlistModalOpen] = React.useState(false);
   const authContext = React.useContext(AuthContext);
+  const eventContext = useContext(EventContext);
   const toastContext = React.useContext(ToastContext);
-  const [fleets] = useApi("/api/fleet/status");
 
-  React.useEffect(() => {
+  const [fleets, refreshFleet] = useApi("/api/fleet/status");
+  const handleNotification = (e) => refreshFleet();
+
+  useEffect(() => {
+    if (!eventContext) {
+      return;
+    }
+
+    eventContext.addEventListener("waitlist_update", handleNotification);
+    return () => {
+      eventContext.removeEventListener("waitlist_update", handleNotification);
+    };
+  }, [eventContext]);
+
+  useEffect(() => {
     // FCs will need this, request it now
     if (window.Notification && Notification.permission === "default") {
       Notification.requestPermission();
@@ -136,16 +71,19 @@ export function Fleet() {
     <>
       <Buttons>
         <NavButton to="/fc/fleet/register">Configure fleet</NavButton>
-        <NavButton to="/auth/start/fc">ESI re-auth as FC</NavButton>
-        <WikiPassword />
         <InputGroup>
-          <Button variant="success" onClick={() => toaster(toastContext, setWaitlistOpen(1, true))}>
-            Open waitlist
-          </Button>
-          <Button onClick={() => toaster(toastContext, setWaitlistOpen(1, false))}>
-            Close waitlist
-          </Button>
-          <Button onClick={() => setEmptyWaitlistModalOpen(true)}>Empty waitlist</Button>
+          {fleets?.wl_open ? (
+            <Button onClick={() => toaster(toastContext, setWaitlistOpen(1, false))}>
+              Close waitlist
+            </Button>
+          ) : (
+            <>
+              <Button variant="success" onClick={() => toaster(toastContext, setWaitlistOpen(1, true))}>
+                Open waitlist
+              </Button>
+              <Button variant="warning" onClick={() => setEmptyWaitlistModalOpen(true)}>Empty waitlist</Button>
+            </>
+          )}
         </InputGroup>
         <Button variant="danger" onClick={() => setFleetCloseModalOpen(true)}>
           Kick everyone from fleet
@@ -164,10 +102,10 @@ export function Fleet() {
         {!fleets
           ? null
           : fleets.fleets.map((fleet) => (
-              <div key={fleet.id}>
-                STATUS: Fleet {fleet.id}, boss {fleet.boss.name}
-              </div>
-            ))}
+            <div key={fleet.id}>
+              STATUS: Fleet {fleet.id}, boss {fleet.boss.name}
+            </div>
+          ))}
       </Content>
       {authContext.access["fleet-history-view"] && (
         <Buttons>

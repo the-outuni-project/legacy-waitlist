@@ -1,30 +1,54 @@
 import React from "react";
-import { AuthContext, ToastContext } from "../../contexts";
 import { useLocation } from "react-router-dom";
-import { Title, Content } from "../../Components/Page";
-import CharacterBadgeModal from "../FC/badges/CharacterBadgeModal";
-import { PilotHistory } from "./PilotHistory";
+
+import { AuthContext, ToastContext } from "../../contexts";
 import { apiCall, errorToaster, useApi } from "../../api";
-import { ActivitySummary } from "./ActivitySummary";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePageTitle } from "../../Util/title";
+
+import AltCharacters from "./AltCharacters";
+import CommanderModal from "../FC/commanders/CommanderModal";
+import CharacterBadgeModal from "../FC/badges/CharacterBadgeModal";
 import BadgeIcon, { icons } from "../../Components/Badge";
-import {
-  faBan,
-  faClipboard,
-  faExternalLinkAlt,
-  faGraduationCap,
-  faPen,
-  faPlane,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+import WikiPassword from "../FC/WikiPassword";
+
+import { AccountBannedBanner } from "../FC/bans/AccountBanned";
+import { ActivitySummary } from "./ActivitySummary";
 import { Button, InputGroup, NavButton } from "../../Components/Form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBan, faClipboard, faExternalLinkAlt, faGraduationCap, faPen, faPlane, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Title, Content } from "../../Components/Page";
+import { PilotHistory } from "./PilotHistory";
 import { Row, Col } from "react-awesome-styled-grid";
 import _ from "lodash";
-import CommanderModal from "../FC/commanders/CommanderModal";
-import { AccountBannedBanner } from "../FC/bans/AccountBanned";
-import AltCharacters from "./AltCharacters";
-import { usePageTitle } from "../../Util/title";
+
+const ControlButtons = styled.div`
+  margin-top: 35px;
+  margin-bottom: 35px;
+  border: solid 3px ${(props) => props.theme.colors.secondary.accent};
+  border-radius: 5px;
+  
+  div:first-of-type {
+    background: ${(props) => props.theme.colors.secondary.accent};
+    padding: 10px;
+    border-radius: 5px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    font-weight: bold;
+    text-align: center;
+
+    & + div {
+      padding: 10px;
+      padding-bottom: 0px;
+    }
+  }
+  
+  button, a[href="/auth/start/fc"] {
+    display: block;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+`;
 
 const FilterButtons = styled.span`
   font-size: 0.75em;
@@ -228,6 +252,16 @@ function PilotDisplay({ authContext }) {
           />
         </Col>
         <Col xs={4} md={2}>
+          {authContext.access['waitlist-tag:TRAINEE'] && (
+            <ControlButtons>
+              <div>FC Account Actions</div>
+              <div>
+                <NavButton to="/auth/start/fc" style={{ textAlign: 'center' }}>Add ESI Scopes</NavButton>
+                <WikiPassword />
+              </div>
+            </ControlButtons>
+          )}
+
           <Title>Time in fleet</Title>
           <ActivitySummary summary={fleetHistory && fleetHistory.summary} />
 
