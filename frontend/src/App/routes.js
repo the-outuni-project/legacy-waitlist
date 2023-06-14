@@ -23,6 +23,7 @@ import BansPage from "../Pages/FC/Bans";
 import CommandersPage from "../Pages/FC/Commanders";
 
 import { E401, E403, E404 } from "../Pages/Errors";
+import ReportsPage from "../Pages/FC/Reports";
 
 const AuthenticatedRoute = ({ component, loginRequired = false, access = null }) => {
   const authContext = useContext(AuthContext);
@@ -103,6 +104,9 @@ export function Routes() {
       </Route>
       <Route exact path="/fc/stats">
         <AuthenticatedRoute component={<Statistics />} access="stats-view" />
+      </Route>
+      <Route exact path="/fc/reports">
+        <AuthenticatedRoute component={<ReportsPage />} access="reports-view" />
       </Route>
 
       {/* Auth Routes: Login, Callback, Logout */}

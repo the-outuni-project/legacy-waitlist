@@ -1,83 +1,16 @@
 import React, { useEffect } from "react";
+import { apiCall, useApi } from "../../api";
 import { Button, Input, Select } from "../../Components/Form";
 import { CharacterName } from "../../Components/EntityLinks";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
-import Table from "../../Components/DataTable";
-import { apiCall, useApi } from "../../api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDatetime } from "../../Util/time";
-import BadgeIcon from "../../Components/Badge";
-import { AddBadge, RevokeButton } from "./badges/BadgesPageControls";
+import { Header } from "../../Components/Page";
 import { usePageTitle } from "../../Util/title";
-
-const Header = styled.div`
-  padding-bottom: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: space-between;
-
-  h1 {
-    font-size: 32px;
-  }
-`;
-
-const A = styled.a`
-  color: ${(props) => props.theme.colors.highlight.text};
-  text-decoration: none;
-
-  &:hover {
-    cursor: pointer;
-    color: ${(props) => props.theme.colors.highlight.active};
-    transition: ease-in-out 0.15s;
-  }
-`;
-
-const TableControls = styled.div`
-  align-content: space-between;
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-
-  > button {
-    @media (max-width: 800px) {
-      width: 100%;
-    }
-  }
-
-  #filters {
-    flex-grow: 1;
-
-    span:first-of-type {
-      font-style: italic;
-      margin-right: 10px;
-
-      @media (max-width: 800px) {
-        display: block;
-        margin-bottom: 5px;
-      }
-    }
-
-    @media (max-width: 800px) {
-      input,
-      select {
-        width: calc(calc(100vw - 158px) / 2);
-      }
-    }
-
-    @media (max-width: 500px) {
-      input,
-      select {
-        width: 100%;
-      }
-      button {
-        display: block;
-        width: 100%;
-      }
-    }
-  }
-`;
+import { AddBadge, RevokeButton } from "./badges/BadgesPageControls";
+import A from "../../Components/A";
+import BadgeIcon from "../../Components/Badge";
+import Table, { TableControls } from "../../Components/DataTable";
 
 const special_sort = (charA, charB) => {
   const a = charA.name.toLowerCase();
@@ -211,6 +144,7 @@ const BadgesPage = () => {
     const handleClear = () => setFilters({ type: null, name: "" });
 
     return (
+
       <TableControls>
         <FilterComponents
           badgeOptions={badges}
