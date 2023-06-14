@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { usePageTitle } from "../../Util/title";
 import { useApi } from "../../api";
 import { CharacterName } from "../../Components/EntityLinks";
-import { formatDatetime } from "../../Util/time";
+import { formatDate } from "../../Util/time";
 import Table, { SortDate, TableControls } from "../../Components/DataTable";
 import { Button, Input, Select } from "../../Components/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,8 +22,8 @@ const Header = styled.div`
 `;
 
 const special_sort = (charA, charB) => {
-  const a = charA.name.toLowerCase();
-  const b = charB.name.toLowerCase();
+  const a = charA?.name.toLowerCase();
+  const b = charB?.name.toLowerCase();
   if (a > b) return 1;
   else if (b > a) return -1;
   else return 0;
@@ -32,7 +32,7 @@ const special_sort = (charA, charB) => {
 const FilterComponents = ({ filters, onChange, onClear}) => {
   const handleSelect = (evt) => {
     let f = filters;
-    f.type = evt.target.value === "-1" ? null : evt.target.value;
+    f.role = evt.target.value === "-1" ? null : evt.target.value;
     onChange(f);
   };
   
@@ -44,9 +44,9 @@ const FilterComponents = ({ filters, onChange, onClear}) => {
 
   return (
     <div id="filters">
-      <span>Report Type: </span>
+      <span>Role: </span>
       <Select
-        value={filters?.type ?? ""}
+        value={filters?.role ?? ""}
         onChange={handleSelect}
         style={{
           marginRight: "10px",
@@ -55,10 +55,10 @@ const FilterComponents = ({ filters, onChange, onClear}) => {
         }}
       >
         <option value={-1}>Any</option>
-        {["Fleet Boss", "Nestor/Oneiros"].map((type, key) => {
+        {["Fleet Boss", "Logi"].map((role, key) => {
           return (
-            <option value={type} key={key} readOnly>
-              {type}
+            <option value={role} key={key} readOnly>
+              {role}
             </option>
           )
         })}
@@ -90,20 +90,30 @@ const ReportsPage = () => {
       sortable: true,
       sortFunction: (rowA, rowB) => special_sort(rowA, rowB),
       grow: 2,
-      selector: (row) => <CharacterName id={row.id} name={row.name} />
+      selector: (row) => <CharacterName id={row.character_id} name={row.name} />
     },
-    { name: "Type", selector: (row) => row['type'] },
+    { name: "Role", selector: (row) => row.role },
     {
       name: "Last Seen",
       sortable: true,
       sortFunction: (rowA, rowB) => SortDate(rowA.last_seen, rowB.last_seen),
-      selector: (row) => row?.last_seen ? formatDatetime(new Date(row.last_seen * 1000)) : "Never"
+      selector: (row) => {
+        if(!row?.last_seen) {
+          return "-";
+        }
+        return formatDate(new Date(row.last_seen * 1000));
+      }
     },
     {
       name: "Hours (last 28 Days)",
       sortable: true,
-      // sortFunction: (rowA, rowB) => special_sort(rowA.hours_last_month, rowB.hours_last_month),
-      selector: (row) => row?.hours_last_month ? row.hours_last_month / (60 * 60) : "-"
+      sortFunction: (rowA, rowB) => special_sort(rowA.hours_last_month, rowB.hours_last_month),
+      selector: (row) => {
+        if (!row?.seconds_last_month) {
+          return "-";
+        }
+        return row.seconds_last_month / 3600
+      }
     }
   ]
 
@@ -129,26 +139,10 @@ const ReportsPage = () => {
     )
   })
 
-  let data = [];
-
-  (report?.fc ?? []).forEach((el) => {
-    data.push({
-      ...el,
-      type: "Fleet Boss"
-    })
-  });
-  
-  (report?.logi ?? []).forEach((el) => {
-    data.push({
-      ...el,
-      type: "Nestor/Oneiros"
-    })
-  });
-
-  const filteredData = data.filter(
+  const filteredData = (report ?? []).filter(
     (row) => 
       row &&
-      (!filters.type || row.type == filters.type) &&
+      (!filters.role || row.role === filters.role) &&
       row.name.toLowerCase().includes(filters?.name.toLowerCase())
   )
 
