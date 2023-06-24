@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "env": {
+      "DATABASE_ENGINE": "mysql",
+      "DATABASE_URL": "mysql://dbuser:dbpassword@localhost/dbname?ssl-mode=disabled"
+    },
+    "cwd": "${workspaceFolder}"
+  },
+  "tasks": [
+    {
+      "label": "Build API",
+      "type": "shell",
+      "command": "cargo",
+      "args": [
+        "build",
+        "--release",
+        "--no-default-features",
+        "--features=mysql"
+      ],
+    }
+  ]
+}
