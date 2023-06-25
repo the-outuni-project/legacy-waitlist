@@ -71,6 +71,7 @@ const WikiPassword = () => {
                 type="password"
                 value={value}
                 minLength="8"
+                autoComplete="none"
                 onChange={(e) => setValue(e.target.value)}
                 required
               />

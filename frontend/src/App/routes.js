@@ -11,6 +11,7 @@ import { FleetCompHistory } from "../Pages/FC/FleetCompHistory";
 import { ISKh, ISKhCalc } from "../Pages/ISKh";
 import { NoteAdd } from "../Pages/FC/NoteAdd";
 import { Pilot } from "../Pages/Pilot";
+import PilotV2Page from "../Pages/PilotV2";
 import Plans from "../Pages/Skills/Plans";
 import { Search } from "../Pages/FC/Search";
 import { Skills } from "../Pages/Skills/Skills";
@@ -62,6 +63,9 @@ export function Routes() {
       </Route>
       <Route exact path="/pilot">
         <Pilot />
+      </Route>
+      <Route exact path="/pilotv2">
+        <AuthenticatedRoute component={<PilotV2Page /> } loginRequired />
       </Route>
       <Route exact path="/skills">
         <Skills />

@@ -19,6 +19,25 @@ export function formatDuration(durationSeconds) {
   return groups[0];
 }
 
+export function duration(durationSeconds) {
+  var groups = {
+    hours: null,
+    minutes: null,
+    seconds: null
+  };
+
+  var hours = Math.floor(durationSeconds / 3600);
+  if (hours > 0) groups.hours = hours;
+
+  var minutes = Math.floor((durationSeconds % 3600) / 60);
+  if (minutes > 0) groups.minutes = minutes;
+
+  var seconds = durationSeconds % 60;
+  if (seconds > 0) groups.seconds = seconds;
+
+  return groups;
+}
+
 export function formatDatetime(dateObj) {
   return dateObj.toLocaleString("en-GB", { timeZone: "UTC" });
 }

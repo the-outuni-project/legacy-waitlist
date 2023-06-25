@@ -49,6 +49,7 @@ export function Search() {
                     <InputGroup>
                       <NavButton to={"/skills?character_id=" + character.id}>Skills</NavButton>
                       <NavButton to={"/pilot?character_id=" + character.id}>Information</NavButton>
+                      <NavButton to={"/pilotv2?character_id=" + character.id}>[Beta]</NavButton>
                     </InputGroup>
                     <InputGroup>
                       {authContext.access["access-manage"] && (
