@@ -102,7 +102,7 @@ const JoinWaitlist = ({ hasFits }) => {
   const reset = () => {
     setAlt(false);
     setBadFits(null);
-    setFits(null);
+    setFits('');
     setMarauder(false);
   }
 

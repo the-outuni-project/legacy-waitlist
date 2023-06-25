@@ -165,7 +165,7 @@ const Fitcheck = () => {
           </Button>
           <InfoNote>There is something wrong with one (or more) of your fits.</InfoNote>
           <p><FontAwesomeIcon fixedWidth icon={faCheck} /> You have the minimum skills </p>
-          <p><FontAwesomeIcon fixedWidth icon={faTimes} /> Your fit is incorrect, please fix the red and yellow items below</p>
+          <p style={{ color: 'red' }}><FontAwesomeIcon fixedWidth icon={faTimes} /> Your fit is incorrect, please fix the red and yellow items below</p>
         </div>
 
         {badFit?.map((fit, key) => {

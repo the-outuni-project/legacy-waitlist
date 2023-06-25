@@ -25,36 +25,18 @@ const Label = styled(BaseLabel)`
 `;
 
 const exampleFit = String.raw`
-[Vindicator, Vindicator]
-Shadow Serpentis Damage Control
-Centum A-Type Multispectrum Energized Membrane
-Centum A-Type Multispectrum Energized Membrane
-Federation Navy Magnetic Field Stabilizer
-Federation Navy Magnetic Field Stabilizer
-Federation Navy Magnetic Field Stabilizer
-Federation Navy Magnetic Field Stabilizer
+[Kronos, TOP Kronos Elite]
+Neutron Blaster Cannon II
+Neutron Blaster Cannon II
+Neutron Blaster Cannon II
+Neutron Blaster Cannon II
+'Peace' Large Remote Armor Repairer
+Imperial Navy Large Remote Capacitor Transmitter
+Bastion Module I
 
-Core X-Type 500MN Microwarpdrive
-Federation Navy Stasis Webifier
-Federation Navy Stasis Webifier
-Federation Navy Stasis Webifier
 Large Micro Jump Drive
-
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-Neutron Blaster Cannon II
-
-Large Hybrid Locus Coordinator II
-Large Explosive Armor Reinforcer II
-Large Hyperspatial Velocity Optimizer II
-
-'Augmented' Ogre x5
-
+Shadow Serpentis Sensor Booster
+Shadow Serpentis Tracking Computer
 ...
 `.trim();
 
