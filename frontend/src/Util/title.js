@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 
-export function usePageTitle(suffix) {
+export function usePageTitle(prefix) {
   useEffect(() => {
     let title = document.title;
-    replaceTitle(suffix);
+    replaceTitle(prefix);
     return () => document.title = title;
   });
 }
 
-export function replaceTitle(suffix) {
-  document.title = `TOP: ${suffix}`;
+export function replaceTitle(prefix) {
+  document.title = `${prefix} | The Outuni Project`;
 }
 
 export function parseMarkdownTitle(data) {

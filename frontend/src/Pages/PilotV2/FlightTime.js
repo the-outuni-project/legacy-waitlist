@@ -5,6 +5,7 @@ import _ from "lodash";
 import { duration, formatDuration } from "../../Util/time";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHourglassEnd } from "@fortawesome/free-solid-svg-icons";
+import { InfoNote } from "../../Components/NoteBox";
 
 const DOM = styled.div`
   margin-left: 20px;
@@ -47,11 +48,7 @@ const ShipDOM = styled.div`
 `;
 
 const NotSeen = () => {
-  return (
-    <DOM>
-      <h4>Not seen in fleet before!</h4>
-    </DOM>
-  );
+  return <InfoNote>Not seen in fleet before!</InfoNote>
 }
 
 const PilotFlightTime = ({ characterId }) => {
