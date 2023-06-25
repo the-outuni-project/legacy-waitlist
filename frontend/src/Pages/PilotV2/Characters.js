@@ -43,7 +43,7 @@ const columns = [
   },
   {
     name: "Character Name",
-    selector: (row) => <CharacterName avatar={false} {...row} />,
+    selector: (row) => <CharacterName avatar={false} {...row} showInfo />,
     sortable: true,
     sortFunction: (a, b) => SortAlphabetical(a.name, b.name)
   },

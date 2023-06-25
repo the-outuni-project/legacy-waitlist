@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { apiCall, errorToaster } from "../api";
 import { AuthContext, ToastContext } from "../contexts";
+import { useContext } from "react";
+import { Button } from "./Form";
 
 const Avatar = styled.img`
   border-radius: 25%;
@@ -29,10 +31,21 @@ const A = styled.a`
     margin-left: 5px;
     font-size: small;
   }
+
+  & + button {
+    padding: 5px;
+    font-size: 10px;
+    margin-left: 5px;
+  }
 `;
 
+async function OpenWindow(target_id, character_id) {
+  return await apiCall(`/api/open_window`, {
+    json: { target_id, character_id },
+  });
+}
+
 const ShowInfo = (id, whoami, toastContext) => {
-  console.log(whoami);
   errorToaster(
     toastContext,
     apiCall(`/api/open_window`, {
@@ -45,7 +58,9 @@ const ShowInfo = (id, whoami, toastContext) => {
   );
 };
 
-const CharacterName = ({ avatar, avatarSize, id, name, noLink }) => {
+const CharacterName = ({ avatar, avatarSize, id, name, noLink, showInfo = false }) => {
+  const authContext = useContext(AuthContext);
+
   return (
     <>
       {avatar && (
@@ -55,6 +70,16 @@ const CharacterName = ({ avatar, avatarSize, id, name, noLink }) => {
         />
       )}
       {!noLink ? <A href={`/fc/search?query=${name}`}>{name}</A> : name}
+      { showInfo && authContext.access['waitlist-tag:TRAINEE'] && (
+        <Button
+          title="Open Show Info Window"
+          onClick={(evt) =>
+            errorToaster(ToastContext, OpenWindow(id, authContext.current.id))
+          }
+        >
+        <FontAwesomeIcon fixedWidth icon={faExternalLinkAlt} />
+      </Button>
+      )}
     </>
   );
 };
