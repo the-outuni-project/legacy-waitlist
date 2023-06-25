@@ -256,7 +256,10 @@ function PilotDisplay({ authContext }) {
             <ControlButtons>
               <div>FC Account Actions</div>
               <div>
-                <NavButton to="/auth/start/fc" style={{ textAlign: 'center' }}>Add ESI Scopes</NavButton>
+                <NavButton to="/auth/start/fc" style={{ textAlign: 'center' }}>
+                  <span style={{ marginRight: '10px' }}>Add ESI Scopes</span>
+                  <FontAwesomeIcon fixedWidth icon={faExternalLinkAlt} />
+                </NavButton>
                 <WikiPassword />
               </div>
             </ControlButtons>

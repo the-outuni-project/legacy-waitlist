@@ -93,9 +93,9 @@ from_meta:
   # If modulegroup is found in the fit & it's equal or higher to the meta level of the standard fit it is allowed
   # You have to manually add it's abyssal variant as shown below
   # Optional alternative module can be added (does not add all meta's of that alternative)
-  - base: Sensor Booster II
   - base: Tracking Computer II
     alternative: Large Micro Jump Drive
+    alternative: Shadow Serpentis Sensor Booster
   - base: Supratidal Entropic Disintegrator II
   - base: Imperial Navy Drone Damage Amplifier
   - base: Remote Tracking Computer II
