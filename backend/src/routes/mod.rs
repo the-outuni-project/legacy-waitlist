@@ -21,6 +21,8 @@ mod sse;
 mod statistics;
 mod waitlist;
 mod window;
+mod pilotv2;
+
 
 pub fn routes() -> Vec<rocket::Route> {
     [
@@ -46,7 +48,8 @@ pub fn routes() -> Vec<rocket::Route> {
         skillplans::routes(),
         fitcheck::routes(),
         fittings::routes(),
-        reports::routes()
+        reports::routes(),
+        pilotv2::routes()
     ]
     .concat()
 }

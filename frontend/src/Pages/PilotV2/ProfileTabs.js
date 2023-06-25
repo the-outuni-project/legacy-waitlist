@@ -55,7 +55,7 @@ const ProfileTabs = () => {
 
   return (
     <Tabs>
-      <Button id='characters' disabled>Characters</Button>
+      <Button id='characters'>Characters</Button>
       <Button id='fits' disabled>Fits</Button>
       <Button id='settings' disabled>Settings</Button>    
       { authContext.access['waitlist-tag:HQ-FC'] && <Button id='comments' disabled>Comments</Button> }
