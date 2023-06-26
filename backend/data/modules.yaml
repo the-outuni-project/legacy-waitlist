@@ -87,6 +87,9 @@ alternatives:
     - - Imperial Navy 1600mm Steel Plates
     - - Large Abyssal Armor Plates
 
+  - - - Sentient Sensor Booster
+      - Shadow Serpentis Sensor Booster
+
 from_meta:
   # Automagically determine alternatives
   # Base is the lowest allowed meta level alternative module
@@ -95,7 +98,6 @@ from_meta:
   # Optional alternative module can be added (does not add all meta's of that alternative)
   - base: Tracking Computer II
     alternative: Large Micro Jump Drive
-    alternative: Shadow Serpentis Sensor Booster
   - base: Supratidal Entropic Disintegrator II
   - base: Imperial Navy Drone Damage Amplifier
   - base: Remote Tracking Computer II
