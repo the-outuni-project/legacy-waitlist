@@ -557,6 +557,8 @@ requirements:
       min: 5
     Advanced Weapon Upgrades:
       min: 5
+    Weapon Upgrades:
+      elite: 4
     Energy Grid Upgrades:
       min: 5
 
