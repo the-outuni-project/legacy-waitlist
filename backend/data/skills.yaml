@@ -521,6 +521,8 @@ requirements:
     Large Blaster Specialization:
       elite: 4
       priority: 10
+    Long Range Targeting:
+      elite: 1      
     Motion Prediction:
       min: 4
     Marauders:
