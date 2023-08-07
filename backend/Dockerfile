@@ -11,6 +11,7 @@ ARG DATABASE_NAME=waitlist
 
 RUN mysql --protocol=tcp -h"${DATABASE_HOST}" -u"${DATABASE_USERNAME}" -p"${DATABASE_PASSWORD}" "${DATABASE_NAME}" < sql/mysql.sql
 RUN mysql --protocol=tcp -h"${DATABASE_HOST}" -u"${DATABASE_USERNAME}" -p"${DATABASE_PASSWORD}" "${DATABASE_NAME}" -e 'SHOW TABLES;'
+RUN touch /yes-i-want-this-step
 
 
 # Static data
@@ -44,6 +45,7 @@ RUN cargo chef cook --profile ${PROFILE} --no-default-features --features=mysql 
 
 # Build the image
 FROM base AS builder
+COPY --from=db-setup /yes-i-want-this-step /yes-i-want-this-step
 COPY --from=cacher /app/backend/target target
 COPY --from=cacher $CARGO_HOME $CARGO_HOME
 COPY --from=sde-export /data/sqlite-shrunk.sqlite sqlite-shrunk.sqlite
