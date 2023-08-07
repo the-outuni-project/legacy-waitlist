@@ -3,7 +3,6 @@
 
 notes:
   # Tier message
-
   - name: Starter
     description: >
       These **DPS** ships are the only ones you can fly with all **Armor Compensation** skills at level 2, all others require at least 4. **Replace a Target Painter or Tracking Computer** with the **Micro Jump drive** when able.
@@ -15,13 +14,22 @@ notes:
       There are a limited number of spots in fleet for logistics ships. Boosters can only be flown by alts and are not guaranteed a payout.
   - name: Antigank
     description: >
-      These fits are to be used in situations with active gankers. "The Outuni Project" MOTD will notify you if these fits are to be used.
+      Our anti-gank doctrine used when gankers are in focus. Cruisers are not used with this doctrine.
 
   # Ship specific notes
   - name: Basic Oneiros
     description: >
       Skill exception: Logistics Cruiser 4
-  
+
+  - name: TOP ECM Blackbird Antigank
+    description: >
+      Used at FC discretion, alts can use this ship to provide protection against gankers.
+
+  ## Marauders
+  - name: TOP Paladin Basic
+    description: >
+      Please use 'Mega Pulse Laser I' if you cannot use TII.
+
   ## Nestors
   - name: Elite Ascendancy Nestor
     description: >
@@ -29,15 +37,24 @@ notes:
   - name: Elite Hybrid Nestor
     description: >
       Implant Required: EM-806. You are required to be approved logi (Logistics Specialist) to fly this ship.
-   
-   ## DPS Ships
-  - name: TOP Paladin Basic
+  - name: TOP Nestor Antigank
     description: >
-      Please use 'Mega Pulse Laser I' if you cannot use TII.
+      The EM-806 implant is required, the RA-706 and HS-906 are recommended all other implants are optional. Consider checking the regional market for event drugs which improve your armour HP or resists.
+
+
+
+  ## Vindicators
   - name: TOP Vindicator Elite Hybrid
     description: >
       You need to be a Web Specialist to use this ship after 130h.
   - name: TOP Vindicator Elite
     description: >
       You need to be a Web Specialist to use this ship after 130h.
-  
+
+  - name: TOP Vindicator T1 Antigank
+    description: >
+      Vindicators may not be allowed during anti-gank fleets.
+
+  - name: TOP Vindicator T2 Antigank
+    description: >
+      Vindicators may not be allowed during anti-gank fleets.

@@ -53,11 +53,11 @@ function FitsDisplay({ tier, setTier = null }) {
             Logistics
             </Button>
           </InputGroup>
-          {/* <InputGroup>
+          <InputGroup>
             <Button active={tier === "Antigank"} onClick={(evt) => setTier("Antigank")}>
               Antigank
             </Button>
-          </InputGroup> */}
+          </InputGroup>
           <InputGroup>
             <AButton
               href={`https://wiki.${window.location.host}/guides/travelling-between-focuses#incursion-ship-travel-fits`}
@@ -80,8 +80,7 @@ function FitsDisplay({ tier, setTier = null }) {
       ) : tier === "Logistics" ? (
         <Fitout data={fitData} tier="Logistics" />
       ) : tier === "Antigank" ? (
-        <></>
-        // <Fitout data={fitData} tier="Antigank" />
+        <Fitout data={fitData} tier="Antigank" />
       ) : null}
     </>
   );
