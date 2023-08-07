@@ -71,7 +71,7 @@ plans:
         from: min
       - type: skill
         from: Cybernetics
-        level: 5        
+        level: 5
       # - type: fit
       #   hull: Nestor
       #   fit: Elite Hybrid Nestor
@@ -87,7 +87,7 @@ plans:
         from: min
       - type: skill
         from: Cybernetics
-        level: 5    
+        level: 5
       - type: fit
         hull: Eos
         fit: TOP Support Eos
@@ -103,14 +103,14 @@ plans:
         from: min
       - type: skill
         from: Cybernetics
-        level: 5    
+        level: 5
       - type: fit
         hull: Damnation
         fit: TOP Support Damnation
       - type: skills
         from: Damnation
-        tier: min        
-  
+        tier: min
+
   - name: TII Blasters
     description: Train Large Blasters & Motion Prediction to V.
     tier: Weapon
@@ -141,7 +141,7 @@ plans:
         fit: TOP Vindicator Basic
       - type: fit
         hull: Vindicator
-        fit: TOP Vindicator Advanced        
+        fit: TOP Vindicator Advanced
       - type: skill
         from: Cybernetics
         level: 5
@@ -153,7 +153,7 @@ plans:
         fit: TOP Web Specialist Vindicator
 
   - name: Elite Kronos
-    description: 
+    description:
     tier: Elite
     plan:
       - type: tank
@@ -166,7 +166,7 @@ plans:
         fit: TOP Kronos Basic
       - type: fit
         hull: Kronos
-        fit: TOP Kronos Advanced        
+        fit: TOP Kronos Advanced
       - type: skill
         from: Cybernetics
         level: 5
@@ -178,7 +178,7 @@ plans:
         fit: TOP Kronos Elite
 
   - name: Elite Paladin
-    description: 
+    description:
     tier: Elite
     plan:
       - type: tank
@@ -191,7 +191,7 @@ plans:
         fit: TOP Paladin Basic
       - type: fit
         hull: Paladin
-        fit: TOP Paladin Advanced        
+        fit: TOP Paladin Advanced
       - type: skill
         from: Cybernetics
         level: 5
@@ -213,7 +213,7 @@ plans:
         level: 5
       - type: skills
         from: Nestor
-        tier: min     
+        tier: min
       - type: skills
         from: Nestor
         tier: elite
