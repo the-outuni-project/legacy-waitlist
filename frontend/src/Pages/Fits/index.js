@@ -4,6 +4,7 @@ import { Fitout, ImplantOut } from "./FittingSortDisplay";
 import { PageTitle } from "../../Components/Page";
 import { useLocation, useHistory } from "react-router-dom";
 import { usePageTitle } from "../../Util/title";
+import { InfoNote } from "../../Components/NoteBox";
 
 export function Fits() {
   const queryParams = new URLSearchParams(useLocation().search);
@@ -80,7 +81,11 @@ function FitsDisplay({ tier, setTier = null }) {
       ) : tier === "Logistics" ? (
         <Fitout data={fitData} tier="Logistics" />
       ) : tier === "Antigank" ? (
-        <Fitout data={fitData} tier="Antigank" />
+        <>
+          <p style={{ margin: '15px 0px 20px 3px', marginBottom: '20px', fontWeight: 'bold' }}>Our anti-gank doctrine used when gankers are in focus.</p>
+          <InfoNote>Cruisers are not used with this doctrine.</InfoNote>
+          <Fitout data={fitData} tier="Antigank" />
+        </>
       ) : null}
     </>
   );

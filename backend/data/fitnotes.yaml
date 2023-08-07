@@ -12,9 +12,6 @@ notes:
   - name: Logistics
     description: >
       There are a limited number of spots in fleet for logistics ships. Boosters can only be flown by alts and are not guaranteed a payout.
-  - name: Antigank
-    description: >
-      Our anti-gank doctrine used when gankers are in focus. Cruisers are not used with this doctrine.
 
   # Ship specific notes
   - name: Basic Oneiros
@@ -40,8 +37,6 @@ notes:
   - name: TOP Nestor Antigank
     description: >
       The EM-806 implant is required, the RA-706 and HS-906 are recommended all other implants are optional. Consider checking the regional market for event drugs which improve your armour HP or resists.
-
-
 
   ## Vindicators
   - name: TOP Vindicator Elite Hybrid
