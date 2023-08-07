@@ -10,6 +10,7 @@ ARG DATABASE_HOST=localhost
 ARG DATABASE_NAME=waitlist
 
 RUN mysql --protocol=tcp -h"${DATABASE_HOST}" -u"${DATABASE_USERNAME}" -p"${DATABASE_PASSWORD}" "${DATABASE_NAME}" < sql/mysql.sql
+RUN mysql --protocol=tcp -h"${DATABASE_HOST}" -u"${DATABASE_USERNAME}" -p"${DATABASE_PASSWORD}" "${DATABASE_NAME}" -e 'SHOW TABLES;'
 
 
 # Static data
