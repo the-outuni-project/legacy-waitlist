@@ -1,6 +1,6 @@
 import { useApi } from "../api";
 import { Badge } from "./Badge";
-import { InputGroup, Button, Buttons } from "./Form";
+import { InputGroup, Button, Buttons, AButton } from "./Form";
 import { Col, Row } from "react-awesome-styled-grid";
 import { InfoNote } from "./NoteBox";
 
@@ -201,6 +201,9 @@ export function SkillDisplay({ characterId, ship, setShip = null, filterMin = fa
               Damnation
             </Button>
           </InputGroup>
+          <AButton href="/skills/plans" style={{ float: "right" }}>
+            Skill Plans
+          </AButton>
         </Buttons>
       )}
 
