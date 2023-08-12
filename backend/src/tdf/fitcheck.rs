@@ -150,7 +150,7 @@ impl<'a> FitChecker<'a> {
         if let Some((doctrine_fit, mut diff)) = fitmatch::find_fit(self.fit) {
             self.doctrine_fit = Some(doctrine_fit);
 
-            if doctrine_fit.name.contains("ANTIGANK") {
+            if doctrine_fit.name.contains("Antigank") {
                 // For ANTIGANK, we consider all upgraded mods actually downgrades, since price is an issue
                 diff.module_downgraded.append(&mut diff.module_upgraded);
                 self.tags.insert("ANTIGANK");
@@ -260,7 +260,7 @@ impl<'a> FitChecker<'a> {
             }
         }
         // All other pilots are subject to multiple checks; however, we only want to check DPS ships.
-        else if self.fit.hull == type_id!("Kronos") || self.fit.hull == type_id!("Nightmare") || self.fit.hull == type_id!("Paladin") || self.fit.hull == type_id!("Vindicator") {    
+        else if self.fit.hull == type_id!("Kronos") || self.fit.hull == type_id!("Nightmare") || self.fit.hull == type_id!("Paladin") || self.fit.hull == type_id!("Vindicator") {
             if self.pilot.time_in_fleet >= (220 * 3600) && !pilot_is_elite {
                 self.tags.insert("ELITE-HOURS-REACHED");
             }
@@ -268,7 +268,7 @@ impl<'a> FitChecker<'a> {
                 // Vindicator requires the Web Badge by 130H
                 if self.fit.hull == type_id!("Vindicator") {
                     if !self.badges.contains(&String::from("WEB")) {
-                        self.tags.insert("UPGRADE-HOURS-REACHED");    
+                        self.tags.insert("UPGRADE-HOURS-REACHED");
                     }
                 // and Marauders require T2 guns
                 } else if !((self.fit.hull == type_id!("Kronos") && has_t2_blaster) || (self.fit.hull == type_id!("Paladin") && has_t2_lasers)) {
@@ -282,7 +282,7 @@ impl<'a> FitChecker<'a> {
                 }
             }
         }
-        
+
         if self.tags.contains("ELITE-HOURS-REACHED") || self.tags.contains("UPGRADE-HOURS-REACHED") {
             self.approved = false;
         }
@@ -369,7 +369,7 @@ impl<'a> FitChecker<'a> {
         } else if self.pilot.access_keys.contains("waitlist-tag:TRAINEE") {
             self.tags.insert("TRAINEE");
         }
-       
+
         // To save space on the XUP card,
         // don't show these badges for FCs
         if self.fit.hull == type_id!("Nestor") {
