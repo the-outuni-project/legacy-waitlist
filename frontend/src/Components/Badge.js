@@ -10,6 +10,7 @@ export const Badge = styled.span`
   border-radius: 4px;
   height: 2em;
   font-size: 0.75em;
+  font-weight: bolder;
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
@@ -85,12 +86,12 @@ export const icons = {
   HYBRID: { type: "image", href: require('./BadgeImages/hardwire.png'), name: "Amulet [slot 1-5] + WS-618" },
   AMULET: { type: "image", href: require('./BadgeImages/hardwire.png'), name: "Amulets [slot 1-6]" },
 
-  
+
   // Specalist Badges
   LOGI: { type: "shield", color: "green", letter: "L", name: "Logi Specialist" },
   BASTION: { type: "shield", color: "blue", letter: "B", name: "Bastion Specialist" },
   WEB: { type: "shield", color: "cyan", letter: "W", name: "Web Specialist" },
-  
+
   // Other
   "ELITE-GOLD": { type: "shield", color: "yellow", letter: "E", name: "Elite Gold" },
   ELITE: { type: "shield", color: "neutral", letter: "E", name: "Elite" },
