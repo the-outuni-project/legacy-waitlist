@@ -175,6 +175,32 @@ theme.Ninjaholic = _.merge({}, theme.Dark, {
   },
 });
 
+theme["Deuteranopia"] = _.merge({}, theme.Dark, {
+  colors: {
+    //#42B1CE
+    danger: {
+      color: "#e20134",
+      text: "#f8f8f8",
+      disabled: "#cf4161",
+    },
+    success: {
+      color: "#009F81",
+      text: "#12120f",
+      disabled: "#e97051",
+    },
+    warning: {
+      color: "#FF633A",
+      text: "#010101",
+      disabled: "#67b3ee",
+    },
+    secondary: {
+      color: "#008DF9",
+      text: "#12120f",
+      disabled: "#53978a",
+    },
+  }
+});
+
 Object.keys(theme).forEach((key) => {
   theme[key].name = key;
 });
