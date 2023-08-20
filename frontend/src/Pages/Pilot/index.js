@@ -27,7 +27,7 @@ const ControlButtons = styled.div`
   margin-bottom: 35px;
   border: solid 3px ${(props) => props.theme.colors.secondary.accent};
   border-radius: 5px;
-  
+
   div:first-of-type {
     background: ${(props) => props.theme.colors.secondary.accent};
     padding: 10px;
@@ -42,7 +42,7 @@ const ControlButtons = styled.div`
       padding-bottom: 0px;
     }
   }
-  
+
   button, a[href="/auth/start/fc"] {
     display: block;
     margin-bottom: 12px;
@@ -161,6 +161,7 @@ function PilotDisplay({ authContext }) {
   );
 
   usePageTitle("Pilot");
+
   return (
     <>
       {authContext.access["bans-manage"] && <AccountBannedBanner bans={banHistory} />}
@@ -178,7 +179,7 @@ function PilotDisplay({ authContext }) {
         </div>
       </PageMast>
 
-      {authContext.account_id !== characterId && (
+      {authContext.current.id !== characterId && (
         <InputGroup style={{ marginBottom: "20px" }}>
           {authContext.access["notes-add"] && (
             <NavButton to={`/fc/notes/add?character_id=${characterId}`}>Write note</NavButton>
@@ -252,7 +253,7 @@ function PilotDisplay({ authContext }) {
           />
         </Col>
         <Col xs={4} md={2}>
-          {authContext?.access['waitlist-tag:TRAINEE'] && authContext.account_id === characterId && (
+          {authContext?.access['waitlist-tag:TRAINEE'] && authContext.current.id === characterId && (
             <ControlButtons>
               <div>FC Account Actions</div>
               <div>
