@@ -17,7 +17,7 @@ const theme = {
       filter: "invert(1)",
     },
     colors: {
-      background: "#1f1f1f",
+      background: "#1A1B1E",
       text: "#cccccc",
       active: "#eeeeee",
       lumFactor: 0.6,
@@ -45,7 +45,7 @@ const theme = {
         disabled: "#574500",
       },
       danger: {
-        color: "#661425",
+        color: "#e20134",
         text: "white",
         accent: "#6f1628",
         disabled: "#330a12",

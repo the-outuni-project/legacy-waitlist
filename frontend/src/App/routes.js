@@ -24,6 +24,7 @@ import CommandersPage from "../Pages/FC/Commanders";
 
 import { E401, E403, E404 } from "../Pages/Errors";
 import ReportsPage from "../Pages/FC/Reports";
+import Skills2 from "../Pages/Skills2";
 
 const AuthenticatedRoute = ({ component, loginRequired = false, access = null }) => {
   const authContext = useContext(AuthContext);
@@ -65,6 +66,9 @@ export function Routes() {
       </Route>
       <Route exact path="/skills">
         <Skills />
+      </Route>
+      <Route exact path="/skills-2">
+        <Skills2 />
       </Route>
       <Route exact path="/skills/plans">
         <AuthenticatedRoute component={<Plans />} loginRequired />
