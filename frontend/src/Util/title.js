@@ -8,8 +8,8 @@ export function usePageTitle(suffix) {
   });
 }
 
-export function replaceTitle(suffix) {
-  document.title = `TOP: ${suffix}`;
+export function replaceTitle(title) {
+  document.title = `${title} | The Outuni Project`;
 }
 
 export function parseMarkdownTitle(data) {
