@@ -81,14 +81,22 @@ alternatives:
     - - Ogre II
     - - "'Augmented' Ogre"
       - Heavy Mutated Drone
-      
+
   - - - Federation Navy 1600mm Steel Plates
       - Syndicate 1600mm Steel Plates
     - - Imperial Navy 1600mm Steel Plates
     - - Large Abyssal Armor Plates
 
   - - - Sentient Sensor Booster
-      - Shadow Serpentis Sensor Booster
+    - - Shadow Serpentis Sensor Booster
+    - - Federation Navy Sensor Booster
+    - - Unit P-343554's Modified Sensor Booster
+    - - Setele's Modified Sensor Booster
+    - - Unit W-634's Modified Sensor Booster
+    - - Cormack's Modified Sensor Booster
+
+  - - - Sentient Remote Sensor Booster
+    - - Shadow Serpentis Remote Sensor Booster
 
 from_meta:
   # Automagically determine alternatives
