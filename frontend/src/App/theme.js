@@ -11,77 +11,6 @@ const globals = {
 };
 
 const theme = {
-  Light: _.merge({}, globals, {
-    base: "light",
-    colors: {
-      background: "#ffffff",
-      text: "#4a4a4a",
-      active: "#000000",
-      lumFactor: 1,
-
-      outline: "hsla(213, 100%, 40%, 0.2)",
-      modal: "hsla(0, 0%, 0%, 0.80)",
-      shadow: "hsla(0, 0%, 0%, 0.2)",
-
-      input: {
-        color: "#2020200d",
-        text: "#4a4a4a",
-        accent: "2020200d",
-        disabled: "#cccccc",
-      },
-      success: {
-        color: "#48c774",
-        text: "white",
-        accent: "#3ec46d",
-        disabled: "#92ddac",
-      },
-      warning: {
-        color: "#ffdd57",
-        text: "#4a4a4a",
-        accent: "#ffda47",
-        disabled: "#cccccc",
-      },
-      danger: {
-        color: "#f14668",
-        text: "white",
-        accent: "#f03a5f",
-        disabled: "#f8a5b6",
-      },
-      primary: {
-        color: "#47afff",
-        text: "white",
-        accent: "#38a9ff",
-        disabled: "#addcff",
-      },
-      secondary: {
-        color: "#e6e6e6",
-        text: "#4a4a4a",
-        accent: "#dbdbdb",
-        disabled: "#cccccc",
-      },
-      highlight: {
-        text: "#d91100",
-        active: "#ffad5c",
-      },
-
-      accent1: "#fafafa",
-      accent2: "#dbdbdb",
-      accent3: "#999999",
-      accent4: "#666666",
-
-      shields: {
-        orange: "#d67e0d",
-        red: "#d60015",
-        green: "#19b915",
-        blue: "#0076c2",
-        yellow: "#d2bd00",
-        purple: "#aa88ff",
-        neutral: "#4b4b4b",
-        cyan: "#1eabaa",
-        text: "#ffffff"
-      },
-    },
-  }),
   Dark: _.merge({}, globals, {
     base: "dark",
     logo: {
@@ -156,9 +85,80 @@ const theme = {
       },
     },
   }),
+  Light: _.merge({}, globals, {
+    base: "light",
+    colors: {
+      background: "#ffffff",
+      text: "#4a4a4a",
+      active: "#000000",
+      lumFactor: 1,
+
+      outline: "hsla(213, 100%, 40%, 0.2)",
+      modal: "hsla(0, 0%, 0%, 0.80)",
+      shadow: "hsla(0, 0%, 0%, 0.2)",
+
+      input: {
+        color: "#2020200d",
+        text: "#4a4a4a",
+        accent: "2020200d",
+        disabled: "#cccccc",
+      },
+      success: {
+        color: "#48c774",
+        text: "white",
+        accent: "#3ec46d",
+        disabled: "#92ddac",
+      },
+      warning: {
+        color: "#ffdd57",
+        text: "#4a4a4a",
+        accent: "#ffda47",
+        disabled: "#cccccc",
+      },
+      danger: {
+        color: "#f14668",
+        text: "white",
+        accent: "#f03a5f",
+        disabled: "#f8a5b6",
+      },
+      primary: {
+        color: "#47afff",
+        text: "white",
+        accent: "#38a9ff",
+        disabled: "#addcff",
+      },
+      secondary: {
+        color: "#e6e6e6",
+        text: "#4a4a4a",
+        accent: "#dbdbdb",
+        disabled: "#cccccc",
+      },
+      highlight: {
+        text: "#0000EE",
+        active: "#551A8B",
+      },
+
+      accent1: "#fafafa",
+      accent2: "#dbdbdb",
+      accent3: "#999999",
+      accent4: "#666666",
+
+      shields: {
+        orange: "#d67e0d",
+        red: "#d60015",
+        green: "#19b915",
+        blue: "#0076c2",
+        yellow: "#d2bd00",
+        purple: "#aa88ff",
+        neutral: "#4b4b4b",
+        cyan: "#1eabaa",
+        text: "#ffffff"
+      },
+    },
+  }),
 };
 
-theme.Ninjaholic = _.merge({}, theme.Dark, {
+theme.Purpleholic = _.merge({}, theme.Dark, {
   colors: {
     background: "#290052",
     accent1: "#380070",

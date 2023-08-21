@@ -5,7 +5,7 @@ import logoImage from "./logo.png";
 import styled from "styled-components";
 import { InputGroup, Select, NavButton, AButton } from "../Components/Form";
 import BrowserNotification from "../Components/Event";
-import { ThemeSelect } from "../Components/ThemeSelect";
+import ThemeSelect from "../Components/ThemeSelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faTeamspeak } from "@fortawesome/free-brands-svg-icons";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
