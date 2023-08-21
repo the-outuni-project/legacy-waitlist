@@ -12,6 +12,11 @@ const Skills2 = ({ children }) => {
   const authContext = useContext(AuthContext);
   const queryParams = new URLSearchParams(useLocation().search);
 
+  // Make 'basic' the default mastery to display if parameter is not specified.
+  // Alias 'basic' to 'min', as that is its name in the object returned by the backend.
+  const defaultMastery = "basic"
+  const mastery = (queryParams.get("mastery") ?? defaultMastery).toLowerCase() === "basic" ? "min" : queryParams.get("mastery")
+
   if (!authContext) {
     return <Spinner />
   }
@@ -19,7 +24,7 @@ const Skills2 = ({ children }) => {
   return <Page
     characterId={queryParams.get("character_id") || authContext?.current.id}
     hull={queryParams.get("hull") || "Vindicator"}
-    mastery={queryParams.get("mastery")}
+    mastery={mastery}
   />
 }
 

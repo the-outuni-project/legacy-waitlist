@@ -30,7 +30,16 @@ const SkillCategory = styled.div`
 `;
 
 const CopySkillplan = (current, requirements, mastery) => {
-//
+  let text = '';
+
+  Object.keys(requirements).forEach(skillId => {
+    const skill = requirements[skillId];
+    console.log(skill)
+    text += '';
+  });
+
+  console.log(requirements, current)
+  alert('exec: copy: ', text);
 }
 
 const Skills = ({ mastery, selectedHull, skills }) => {
@@ -65,13 +74,13 @@ const Skills = ({ mastery, selectedHull, skills }) => {
         Copy Skill Plan <FontAwesomeIcon fixedWidth icon={faCopy} />
       </Button>
       <SkillSheet>
-        { Object.keys(skillGroups).map((category, key) => {
+        { Object.keys(skillGroups).sort().map((category, key) => {
           const skills = skillGroups[category];
 
           return (
             <SkillCategory key={key}>
               <h3>{category}</h3>
-              { skills.map((skill, key) => (
+              { skills.sort((a, b) => a.name.localeCompare(b.name)).map((skill, key) => (
                 <SkillRow
                   key={key}
                   {...skill}

@@ -41,33 +41,16 @@ const Skill = styled.div`
 `;
 
 const SkillRow = ({ mastery, name, current, requirements }) => {
+  const requiredLevel = requirements[mastery] ?? 0;
   const Square = ({ _key }) => {
-    if (current >= _key) {
-      return <div className="trained" />
-    }
+    const isTrained = _key <= current;
+    const isRequired = _key <= requiredLevel;
 
-    let required;
-    switch (mastery) {
-      case 'gold':
-        required = requirements?.gold;
-        break;
+    // if a given level is not required, just color it black.
+    if (!isRequired) return <div />
 
-      case 'elite':
-        required = requirements?.elite;
-        break;
-
-      case 'basic':
-        required = requirements?.min;
-        break;
-
-        default:
-
-    }
-
-    if (required && current < required) {
-      return <div className="required" />
-    }
-
+    if (isTrained) return <div className="trained" />
+    if (isRequired) return <div className="required" />
     return <div />
   }
 
