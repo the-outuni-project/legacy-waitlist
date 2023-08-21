@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import SkillRow from "./SkillRow";
+import { Button } from "../../Components/Form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 const SkillSheet = styled.div`
   box-sizing: border-box;
@@ -18,8 +21,6 @@ const SkillCategory = styled.div`
   gap: 10px;
   padding: 16px;
 
-
-
   h3 {
     font-size: 12px;
     line-height: 1.55;
@@ -27,6 +28,10 @@ const SkillCategory = styled.div`
     text-transform: uppercase;
   }
 `;
+
+const CopySkillplan = (current, requirements, mastery) => {
+//
+}
 
 const Skills = ({ mastery, selectedHull, skills }) => {
   const { categories, current, ids } = skills ?? {};
@@ -55,26 +60,31 @@ const Skills = ({ mastery, selectedHull, skills }) => {
   });
 
   return (
-    <SkillSheet>
-      { Object.keys(skillGroups).map((category, key) => {
-        const skills = skillGroups[category];
+    <>
+      <Button onClick={e => CopySkillplan(current, requirements, mastery)} disabled>
+        Copy Skill Plan <FontAwesomeIcon fixedWidth icon={faCopy} />
+      </Button>
+      <SkillSheet>
+        { Object.keys(skillGroups).map((category, key) => {
+          const skills = skillGroups[category];
 
-        return (
-          <SkillCategory key={key}>
-            <h3>{category}</h3>
-            { skills.map((skill, key) => (
-              <SkillRow
-                key={key}
-                {...skill}
-                current={current[skill.id]}
-                mastery={mastery}
-                requirements={requirements[skill.id]}
-              />
-            ))}
-          </SkillCategory>
-        )
-      })}
-    </SkillSheet>
+          return (
+            <SkillCategory key={key}>
+              <h3>{category}</h3>
+              { skills.map((skill, key) => (
+                <SkillRow
+                  key={key}
+                  {...skill}
+                  current={current[skill.id]}
+                  mastery={mastery}
+                  requirements={requirements[skill.id]}
+                />
+              ))}
+            </SkillCategory>
+          )
+        })}
+      </SkillSheet>
+    </>
   )
 }
 
