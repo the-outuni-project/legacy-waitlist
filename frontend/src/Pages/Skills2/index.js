@@ -4,14 +4,12 @@ import { AuthContext } from "../../contexts";
 import { usePageTitle } from "../../Util/title";
 import { useApi } from "../../api";
 import Spinner from "../../Components/Spinner";
+import Skills from "./Skills";
 import Tabs from "./Tabs";
-
 
 const Skills2 = ({ children }) => {
   const authContext = useContext(AuthContext);
   const queryParams = new URLSearchParams(useLocation().search);
-
-
 
   if (!authContext) {
     return <Spinner />
@@ -34,6 +32,7 @@ const Page = ({ characterId, hull, mastery }) => {
   return (
     <>
       <Tabs selectedHull={hull} ships={skills?.requirements} />
+      <Skills selectedHull={hull} skills={skills} />
     </>
   )
 }

@@ -5,7 +5,7 @@ import { useHistory, useLocation } from "react-router-dom";
 const ShipsContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
 
   div {
     img:first-of-type {
@@ -69,7 +69,7 @@ const Tabs = ({ selectedHull, ships }) => {
         }
 
         return (
-          <div className={selectedHull === ship ? 'active' : ''} key={key} onClick={e => onClick(ship)}>
+          <div className={selectedHull === ship ? 'active' : null} key={key} onClick={e => onClick(ship)}>
             <img src={`https://images.evetech.net/types/${getShipId(ship)}/icon?size=64`} alt={ship} />
             {ship}
           </div>

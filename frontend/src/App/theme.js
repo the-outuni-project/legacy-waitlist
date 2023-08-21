@@ -17,7 +17,7 @@ const theme = {
       filter: "invert(1)",
     },
     colors: {
-      background: "#1f1f1f",
+      background: "#1A1B1E",
       text: "#cccccc",
       active: "#eeeeee",
       lumFactor: 0.6,
