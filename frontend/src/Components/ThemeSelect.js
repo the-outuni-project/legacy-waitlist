@@ -9,7 +9,7 @@ export function ThemeSelect({ theme, setTheme }) {
 
   useEffect(() => {
     let theme = window.localStorage.getItem("theme");
-    if (theme === "Ninjaholic") {
+    if (theme === "Ninjaholic" || theme === "Deuteranopia") {
       return setTheme(theme);
     }
 
