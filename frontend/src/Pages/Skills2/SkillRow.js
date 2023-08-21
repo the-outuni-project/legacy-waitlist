@@ -41,6 +41,7 @@ const Skill = styled.div`
 
 const SkillRow = ({ name, current, requirements }) => {
 
+
   return (
     <Skill>
       <div>{name}</div>

@@ -26,8 +26,6 @@ const Page = ({ characterId, hull, mastery }) => {
   const [ basicInfo ] = useApi(`/api/pilot/info?character_id=${characterId}`);
   const [ skills ] = useApi(`/api/skills?character_id=${characterId}`);
 
-  console.log(mastery)
-
   usePageTitle(`${basicInfo?.name}'s Skills`);
   return (
     <>

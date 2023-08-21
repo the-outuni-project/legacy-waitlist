@@ -67,7 +67,7 @@ const Skills = ({ selectedHull, skills }) => {
                 key={key}
                 {...skill}
                 current={current[skill.id]}
-                requirements={requirements}
+                requirements={requirements[skill.id]}
               />
             ))}
           </SkillCategory>
