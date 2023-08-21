@@ -6,6 +6,7 @@ import { useApi } from "../../api";
 import Spinner from "../../Components/Spinner";
 import Skills from "./Skills";
 import Tabs from "./Tabs";
+import Title from "./Title";
 
 const Skills2 = ({ children }) => {
   const authContext = useContext(AuthContext);
@@ -17,7 +18,7 @@ const Skills2 = ({ children }) => {
 
   return <Page
     characterId={queryParams.get("character_id") || authContext?.current.id}
-    hull={queryParams.get("hull")}
+    hull={queryParams.get("hull") || "Vindicator"}
     mastery={queryParams.get("mastery")}
   />
 }
@@ -30,7 +31,8 @@ const Page = ({ characterId, hull, mastery }) => {
   return (
     <>
       <Tabs selectedHull={hull} ships={skills?.requirements} />
-      <Skills selectedHull={hull} skills={skills} />
+      <Title hull={hull} mastery={mastery} />
+      <Skills mastery={mastery} selectedHull={hull} skills={skills} />
     </>
   )
 }

@@ -45,7 +45,7 @@ const theme = {
         disabled: "#574500",
       },
       danger: {
-        color: "#661425",
+        color: "#e20134",
         text: "white",
         accent: "#6f1628",
         disabled: "#330a12",

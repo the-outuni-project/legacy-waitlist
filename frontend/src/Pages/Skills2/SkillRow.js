@@ -25,6 +25,7 @@ const Skill = styled.div`
       height: 8px;
       width: 8px;
       border: 1px solid rgba(204, 204, 204, 0.5);
+      transition: ease-in-out 0.3s;
     }
 
     div.required {
@@ -39,18 +40,46 @@ const Skill = styled.div`
   }
 `;
 
-const SkillRow = ({ name, current, requirements }) => {
+const SkillRow = ({ mastery, name, current, requirements }) => {
+  const Square = ({ _key }) => {
+    if (current >= _key) {
+      return <div className="trained" />
+    }
 
+    let required;
+    switch (mastery) {
+      case 'gold':
+        required = requirements?.gold;
+        break;
+
+      case 'elite':
+        required = requirements?.elite;
+        break;
+
+      case 'basic':
+        required = requirements?.min;
+        break;
+
+        default:
+
+    }
+
+    if (required && current < required) {
+      return <div className="required" />
+    }
+
+    return <div />
+  }
 
   return (
     <Skill>
       <div>{name}</div>
       <div className="levels">
-        <div className="trained" />
-        <div className="required"/>
-        <div />
-        <div />
-        <div />
+        <Square _key={1}/>
+        <Square _key={2} />
+        <Square _key={3} />
+        <Square _key={4} />
+        <Square _key={5} />
       </div>
     </Skill>
   )

@@ -28,7 +28,7 @@ const SkillCategory = styled.div`
   }
 `;
 
-const Skills = ({ selectedHull, skills }) => {
+const Skills = ({ mastery, selectedHull, skills }) => {
   const { categories, current, ids } = skills ?? {};
   const requirements = skills?.requirements[selectedHull];
 
@@ -67,6 +67,7 @@ const Skills = ({ selectedHull, skills }) => {
                 key={key}
                 {...skill}
                 current={current[skill.id]}
+                mastery={mastery}
                 requirements={requirements[skill.id]}
               />
             ))}
