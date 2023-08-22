@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import { Button, Buttons } from "../../Components/Form";
+import SkillsHelp from "./SkillsHelp";
 
 const TitleDOM = styled.div`
   box-sizing: border-box;
@@ -29,16 +30,19 @@ const Title = ({ hull, mastery }) => {
   }
 
   return (
-    <TitleDOM>
-      <div>
-        <h2>{hull}</h2>
-      </div>
-      <Buttons>
-        <Button variant={mastery === 'basic' || mastery === 'min' ? 'primary' : null} onClick={e => onClick('basic')}>Basic</Button>
-        <Button variant={mastery === 'elite' ? 'primary' : null} onClick={e => onClick('elite')}>Elite</Button>
-        <Button variant={mastery === 'gold' ? 'primary' : null} onClick={e => onClick('gold')}>Gold</Button>
-      </Buttons>
-    </TitleDOM>
+    <>
+      <TitleDOM>
+        <div>
+          <h2>{hull}</h2>
+        </div>
+        <Buttons>
+          <Button variant={mastery === 'basic' || mastery === 'min' ? 'primary' : null} onClick={e => onClick('basic')}>Basic</Button>
+          <Button variant={mastery === 'elite' ? 'primary' : null} onClick={e => onClick('elite')}>Elite</Button>
+          <Button variant={mastery === 'gold' ? 'primary' : null} onClick={e => onClick('gold')}>Gold</Button>
+        </Buttons>
+      </TitleDOM>
+      <SkillsHelp />
+    </>
   );
 }
 
