@@ -57,7 +57,7 @@ const SkillRow = ({ mastery, name, current, requirements }) => {
   return (
     <Skill>
       <div>{name}</div>
-      <div className="levels">
+      <div className="levels" data-tooltip-id="tip" data-tooltip-html={`Current: ${current}<br />Required: ${requiredLevel}`}>
         <Square _key={1}/>
         <Square _key={2} />
         <Square _key={3} />

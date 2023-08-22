@@ -6,12 +6,15 @@ import { AuthContext, ToastContext, EventContext } from "../contexts";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { Routes } from "./routes";
 import { Container } from "react-awesome-styled-grid";
-
 import { Menu } from "./Menu";
-import "./reset.css";
-import theme from "./theme.js";
+import { Tooltip } from 'react-tooltip'
+
 import AnnouncementBanner from "../Components/AnnouncementBanner";
+import theme from "./theme.js";
 import Footer from "./Footer";
+
+import 'react-tooltip/dist/react-tooltip.css'
+import "./reset.css";
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -120,6 +123,7 @@ export default class App extends React.Component {
                     />
                   </Container>
                 </Router>
+                <Tooltip id="tip" />
                 <Footer />
               </AuthContext.Provider>
             </EventContext.Provider>

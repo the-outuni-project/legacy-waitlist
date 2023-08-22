@@ -83,7 +83,7 @@ const ThemeSelect = ({ theme, setTheme }) => {
                       name="theme"
                       value={item}
                       checked={theme === item}
-                      onClick={e => setTheme(e.target.value)}
+                      onChange={e => setTheme(e.target.value)}
                     />
                     <label htmlFor={item}>{item} Theme</label>
                   </h4>
