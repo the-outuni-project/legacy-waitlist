@@ -11,9 +11,9 @@ import { FleetCompHistory } from "../Pages/FC/FleetCompHistory";
 import { ISKh, ISKhCalc } from "../Pages/ISKh";
 import { NoteAdd } from "../Pages/FC/NoteAdd";
 import { Pilot } from "../Pages/Pilot";
-import Plans from "../Pages/Skills/Plans";
+import Plans from "../Pages/SkillPlans/Plans";
 import { Search } from "../Pages/FC/Search";
-import { Skills } from "../Pages/Skills/Skills";
+import { LegacySkills } from "../Pages/LegacySkills/Skills";
 import { Statistics } from "../Pages/FC/Statistics";
 import { Waitlist } from "../Pages/Waitlist";
 
@@ -24,6 +24,7 @@ import CommandersPage from "../Pages/FC/Commanders";
 
 import { E401, E403, E404 } from "../Pages/Errors";
 import ReportsPage from "../Pages/FC/Reports";
+import Skills2 from "../Pages/Skills";
 
 const AuthenticatedRoute = ({ component, loginRequired = false, access = null }) => {
   const authContext = useContext(AuthContext);
@@ -63,8 +64,11 @@ export function Routes() {
       <Route exact path="/pilot">
         <Pilot />
       </Route>
+      <Route exact path="/legacy-skills">
+        <LegacySkills />
+      </Route>
       <Route exact path="/skills">
-        <Skills />
+        <AuthenticatedRoute component={<Skills2 />} />
       </Route>
       <Route exact path="/skills/plans">
         <AuthenticatedRoute component={<Plans />} loginRequired />

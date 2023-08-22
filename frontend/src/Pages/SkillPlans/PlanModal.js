@@ -87,7 +87,7 @@ const PlanModal = ({ levels, shipId, source, setOpen }) => {
     }];
 
     let data = [];
-    
+
     const ITR = (i) => {
       switch (i) {
         case 1:
@@ -110,7 +110,7 @@ const PlanModal = ({ levels, shipId, source, setOpen }) => {
     }
 
     for(let i = 0; i < levels.length; i++) {
-      data.push({ 
+      data.push({
         Skill: skillList[levels[i][0]],
         Required: ITR(levels[i][1]),
         Trained: HasSkill(levels[i][0], levels[i][1])

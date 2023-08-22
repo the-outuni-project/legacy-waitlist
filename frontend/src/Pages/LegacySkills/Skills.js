@@ -7,7 +7,7 @@ import { usePageTitle } from "../../Util/title";
 
 import { SkillDisplay } from "../../Components/SkillDisplay";
 
-export function Skills() {
+export function LegacySkills() {
   const authContext = React.useContext(AuthContext);
   if (!authContext) {
     return (
