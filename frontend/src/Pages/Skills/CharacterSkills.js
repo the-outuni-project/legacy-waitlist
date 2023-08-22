@@ -51,7 +51,7 @@ const SkillWrapper = styled.div`
   }
 `;
 
-const Skills = ({ mastery, selectedHull, skills }) => {
+const CharacterSkills = ({ mastery, selectedHull, skills }) => {
   const { categories, current, ids } = skills ?? {};
   const requirements = skills?.requirements[selectedHull];
 
@@ -114,4 +114,4 @@ const Skills = ({ mastery, selectedHull, skills }) => {
   )
 }
 
-export default Skills;
+export default CharacterSkills;
