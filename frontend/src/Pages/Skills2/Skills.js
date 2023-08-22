@@ -22,7 +22,7 @@ const SkillCategory = styled.div`
   padding: 16px;
 
   h3 {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.55;
     font-weight: bold;
     text-transform: uppercase;

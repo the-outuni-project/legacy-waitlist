@@ -34,7 +34,7 @@ const Title = ({ hull, mastery }) => {
         <h2>{hull}</h2>
       </div>
       <Buttons>
-        <Button variant={mastery === 'basic' ? 'primary' : null} onClick={e => onClick('basic')}>Basic</Button>
+        <Button variant={mastery === 'basic' || mastery === 'min' ? 'primary' : null} onClick={e => onClick('basic')}>Basic</Button>
         <Button variant={mastery === 'elite' ? 'primary' : null} onClick={e => onClick('elite')}>Elite</Button>
         <Button variant={mastery === 'gold' ? 'primary' : null} onClick={e => onClick('gold')}>Gold</Button>
       </Buttons>

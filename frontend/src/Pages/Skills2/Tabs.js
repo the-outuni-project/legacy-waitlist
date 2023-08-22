@@ -28,7 +28,7 @@ const ShipsContainer = styled.div`
       cursor: pointer;
 
       img:first-of-type {
-        box-shadow: 1px 5px ${(props) => props.theme.colors.shadow}
+        box-shadow: 0px 0px 6px 0px ${(props) => props.theme.colors.accent};
       }
     }
   }
