@@ -5,9 +5,14 @@ import { useHistory, useLocation } from "react-router-dom";
 const ShipsContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   div {
+    padding-bottom: 10px;
+    color: ${(props) => props.theme.colors.secondary};
+    text-align: center;
+    width: 90px;
+
     img:first-of-type {
       display: block;
       margin-left: auto;
@@ -16,13 +21,17 @@ const ShipsContainer = styled.div`
       transition: ease-in-out 0.3s;
     }
 
+    @media (max-width: 1000px) {
+      font-size: 15px;
+
+      img {
+        max-width: 32px;
+      }
+    }
+
     img:last-of-type {
 
     }
-
-    color: ${(props) => props.theme.colors.secondary};
-    text-align: center;
-    max-width: 90px;
 
     &:hover, &.active {
       cursor: pointer;
