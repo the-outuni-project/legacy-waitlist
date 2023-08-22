@@ -3,12 +3,25 @@ import SkillRow from "./SkillRow";
 import { Button } from "../../Components/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import A from "../../Components/A";
 
 const SkillSheet = styled.div`
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0px, 1fr));
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
   gap: 16px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
+  }
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+  }
+
+  @media (max-width: 770px) {
+    grid-template-columns: repeat(1, minmax(0px, 1fr));
+  }
 `;
 
 const SkillCategory = styled.div`
@@ -22,7 +35,7 @@ const SkillCategory = styled.div`
   padding: 16px;
 
   h3 {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.55;
     font-weight: bold;
     text-transform: uppercase;
@@ -73,6 +86,7 @@ const Skills = ({ mastery, selectedHull, skills }) => {
       <Button onClick={e => CopySkillplan(current, requirements, mastery)} disabled>
         Copy Skill Plan <FontAwesomeIcon fixedWidth icon={faCopy} />
       </Button>
+      <A href="/skills/plans" style={{ marginLeft: '20px' }}>Legacy Skill Plans</A>
       <SkillSheet>
         { Object.keys(skillGroups).sort().map((category, key) => {
           const skills = skillGroups[category];

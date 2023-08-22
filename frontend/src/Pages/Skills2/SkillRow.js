@@ -37,6 +37,11 @@ const Skill = styled.div`
       background: ${(props) => props.theme.colors.text};
       border-color: ${(props) => props.theme.colors.text};
     }
+
+    div.trained.not-required {
+      background: ${(props) => props.theme.colors.warning.color};
+      border-color: ${(props) => props.theme.colors.warning.color};
+    }
   }
 `;
 
@@ -47,8 +52,9 @@ const SkillRow = ({ mastery, name, current, requirements }) => {
     const isRequired = _key <= requiredLevel;
 
     // if a given level is not required, just color it black.
-    if (!isRequired) return <div />
+    // if (!isRequired) return <div />
 
+    if (isTrained && !isRequired) return <div className="trained not-required" />
     if (isTrained) return <div className="trained" />
     if (isRequired) return <div className="required" />
     return <div />
@@ -57,7 +63,7 @@ const SkillRow = ({ mastery, name, current, requirements }) => {
   return (
     <Skill>
       <div>{name}</div>
-      <div className="levels">
+      <div className="levels" data-tooltip-id="tip" data-tooltip-html={`Current: ${current}<br />Required: ${requiredLevel}`}>
         <Square _key={1}/>
         <Square _key={2} />
         <Square _key={3} />
@@ -69,3 +75,4 @@ const SkillRow = ({ mastery, name, current, requirements }) => {
 }
 
 export default SkillRow;
+export { Skill }
