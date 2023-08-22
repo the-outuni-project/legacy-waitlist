@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useApi } from "../../api";
 import { useHistory, useLocation } from "react-router-dom";
+import { useMemo } from "react";
 
 const ShipsContainer = styled.div`
   display: flex;
@@ -70,20 +71,37 @@ const Tabs = ({ selectedHull, ships }) => {
     })
   }
 
+  const orderedShips = useMemo(
+    () => {
+      const sort_order = [
+        'Megathron',
+        'Vindicator',
+        'Kronos',
+        'Apocalypse Navy Issue',
+        'Nightmare',
+        'Paladin',
+        'Oneiros',
+        'Nestor',
+        'Eos',
+        'Damnation'
+      ];
+
+      var keys = Object.keys(ships ?? {});
+      keys = keys.filter((k) => !k.startsWith('_'));
+      keys = keys.sort((a,b) => sort_order.indexOf(a) - sort_order.indexOf(b))
+      return keys;
+    },
+    [ships]
+  );
+
   return ships ? (
     <ShipsContainer>
-      { Object.keys(ships).map((ship, key) => {
-        if (ship.startsWith('_')) {
-          return null;  // The API returns ship group skills
-        }
-
-        return (
-          <div className={selectedHull === ship ? 'active' : null} key={key} onClick={e => onClick(ship)}>
-            <img src={`https://images.evetech.net/types/${getShipId(ship)}/icon?size=64`} alt={ship} />
-            {ship}
-          </div>
-        )
-      })}
+      { orderedShips.map((ship, key) => (
+        <div className={selectedHull === ship ? 'active' : null} key={key} onClick={e => onClick(ship)}>
+          <img src={`https://images.evetech.net/types/${getShipId(ship)}/icon?size=64`} alt={ship} />
+          {ship}
+        </div>
+      ))}
     </ShipsContainer>
   ) : null
 }

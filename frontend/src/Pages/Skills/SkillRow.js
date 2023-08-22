@@ -3,7 +3,6 @@ import styled from "styled-components";
 const Skill = styled.div`
   box-sizing: border-box;
   display: flex;
-  flex-flow: wrap;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: justify;
@@ -13,7 +12,6 @@ const Skill = styled.div`
   .levels {
     box-sizing: border-box;
     display: flex;
-    flex-flow: wrap;
     -webkit-box-align: center;
     align-items: center;
     -webkit-box-pack: start;
