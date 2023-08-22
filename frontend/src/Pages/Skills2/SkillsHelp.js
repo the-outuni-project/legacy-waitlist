@@ -66,7 +66,7 @@ const SkillsHelp = () => {
             Skills Help
           </H2>
 
-          <p style={{ marginBottom: '15px', marginTop: '10px' }}>Each <InlineBox className='trained'/> represents a skill level.</p>
+          <div style={{ marginBottom: '15px', marginTop: '10px' }}>Each <InlineBox className='trained'/> represents a skill level.</div>
 
           <p>Key: </p>
           <ul style={{ marginBottom: '25px' }}>

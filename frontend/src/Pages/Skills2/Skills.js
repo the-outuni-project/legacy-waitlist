@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import SkillRow from "./SkillRow";
-import { Button } from "../../Components/Form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import A from "../../Components/A";
+import CopyToSkillplan from "./EveSkillPlan";
 
 const SkillSheet = styled.div`
   box-sizing: border-box;
@@ -42,18 +40,16 @@ const SkillCategory = styled.div`
   }
 `;
 
-const CopySkillplan = (current, requirements, mastery) => {
-  let text = '';
-
-  Object.keys(requirements).forEach(skillId => {
-    const skill = requirements[skillId];
-    console.log(skill)
-    text += '';
-  });
-
-  console.log(requirements, current)
-  alert('exec: copy: ', text);
-}
+const SkillWrapper = styled.div`
+  @media (max-width: 500px) {
+    button {
+      margin-bottom: 15px;
+    }
+    a {
+      display: block;
+    }
+  }
+`;
 
 const Skills = ({ mastery, selectedHull, skills }) => {
   const { categories, current, ids } = skills ?? {};
@@ -83,10 +79,17 @@ const Skills = ({ mastery, selectedHull, skills }) => {
 
   return (
     <>
-      <Button onClick={e => CopySkillplan(current, requirements, mastery)} disabled>
-        Copy Skill Plan <FontAwesomeIcon fixedWidth icon={faCopy} />
-      </Button>
-      <A href="/skills/plans" style={{ marginLeft: '20px' }}>Legacy Skill Plans</A>
+      <SkillWrapper>
+        <CopyToSkillplan
+          current={current}
+          mastery={mastery}
+          skillGroups={skillGroups}
+          requirements={requirements}
+        />
+        <A href="/skills/plans" style={{ marginLeft: '20px' }}>
+          Legacy Skill Plans
+        </A>
+      </SkillWrapper>
       <SkillSheet>
         { Object.keys(skillGroups).sort().map((category, key) => {
           const skills = skillGroups[category];
