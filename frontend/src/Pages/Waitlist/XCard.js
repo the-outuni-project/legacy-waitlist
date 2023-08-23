@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { ToastContext, AuthContext } from "../../contexts";
 import { apiCall, useApi, errorToaster } from "../../api";
@@ -24,6 +24,7 @@ import { SkillDisplay } from "../../Components/SkillDisplay";
 import { Box } from "../../Components/Box";
 import { Title } from "../../Components/Page";
 import { Button, Buttons } from "../../Components/Form";
+import { SkillsModal } from "../Skills";
 
 const badgeOrder = [
   "HQ-FC",
@@ -249,22 +250,15 @@ function ShipDisplay({ fit, onAction }) {
   }
 }
 
-function SkillButton({ characterId, ship }) {
-  const [onScreen, setOnScreen] = React.useState(false);
-  const [chosenShip, setChosenShip] = React.useState(ship);
+function SkillButton({ character, ship }) {
+  const [ open, setOpen ] = useState(false);
 
   return (
     <>
-      <a title="Show skills" onClick={(evt) => setOnScreen(true)}>
+      <a title="Show skills" onClick={() => setOpen(true)}>
         <FontAwesomeIcon icon={faStream} />
       </a>
-      {onScreen && (
-        <Modal open={true} setOpen={setOnScreen}>
-          <Box>
-            <SkillDisplay characterId={characterId} ship={chosenShip} setShip={setChosenShip} />
-          </Box>
-        </Modal>
-      )}
+      <SkillsModal character={character} hull={ship} open={open} setOpen={setOpen} />
     </>
   );
 }
@@ -460,7 +454,7 @@ export function XCard({ entry, fit, onAction }) {
             </a>
           )}
           {authContext.access["skill-view"] && (
-            <SkillButton characterId={fit.character.id} ship={fit.hull.name} />
+            <SkillButton character={{ id: fit.character.id, name: fit.character.name }} ship={fit.hull.name} />
           )}
           {authContext.access["waitlist-tag:HQ-FC"] && (
             <PilotInformation

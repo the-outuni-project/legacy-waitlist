@@ -51,7 +51,7 @@ const SkillWrapper = styled.div`
   }
 `;
 
-const CharacterSkills = ({ mastery, selectedHull, skills }) => {
+const CharacterSkills = ({ mastery, selectedHull, skills, hidePlans = false }) => {
   const { categories, current, ids } = skills ?? {};
   const requirements = skills?.requirements[selectedHull];
 
@@ -79,17 +79,19 @@ const CharacterSkills = ({ mastery, selectedHull, skills }) => {
 
   return (
     <>
-      <SkillWrapper>
-        <CopyToSkillplan
-          current={current}
-          mastery={mastery}
-          skillGroups={skillGroups}
-          requirements={requirements}
-        />
-        <A href="/skills/plans" style={{ marginLeft: '20px' }}>
-          Legacy Skill Plans
-        </A>
-      </SkillWrapper>
+      { !hidePlans && (
+        <SkillWrapper>
+          <CopyToSkillplan
+            current={current}
+            mastery={mastery}
+            skillGroups={skillGroups}
+            requirements={requirements}
+          />
+          <A href="/skills/plans" style={{ marginLeft: '20px' }}>
+            Legacy Skill Plans
+          </A>
+        </SkillWrapper>
+      )}
       <SkillSheet>
         { Object.keys(skillGroups).sort().map((category, key) => {
           const skills = skillGroups[category];
