@@ -37,8 +37,8 @@ const Skill = styled.div`
     }
 
     div.trained.not-required {
-      background: ${(props) => props.theme.colors.warning.color};
-      border-color: ${(props) => props.theme.colors.warning.color};
+      background: ${(props) => props.theme.colors.accent3};
+      border-color: ${(props) => props.theme.colors.accent3};
     }
   }
 `;
