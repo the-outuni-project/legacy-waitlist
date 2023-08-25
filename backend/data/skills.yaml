@@ -596,6 +596,9 @@ requirements:
       min: 3
     Large Hybrid Turret:
       min: 4
+      elite: 5
+    Large Blaster Specialization:
+      elite: 4
 
   Apocalypse Navy Issue:
     <<: [*generic, *gunnery, *sideeffects, *rigging]
@@ -603,6 +606,9 @@ requirements:
       min: 3
     Large Energy Turret:
       min: 4
+      elite: 5
+    Large Pulse Laser Specialization:
+      elite: 4
 
   Oneiros:
     <<: [*logistics]
