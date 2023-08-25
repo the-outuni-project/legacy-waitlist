@@ -466,6 +466,7 @@ requirements:
     <<: [*generic, *gunnery, *sideeffects, *rigging]
     Large Energy Turret:
       min: 4
+      elite: 5
     Large Pulse Laser Specialization:
       elite: 4
       priority: 10
@@ -518,6 +519,7 @@ requirements:
     <<: [*generic, *gunnery, *sideeffects, *rigging]
     Large Hybrid Turret:
       min: 4
+      elite: 5
     Large Blaster Specialization:
       elite: 4
       priority: 10
