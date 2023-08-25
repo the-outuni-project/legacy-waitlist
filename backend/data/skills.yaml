@@ -466,11 +466,12 @@ requirements:
     <<: [*generic, *gunnery, *sideeffects, *rigging]
     Large Energy Turret:
       min: 4
+      elite: 5
     Large Pulse Laser Specialization:
       elite: 4
       priority: 10
     Motion Prediction:
-      min: 4      
+      min: 4
     Marauders:
       min: 3
       elite: 4
@@ -518,11 +519,12 @@ requirements:
     <<: [*generic, *gunnery, *sideeffects, *rigging]
     Large Hybrid Turret:
       min: 4
+      elite: 5
     Large Blaster Specialization:
       elite: 4
       priority: 10
     Long Range Targeting:
-      elite: 1      
+      elite: 1
     Motion Prediction:
       min: 4
     Marauders:
@@ -648,7 +650,7 @@ requirements:
     CPU Management:
       min: 4
     Power Grid Management:
-      min: 4    
+      min: 4
     Advanced Target Management:
       min: 2
       gold: 2
