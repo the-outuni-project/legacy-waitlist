@@ -2,7 +2,6 @@ import { useApi } from "../api";
 import { Badge } from "./Badge";
 import { InputGroup, Button, Buttons, AButton } from "./Form";
 import { Col, Row } from "react-awesome-styled-grid";
-import { InfoNote } from "./NoteBox";
 
 import styled from "styled-components";
 import _ from "lodash";
@@ -33,10 +32,6 @@ SkillDom.Table.Row = styled.div`
   > :last-child {
     margin-left: auto;
   }
-`;
-
-const SkillHeader = styled.div`
-  height: 36px;
 `;
 
 const categoryOrder = [
@@ -207,16 +202,7 @@ export function SkillDisplay({ characterId, ship, setShip = null, filterMin = fa
         </Buttons>
       )}
 
-      <div style={{ marginBottom: "1em" }}>
-        Legend: <Badge variant="danger">Starter</Badge> <Badge variant="warning">Basic</Badge>{" "}
-        <Badge variant="secondary">Elite</Badge> <Badge variant="success">Elite GOLD</Badge>
-      </div>
-      <SkillHeader>
-        {ship === "Nestor" || ship === "Guardian" || ship === "Oneiros" ? (
-          <InfoNote>Basic tier skills are required for logistics.</InfoNote>
-        ) : null}
-      </SkillHeader>
-      {skills ? (
+      { skills ? (
         <SkillList mySkills={skills} shipName={ship} filterMin={filterMin} />
       ) : (
         <p>Loading skill information</p>

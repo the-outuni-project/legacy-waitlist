@@ -4,27 +4,25 @@ import { Route, Switch } from "react-router-dom";
 import { AuthContext } from "../contexts";
 
 import { AuthStart, AuthCallback, AuthLogout } from "../Pages/Auth";
-import { Fits } from "../Pages/Fits";
+import AnnouncementsPage from "../Pages/FC/Announcements";
+import BadgesPage from "../Pages/FC/Badges";
+import BansPage from "../Pages/FC/Bans";
+import CommandersPage from "../Pages/FC/Commanders";
 import { FCMenu } from "../Pages/FC/Index";
+import { Fits } from "../Pages/Fits";
 import { Fleet, FleetRegister } from "../Pages/FC/Fleet";
 import { FleetCompHistory } from "../Pages/FC/FleetCompHistory";
 import { ISKh, ISKhCalc } from "../Pages/ISKh";
 import { NoteAdd } from "../Pages/FC/NoteAdd";
 import { Pilot } from "../Pages/Pilot";
 import Plans from "../Pages/SkillPlans/Plans";
+import ReportsPage from "../Pages/FC/Reports";
 import { Search } from "../Pages/FC/Search";
-import { LegacySkills } from "../Pages/LegacySkills/Skills";
+import Skills from "../Pages/Skills";
 import { Statistics } from "../Pages/FC/Statistics";
 import { Waitlist } from "../Pages/Waitlist";
 
-import AnnouncementsPage from "../Pages/FC/Announcements";
-import BadgesPage from "../Pages/FC/Badges";
-import BansPage from "../Pages/FC/Bans";
-import CommandersPage from "../Pages/FC/Commanders";
-
 import { E401, E403, E404 } from "../Pages/Errors";
-import ReportsPage from "../Pages/FC/Reports";
-import Skills2 from "../Pages/Skills";
 
 const AuthenticatedRoute = ({ component, loginRequired = false, access = null }) => {
   const authContext = useContext(AuthContext);
@@ -64,11 +62,8 @@ export function Routes() {
       <Route exact path="/pilot">
         <Pilot />
       </Route>
-      <Route exact path="/legacy-skills">
-        <LegacySkills />
-      </Route>
       <Route exact path="/skills">
-        <AuthenticatedRoute component={<Skills2 />} />
+        <AuthenticatedRoute component={<Skills />} />
       </Route>
       <Route exact path="/skills/plans">
         <AuthenticatedRoute component={<Plans />} loginRequired />
