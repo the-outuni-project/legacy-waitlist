@@ -11,6 +11,7 @@ import { AuthContext, ToastContext } from "../../contexts";
 import VirdianMarauderCheck from "./XupModals/ViridianMarauderCheck";
 import WrongFit from "./XupModals/WrongFit";
 import ValidateFit from "./XupModals/ValidateFit";
+import { IsEmptyObject } from "../../Util/objects";
 
 const Box = styled(BaseBox)`
   display: flex;
@@ -98,7 +99,7 @@ const JoinWaitlist = ({ hasFits }) => {
   if (!waitlist_id) {
     return <em>Missing waitlist information</em>;
   }
-  
+
   const reset = () => {
     setAlt(false);
     setBadFits(null);
@@ -106,7 +107,7 @@ const JoinWaitlist = ({ hasFits }) => {
     setMarauder(false);
   }
 
-  const submit = () => {   
+  const submit = () => {
     errorToaster(
       toastContext,
       submitFit({
@@ -154,9 +155,18 @@ const JoinWaitlist = ({ hasFits }) => {
               callback={(fits) => {
                 setValidatedFits(fits);
 
-                let f = fits.filter((fit) => !fit.approved);
-                if (f.length > 0) {
-                  setBadFits(f);
+                // A bad fit is one that is not approved and either has
+                // not been approved, OR has missing or downgraded items
+                let _badFits = fits.filter((fit) => {
+                  // If the fit has been approved, then return false
+                  if (fit.approved) {
+                    return false;
+                  }
+                  console.log(fit)
+                  return !IsEmptyObject(fit.fit_analysis.missing) || !IsEmptyObject(fit.fit_analysis.downgraded) || !IsEmptyObject(fit.fit_analysis.cargo_missing);
+                });
+                if (_badFits.length > 0) {
+                  setBadFits(_badFits);
                   return;
                 }
                 // Check if the ship has a 'Bastion Module I' fitted
