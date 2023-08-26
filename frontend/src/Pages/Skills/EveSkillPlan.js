@@ -26,21 +26,24 @@ const CopyToSkillplan = ({ current, mastery, requirements, skillGroups }) => {
 
     if (skillLevel === 1) {
       skillLevel = 'I';
+      text += `${skills[skillId]} I\n`;
     }
     else if (skillLevel === 2) {
       skillLevel = 'II';
+      text += `${skills[skillId]} II\n`;
     }
     else if (skillLevel === 3) {
       skillLevel = 'III';
+      text += `${skills[skillId]} III\n`;
     }
     else if (skillLevel === 4) {
       skillLevel = 'IV';
+      text += `${skills[skillId]} IV\n`;
     }
     else if (skillLevel === 5) {
       skillLevel = 'V';
+      text += `${skills[skillId]} V\n`;
     }
-
-    text += `${skills[skillId]} ${skillLevel}\n`;
   });
 
   const exec = () => {
