@@ -159,10 +159,10 @@ const JoinWaitlist = ({ hasFits }) => {
                 // not been approved, OR has missing or downgraded items
                 let _badFits = fits.filter((fit) => {
                   // If the fit has been approved, then return false
-                  if (fit.approved) {
+                  if (fit.approved || !fit.fit_analysis) {
                     return false;
                   }
-                  console.log(fit)
+
                   return !IsEmptyObject(fit.fit_analysis.missing) || !IsEmptyObject(fit.fit_analysis.downgraded) || !IsEmptyObject(fit.fit_analysis.cargo_missing);
                 });
                 if (_badFits.length > 0) {
