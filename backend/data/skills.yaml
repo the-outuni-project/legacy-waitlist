@@ -2,6 +2,7 @@
 categories:
   # List of categories and what skills are in it. All skills must be in one category.
   Tank:
+    - Armor Layering
     - EM Armor Compensation
     - Explosive Armor Compensation
     - Thermal Armor Compensation
@@ -31,7 +32,6 @@ categories:
     - Micro Jump Drive Operation
     - Afterburner
     - Fuel Conservation
-    - Armor Layering
   Drones:
     - Drones
     - Gallente Drone Specialization
