@@ -90,7 +90,7 @@ const ValidateFit = ({ alt, fits, callback, setAlt, setFits }) => {
         <FormGroup>
           <Label htmlFor="alt">
             <input id="alt" type="checkbox" checked={alt} onChange={(e) => setAlt(!alt)} />
-            I already have a pilot in fleet
+            This pilot is an alt
           </Label>
         </FormGroup>
 
