@@ -80,6 +80,7 @@ fn build_skill_data() -> Result<SkillData, TypeError> {
     struct SkillFile {
         categories: HashMap<String, Vec<String>>,
         requirements: HashMap<String, HashMap<String, HashMap<String, SkillLevel>>>,
+        other: HashSet<String>,
     }
 
     let skill_data: SkillFile = yamlhelper::from_file("./data/skills.yaml");
@@ -121,6 +122,15 @@ fn build_skill_data() -> Result<SkillData, TypeError> {
     }
 
     extend_known_skills(&mut known_skills)?;
+
+    // Add "OTHER" skills to the 'relevant_skills' list,
+    // which is used to force the skill_updater to track skills not on fits
+    for skill_name in skill_data.other {
+        let skill_id = TypeDB::id_of(&skill_name)?;
+        if !known_skills.contains(&skill_id) {
+            known_skills.insert(skill_id);
+        }
+    }
 
     let mut name_lookup = HashMap::new();
     let mut id_lookup = HashMap::new();
