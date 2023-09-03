@@ -73,6 +73,7 @@ pub async fn load_skills(
         if !tracked_skills.contains(&skill.skill_id) {
             continue;
         }
+
         result.insert(
             skill.skill_id as TypeID,
             skill.active_skill_level as SkillLevel,
