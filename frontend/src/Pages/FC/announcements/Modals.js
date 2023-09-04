@@ -20,12 +20,12 @@ const Small = styled.div`
 
 const TEMPLATES = {
   "Gankers in Focus": {
-    content: "GANKERS ARE IN FOCUS! Stay docked and read the fleet MOTD for instructions.",
+    content: "GANKERS ACTIVE: Please stay docked and read the fleet MOTD for instructions.",
     alert: true,
   },
   "Vanguard Fleet": {
     content:
-      "Fleet is running VGs. Remove your MWD/MJD and fit Tracking Computers or Sensor Boosters, and remove a Membrane and add a Signal Amplifier.",
+      "Refit for Vanguards: Remove your prop mods and a membrane and fit tracking computers, sensor boosters, and a signal amplifier.",
     alert: false,
   },
 };
@@ -43,6 +43,7 @@ const PageFilters = ({ idPrefix = "", selectedFilters, onChange }) => {
     if (selectedFilters !== values) {
       setValues(selectedFilters ?? []);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = (e) => {
@@ -193,7 +194,7 @@ const AddAnnouncement = ({ isOpen, setOpen, refreshFunction }) => {
             <Button variant="danger" type="submit" disabled={pending}>
               Confirm
             </Button>
-            <Button variant="secondary" onClick={() => setOpen(false)}>
+            <Button variant="secondary" type='button' onClick={() => setOpen(false)}>
               Cancel
             </Button>
           </Buttons>
