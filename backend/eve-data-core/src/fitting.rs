@@ -120,6 +120,8 @@ impl Fitting {
     pub fn from_eft(eft: &str) -> Result<Vec<Fitting>, FitError> {
         let mut fittings = Vec::new();
         let mut section = 0;
+        let section_count = eft.trim().lines().filter(|&l| l == "").count();
+
         for line in eft.lines() {
             let line = line.trim();
 
@@ -154,7 +156,7 @@ impl Fitting {
                         Some(s) => (s.parse()?, true),
                     };
 
-                    let is_cargo = if section >= 7 {
+                    let is_cargo = if section >= section_count {
                         // Sections are high,med,low,rig,subsystem,drone, then cargo
                         true
                     } else {

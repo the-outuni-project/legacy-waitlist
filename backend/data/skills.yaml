@@ -741,3 +741,11 @@ requirements:
       elite: 4
     Long Distance Jamming:
       elite: 4
+
+other:
+  # These skills are tracked by the skill_updater in addition
+  # to the skills set in the requirements array OR required by fits
+  - Amarr Drone Specialization
+  - Caldari Drone Specialization
+  - Minmatar Drone Specialization
+  - Mutated Drone Specialization
