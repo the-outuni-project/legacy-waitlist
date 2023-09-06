@@ -68,16 +68,17 @@ pub async fn load_skills(
 
     let mut result = HashMap::new();
     for skill in skills.skills {
-        // Security fix: Do not track non-relevant skills.
-        // SEE: https://github.com/the-outuni-project/legacy-waitlist/issues/41
-        if !tracked_skills.contains(&skill.skill_id) {
-            continue;
-        }
-
         result.insert(
             skill.skill_id as TypeID,
             skill.active_skill_level as SkillLevel,
         );
+
+        // Security fix: Do not track non-relevant skills. SEE: https://github.com/the-outuni-project/legacy-waitlist/issues/41
+        // We still want to return all skills in the results variable as this is useful for the fit checker system.
+        // However by using continue below this will stop skills being saved to the database, and from being used on skills pages.
+        if !tracked_skills.contains(&skill.skill_id) {
+            continue;
+        }
 
         let on_record = last_known_skills.get(&skill.skill_id);
         if let Some(on_record) = on_record {
