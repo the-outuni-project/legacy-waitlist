@@ -92,7 +92,7 @@ function HeadingStyle({ name, shipCountsArr }) {
   return (
     <>
       <h2>{name}</h2>
-      <div>
+      <div style={{ display: 'block', width: '100%', minHeight: '35px' }}>
         {shipCountsArr.map(([count, info]) => (
           <span key={info.id}>
             <img src={`https://images.evetech.net/types/${info.id}/icon?size=64`} alt={info.name} />

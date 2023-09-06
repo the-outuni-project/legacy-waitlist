@@ -26,7 +26,7 @@ async fn list(
     let now = Utc::now().timestamp();
 
     let rows = sqlx::query!(
-        "SELECT 
+        "SELECT
 	        ban.id,
 	        entity_id,
 	        entity_name,
@@ -99,6 +99,20 @@ async fn create(
             req_body.entity.as_ref().unwrap().id
         ))
         .await?;
+
+    // Stop FCs from banning other FCs
+    // See: https://github.com/the-outuni-project/legacy-waitlist/issues/43
+    if let Some(admin) = sqlx::query!(
+        "SELECT * FROM admin WHERE character_id=?",
+        e.id
+    )
+    .fetch_optional(app.get_db())
+    .await? {
+        return Err(Madness::BadRequest(format!(
+            "{} accounts cannot be banned.",
+            admin.role
+        )));
+    }
 
     let expires_at = match req_body.revoked_at.as_ref() {
         None => None,
