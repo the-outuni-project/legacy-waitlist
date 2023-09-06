@@ -34,7 +34,8 @@ const WikiPassword = () => {
     );
   };
 
-  if (!authContext.access['waitlist-tag:TRAINEE']) {
+  // Allow FCs and Wiki team access to the Set Password button
+  if (!(authContext.access['waitlist-tag:TRAINEE'] || authContext?.access['wiki-editor'])) {
     return null;
   }
 

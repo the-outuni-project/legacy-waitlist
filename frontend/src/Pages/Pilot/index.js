@@ -253,14 +253,16 @@ function PilotDisplay({ authContext }) {
           />
         </Col>
         <Col xs={4} md={2}>
-          {authContext?.access['waitlist-tag:TRAINEE'] && authContext.current.id === characterId && (
+          {(authContext?.access['waitlist-tag:TRAINEE'] || authContext?.access['wiki-editor']) && authContext.current.id === characterId && (
             <ControlButtons>
-              <div>FC Account Actions</div>
+              <div>Account Actions</div>
               <div>
-                <NavButton to="/auth/start/fc" style={{ textAlign: 'center' }}>
-                  <span style={{ marginRight: '10px' }}>Add ESI Scopes</span>
-                  <FontAwesomeIcon fixedWidth icon={faExternalLinkAlt} />
-                </NavButton>
+                { authContext?.access['waitlist-tag:TRAINEE'] && (
+                  <NavButton to="/auth/start/fc" style={{ textAlign: 'center' }}>
+                    <span style={{ marginRight: '10px' }}>Add ESI Scopes</span>
+                    <FontAwesomeIcon fixedWidth icon={faExternalLinkAlt} />
+                  </NavButton>
+                )}
                 <WikiPassword />
               </div>
             </ControlButtons>
