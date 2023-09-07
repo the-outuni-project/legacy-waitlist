@@ -25,7 +25,7 @@ async fn set_wiki_passwd(
     account: AuthenticatedAccount,
     input: Json<SetWikiPasswordRequest>,
 ) -> Result<(), Madness> {
-    account.require_access("waitlist-tag:TRAINEE")?;
+    account.require_one_of_access("waitlist-tag:TRAINEE,wiki-team")?;
 
     let character = sqlx::query!("SELECT name FROM `character` WHERE id = ?", account.id)
         .fetch_one(app.get_db())

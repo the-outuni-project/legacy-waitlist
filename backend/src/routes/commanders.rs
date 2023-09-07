@@ -70,16 +70,16 @@ async fn list(
     }
 
     let rows = sqlx::query!(
-        "SELECT 
-        role, 
-        granted_at, 
-        fc.id AS `id`, 
-        fc.name AS `name`, 
-        a.id AS `admin_id`, 
+        "SELECT
+        role,
+        granted_at,
+        fc.id AS `id`,
+        fc.name AS `name`,
+        a.id AS `admin_id`,
         a.name AS `admin_name`
-      FROM 
+      FROM
         admin
-        JOIN `character` AS fc ON character_id = fc.id 
+        JOIN `character` AS fc ON character_id = fc.id
         JOIN `character` AS a ON granted_by_id = a.id"
     )
     .fetch_all(app.get_db())
@@ -179,7 +179,7 @@ async fn assign(
 #[get("/api/commanders/public")]
 async fn public_directory(
     app: &rocket::State<Application>,
-) -> Result<Json<Vec<CharacterWithRole>>, Madness> { //Json<CommanderDirectory>
+) -> Result<Json<Vec<CharacterWithRole>>, Madness> {
     let team = sqlx::query!(
         "SELECT role, fc.id, fc.name FROM admin JOIN `character` AS fc ON character_id = fc.id ORDER BY role"
     )
@@ -196,7 +196,7 @@ async fn public_directory(
 async fn assignable(account: AuthenticatedAccount) -> Result<Json<Vec<&'static str>>, Madness> {
     account.require_access("commanders-manage")?;
 
-    let role_order = vec!["Trainee", "FC", "Instructor", "Leadership"];
+    let role_order = vec!["Wiki Team", "Trainee", "FC", "Instructor", "Leadership"];
 
     let mut options = Vec::new();
     for scope in account.access.into_iter() {
