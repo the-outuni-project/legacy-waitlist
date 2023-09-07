@@ -208,18 +208,35 @@ impl ESIRawClient {
         })
     }
 
+    async fn log_response_error(response: reqwest::Response) -> Result<reqwest::Response, ESIError> {
+        if let Err(_) = response.error_for_status_ref() {
+            let status = response.status();
+            let headers = format!("{:?}", response.headers());
+            let response_body = response.text().await?;
+            warn!("Error response: {status} headers={headers} body={response_body}");
+            let payload: EsiErrorReason = EsiErrorReason::new(response_body);
+            return Err(ESIError::WithMessage(
+                status.as_u16(),
+                payload.error,
+            ));
+            } else {
+            Ok(response)
+        }
+    }
+
     pub async fn get(&self, url: &str, access_token: &str) -> Result<reqwest::Response, ESIError> {
-        Ok(self
+        let response = self
             .http
             .get(url)
             .bearer_auth(access_token)
             .send()
-            .await?
-            .error_for_status()?)
+            .await?;
+        Self::log_response_error(response).await
     }
 
     pub async fn get_unauthenticated(&self, url: &str) -> Result<reqwest::Response, ESIError> {
-        Ok(self.http.get(url).send().await?.error_for_status()?)
+        let response = self.http.get(url).send().await?;
+        Self::log_response_error(response).await
     }
 
     pub async fn delete(
@@ -227,13 +244,14 @@ impl ESIRawClient {
         url: &str,
         access_token: &str,
     ) -> Result<reqwest::Response, ESIError> {
-        Ok(self
+        let response = self
             .http
             .delete(url)
             .bearer_auth(access_token)
             .send()
-            .await?
-            .error_for_status()?)
+            .await?;
+
+        Self::log_response_error(response).await
     }
 
     pub async fn post<E: Serialize + ?Sized>(
@@ -250,16 +268,7 @@ impl ESIRawClient {
             .send()
             .await?;
 
-        if let Err(err) = response.error_for_status_ref() {
-            let response_body = response.text().await?;
-            let payload: EsiErrorReason = EsiErrorReason::new(response_body);
-            return Err(ESIError::WithMessage(
-                err.status().unwrap().as_u16(),
-                payload.error,
-            ));
-        };
-
-        Ok(response)
+        Self::log_response_error(response).await
     }
 }
 
