@@ -256,7 +256,7 @@ const IssueBanModal = ({ isOpen, setOpen, refreshFunction }) => {
             </FormGroup>
 
             <Buttons style={{ paddingLeft: "8px" }}>
-              <Button variant="secondary" onClick={() => setOpen(false)}>
+              <Button variant="secondary" type="button" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button variant="danger" type="submit" disabled={pending}>

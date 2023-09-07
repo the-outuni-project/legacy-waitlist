@@ -90,7 +90,7 @@ const RevokeConfirm = ({ ban, isOpen, setOpen, refreshFunction }) => {
         </FormGroup>
 
         <CenteredButtons size={"90px"}>
-          <Button variant="secondary" onClick={() => setOpen(false)}>
+          <Button variant="secondary" type="button" onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button variant="danger" onClick={onClick} disabled={pending}>
