@@ -142,6 +142,17 @@ impl AuthenticatedAccount {
             false => Err(AuthorizationError::AccessDenied),
         }
     }
+
+    pub fn require_one_of_access(&self, keys: &'static str) -> Result<(), AuthorizationError> {
+        let scopes : Vec<&str> = keys.split(",").collect();
+        for scope in scopes {
+            if self.access.contains(scope) {
+                return Ok(())
+            }
+        }
+
+        return Err(AuthorizationError::AccessDenied)
+    }
 }
 
 fn build_access_levels() -> BTreeMap<String, BTreeSet<String>> {
