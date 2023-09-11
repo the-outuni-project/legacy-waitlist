@@ -45,7 +45,13 @@ impl SkillUpdater {
     }
 
     async fn run_once(&self) -> Result<(), Madness> {
-        let mut to_update = sqlx::query!("SELECT character_id FROM refresh_token")
+        //SELECT character_id FROM refresh_token
+        let days_ago_28 = chrono::Utc::now().timestamp() - 86400 * 28;
+
+        let mut to_update = sqlx::query!("
+            SELECT character_id FROM refresh_token JOIN `character` as c ON character_id=c.id WHERE c.last_seen > ?",
+            days_ago_28
+        )
             .fetch_all(self.get_db())
             .await?;
 

@@ -113,9 +113,9 @@ async fn fleet_comp(
 
     let comp = sqlx::query!(
         "
-            SELECT fleet_id, hull, first_seen, last_seen, character_id, is_boss, `character`.name AS character_name
-            FROM fleet_activity JOIN `character` ON character_id=`character`.id
-            WHERE first_seen <= ? AND last_seen >= ?
+            SELECT fleet_id, hull, first_seen, fa.last_seen, character_id, is_boss, `character`.name AS character_name
+            FROM fleet_activity as `fa` JOIN `character` ON character_id=`character`.id
+            WHERE first_seen <= ? AND fa.last_seen >= ?
         ",
         time,
         time

@@ -74,6 +74,7 @@ impl FleetUpdater {
         let fleet = sqlx::query!("SELECT * FROM fleet WHERE id = ?", fleet_id)
             .fetch_one(self.get_db())
             .await?;
+
         let members_raw =
             match esi::fleet_members::get(&self.esi_client, fleet_id, fleet.boss_id).await {
                 Ok(m) => m,
@@ -98,7 +99,7 @@ impl FleetUpdater {
             };
         let members: HashMap<_, _> = members_raw.iter().map(|m| (m.character_id, m)).collect();
         let member_ids: Vec<i64> = members.iter().map(|(&id, _mem)| id).collect();
-
+        let now = chrono::Utc::now().timestamp();
         {
             // Update characters to make sure we have each in the database
             let characters = character::lookup(self.get_db(), &member_ids).await?;
@@ -119,9 +120,10 @@ impl FleetUpdater {
                         .await?;
 
                     sqlx::query!(
-                        "REPLACE INTO `character` (id, name) VALUES (?, ?)",
+                        "REPLACE INTO `character` (id, name, last_seen) VALUES (?, ?, ?)",
                         id,
-                        character_info.name
+                        character_info.name,
+                        now
                     )
                     .execute(self.get_db())
                     .await?;
