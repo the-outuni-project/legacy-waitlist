@@ -132,7 +132,9 @@ const JoinWaitlist = ({ hasFits }) => {
           reset();
           setOpen(false);
           if (settings.audio_alarm) {
-            new Audio(notificationAlarm).play()
+            let alert = Audio(notificationAlarm)
+            alert.volume = 0.1
+            alert.play()
           }
         })
         .finally(() => setMarauder(false))
