@@ -16,7 +16,8 @@ CREATE TABLE `character` (
   `id` bigint PRIMARY KEY,
   `name` varchar(255) NOT NULL,
   `corporation_id` BIGINT NULL,
-  FULLTEXT KEY `name` (`name`) WITH PARSER `ngram`,
+  `last_seen` BIGINT NOT NULL DEFAULT (UNIX_TIMESTAMP()),
+  FULLTEXT INDEX `name` (`name`),
   CONSTRAINT `character_corporation` FOREIGN KEY (`corporation_id`) REFERENCES `corporation` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -66,11 +66,25 @@ async fn get_active_announcements(app: &Application) -> Result<Vec<AnnouncementP
     for a in announcements {
         let created_by = sqlx::query_as!(
             Character,
-            "SELECT * FROM `character` WHERE id=?",
+            "SELECT id,name,corporation_id FROM `character` WHERE id=?",
             a.created_by_id
         )
         .fetch_optional(app.get_db())
         .await?;
+
+        // We need to fix this as it's not the most efficient way to do it
+        let created_by = match created_by {
+            None => {
+                None
+            },
+            Some(cb) => {
+                Some(Character{
+                    id: cb.id,
+                    name: cb.name,
+                    corporation_id: None
+                })
+            }
+        };
 
         payloads.push(AnnouncementPayload {
             id: a.id,

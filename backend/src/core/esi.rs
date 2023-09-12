@@ -118,7 +118,7 @@ impl ESIRawClient {
     pub fn new(client_id: String, client_secret: String) -> ESIRawClient {
         ESIRawClient {
             http: reqwest::Client::builder()
-                .user_agent("Waitlist (https://github.com/TvdW/tdf-waitlist)")
+                .user_agent("Nyx Viliana (https://github.com/the-outuni-project/legacy-waitlist)")
                 .build()
                 .unwrap(),
             client_id,
