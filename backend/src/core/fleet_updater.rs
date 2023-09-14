@@ -106,6 +106,7 @@ impl FleetUpdater {
             let characters = character::lookup(self.get_db(), &member_ids).await?;
             for &id in &member_ids {
                 if !characters.contains_key(&id) {
+                    // Add characters not in our DB so we can track fleet activity
                     #[derive(Deserialize)]
                     struct CharacterResponse {
                         name: String,
@@ -125,6 +126,15 @@ impl FleetUpdater {
                         id,
                         character_info.name,
                         now
+                    )
+                    .execute(self.get_db())
+                    .await?;
+                }
+                else {
+                    // If we know the character then we only need to touch `last_seen`
+                    sqlx::query!("UPDATE `character` SET `last_seen`= ? WHERE `id`=?",
+                        now,
+                        id
                     )
                     .execute(self.get_db())
                     .await?;
@@ -187,7 +197,7 @@ impl FleetUpdater {
             .map(|r| (r.character_id, r))
             .collect();
 
-            // Require a certain amount of toons in fleet before we track time
+            // Require a certain amount of characters in fleet before we track time
             let have_in_fleet = match members.len() >= self.config.fleet_updater.min_in_fleet {
                 true => members.clone(),
                 false => HashMap::new(),
