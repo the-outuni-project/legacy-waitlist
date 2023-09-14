@@ -12,6 +12,7 @@ import VirdianMarauderCheck from "./XupModals/ViridianMarauderCheck";
 import WrongFit from "./XupModals/WrongFit";
 import ValidateFit from "./XupModals/ValidateFit";
 import { IsEmptyObject } from "../../Util/objects";
+import notificationAlarm from "../../Components/Event/notification.mp3";
 
 const Box = styled(BaseBox)`
   display: flex;
@@ -94,6 +95,13 @@ const JoinWaitlist = ({ hasFits }) => {
   const [ fits, setFits ] = useState(undefined);
   const [ validatedFits, setValidatedFits ] = useState(undefined);
   const [ isMarauder, setMarauder ] = useState(false);
+  const [settings] = React.useState(() => {
+      // Load in the previous notification settings from Local Storage
+      if (window.localStorage && window.localStorage.getItem(storageKey)) {
+          return JSON.parse(window.localStorage.getItem(storageKey));
+      }
+      return {};
+  });
 
   const waitlist_id = queryParams.get("wl");
   if (!waitlist_id) {
@@ -123,6 +131,11 @@ const JoinWaitlist = ({ hasFits }) => {
           });
           reset();
           setOpen(false);
+          if (settings.audio_alarm) {
+            let alert = Audio(notificationAlarm)
+            alert.volume = 0.1
+            alert.play()
+          }
         })
         .finally(() => setMarauder(false))
     );
