@@ -154,4 +154,21 @@ const BrowserNotification = () => {
   );
 };
 
+// Chrome now blocks sound from running unless it ran
+// in an active tab. Once this happens it can run without focus
+const PreloadNotification = () => {
+  let permission = false;
+  if (window.localStorage && window.localStorage.getItem(storageKey)) {
+    permission = JSON.parse(window.localStorage.getItem(storageKey));
+  }
+
+  if (permission) {
+    let audio = new Audio(notificationAlarm);
+    audio.volume = 0.1;
+    audio.play();
+    console.log('Audio alert preloaded...');
+  }
+}
+
 export default BrowserNotification;
+export { PreloadNotification }

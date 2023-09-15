@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { apiCall, errorToaster, useApi } from "../../api";
+import { apiCall, errorToaster } from "../../api";
 import { Box as BaseBox } from "../../Components/Box";
 import { Button } from "../../Components/Form";
 import { Modal } from "../../Components/Modal";
@@ -12,7 +12,7 @@ import VirdianMarauderCheck from "./XupModals/ViridianMarauderCheck";
 import WrongFit from "./XupModals/WrongFit";
 import ValidateFit from "./XupModals/ValidateFit";
 import { IsEmptyObject } from "../../Util/objects";
-import notificationAlarm from "../../Components/Event/notification.mp3";
+import { PreloadNotification } from "../../Components/Event";
 
 const Box = styled(BaseBox)`
   display: flex;
@@ -95,13 +95,6 @@ const JoinWaitlist = ({ hasFits }) => {
   const [ fits, setFits ] = useState(undefined);
   const [ validatedFits, setValidatedFits ] = useState(undefined);
   const [ isMarauder, setMarauder ] = useState(false);
-  const [settings] = React.useState(() => {
-      // Load in the previous notification settings from Local Storage
-      if (window.localStorage && window.localStorage.getItem(storageKey)) {
-          return JSON.parse(window.localStorage.getItem(storageKey));
-      }
-      return {};
-  });
 
   const waitlist_id = queryParams.get("wl");
   if (!waitlist_id) {
@@ -131,11 +124,7 @@ const JoinWaitlist = ({ hasFits }) => {
           });
           reset();
           setOpen(false);
-          if (settings.audio_alarm) {
-            let alert = Audio(notificationAlarm)
-            alert.volume = 0.1
-            alert.play()
-          }
+          PreloadNotification();
         })
         .finally(() => setMarauder(false))
     );
