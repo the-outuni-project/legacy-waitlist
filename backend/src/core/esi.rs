@@ -212,8 +212,9 @@ impl ESIRawClient {
         if let Err(_) = response.error_for_status_ref() {
             let status = response.status();
             let headers = format!("{:?}", response.headers());
+            let url = response.url().to_owned();
             let response_body = response.text().await?;
-            warn!("Error response: {status} headers={headers} body={response_body}");
+            warn!("ESI Error {status}: {url} \n Body: {response_body} \n\n Headers: {headers}");
             let payload: EsiErrorReason = EsiErrorReason::new(response_body);
             return Err(ESIError::WithMessage(
                 status.as_u16(),
