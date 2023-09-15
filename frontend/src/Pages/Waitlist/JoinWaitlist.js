@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { apiCall, errorToaster, useApi } from "../../api";
+import { apiCall, errorToaster } from "../../api";
 import { Box as BaseBox } from "../../Components/Box";
 import { Button } from "../../Components/Form";
 import { Modal } from "../../Components/Modal";
@@ -12,6 +12,7 @@ import VirdianMarauderCheck from "./XupModals/ViridianMarauderCheck";
 import WrongFit from "./XupModals/WrongFit";
 import ValidateFit from "./XupModals/ValidateFit";
 import { IsEmptyObject } from "../../Util/objects";
+import { PreloadNotification } from "../../Components/Event";
 
 const Box = styled(BaseBox)`
   display: flex;
@@ -123,6 +124,7 @@ const JoinWaitlist = ({ hasFits }) => {
           });
           reset();
           setOpen(false);
+          PreloadNotification();
         })
         .finally(() => setMarauder(false))
     );
