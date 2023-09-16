@@ -23,6 +23,7 @@ import { Statistics } from "../Pages/FC/Statistics";
 import { Waitlist } from "../Pages/Waitlist";
 
 import { E401, E403, E404 } from "../Pages/Errors";
+import FleetsIndexPage from "../Pages/FC/fleets";
 
 const AuthenticatedRoute = ({ component, loginRequired = false, access = null }) => {
   const authContext = useContext(AuthContext);
@@ -106,6 +107,15 @@ export function Routes() {
       </Route>
       <Route exact path="/fc/reports">
         <AuthenticatedRoute component={<ReportsPage />} access="reports-view" />
+      </Route>
+
+      {/* V2 Fleet pages */}
+      <Route exact path="/fc/fleets">
+        <AuthenticatedRoute component={<FleetsIndexPage />} access="fleet-view" />
+      </Route>
+
+      <Route exact path="/fc/fleets/:fleetid">
+        <AuthenticatedRoute component={<>Fleet management page</>} access="fleet-view" />
       </Route>
 
       {/* Auth Routes: Login, Callback, Logout */}

@@ -224,6 +224,7 @@ fn build_access_levels() -> BTreeMap<String, BTreeSet<String>> {
             "commanders-manage",
             "commanders-manage:Trainee",
             "commanders-manage:FC",
+            "fleet-admin",
             "reports-view"
         ],
     );

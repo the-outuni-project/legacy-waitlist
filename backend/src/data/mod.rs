@@ -2,6 +2,7 @@ pub mod categories;
 pub mod character;
 pub mod fitdiffer;
 pub mod fits;
+pub mod fleets;
 pub mod implants;
 pub mod skillplans;
 pub mod skills;

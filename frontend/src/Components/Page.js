@@ -104,7 +104,7 @@ export const Header = styled.div`
   justify-content: space-between;
   align-content: space-between;
 
-  h1 {
-    font-size: 32px;
-  }
+  h1 { font-size: 28px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 20px; }
 `;

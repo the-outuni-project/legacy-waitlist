@@ -273,6 +273,23 @@ impl ESIRawClient {
 
         Self::log_response_error(response).await
     }
+
+    pub async fn put<E: Serialize + ?Sized>(
+        &self,
+        url: &str,
+        input: &E,
+        access_token: &str,
+    ) -> Result<reqwest::Response, ESIError> {
+        let response = self
+            .http
+            .put(url)
+            .bearer_auth(access_token)
+            .json(input)
+            .send()
+            .await?;
+
+        Self::log_response_error(response).await
+    }
 }
 
 impl ESIClient {
@@ -479,6 +496,19 @@ impl ESIClient {
         let access_token = self.access_token(character_id, scope).await?;
         let url = format!("https://esi.evetech.net{}", path);
         self.raw.post::<E>(&url, input, &access_token).await?;
+        Ok(())
+    }
+
+    pub async fn put<E: Serialize + ?Sized>(
+        &self,
+        path: &str,
+        input: &E,
+        character_id: i64,
+        scope: ESIScope,
+    ) -> Result<(), ESIError> {
+        let access_token = self.access_token(character_id, scope).await?;
+        let url = format!("https://esi.evetech.net{}", path);
+        self.raw.put::<E>(&url, input, &access_token).await?;
         Ok(())
     }
 }

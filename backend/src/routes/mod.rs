@@ -6,7 +6,8 @@ mod categories;
 mod commanders;
 mod fitcheck;
 mod fittings;
-mod fleet;
+mod fleet; // deprecated
+mod fleets;
 mod healthcheck;
 mod history;
 mod implants;
@@ -38,6 +39,7 @@ pub fn routes() -> Vec<rocket::Route> {
         search::routes(),
         categories::routes(),
         fleet::routes(),
+        fleets::routes(),
         waitlist::routes(),
         statistics::routes(),
         healthcheck::routes(),
