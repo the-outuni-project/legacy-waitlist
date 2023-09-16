@@ -29,11 +29,20 @@ pub struct CharacterAndLevel {
     pub active_bans: Option<Vec<Ban>>,
 }
 
+#[derive(Debug, Serialize)]
+pub struct Empty {}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Entity {
     pub id: i64,
     pub name: Option<String>,
     pub category: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct  System {
+    pub id: i64,
+    pub name: String
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

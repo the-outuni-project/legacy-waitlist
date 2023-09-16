@@ -1,5 +1,5 @@
 use rocket::serde::json::Json;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 use crate::{
     app::Application,
@@ -7,7 +7,7 @@ use crate::{
         auth::{authorize_character, AuthenticatedAccount},
         esi::ESIScope,
     },
-    util::madness::Madness,
+    util::{madness::Madness, types::Empty},
 };
 
 #[derive(Deserialize, Debug)]
@@ -15,9 +15,6 @@ struct OpenWindowRequest {
     character_id: i64,
     target_id: i64,
 }
-
-#[derive(Deserialize, Serialize, Debug)]
-struct Empty {}
 
 #[post("/api/open_window", data = "<input>")]
 async fn open_window(
@@ -28,7 +25,7 @@ async fn open_window(
     authorize_character(app.get_db(), &account, input.character_id, None).await?;
 
     app.esi_client
-        .post(
+        .post_204(
             &format!(
                 "/v1/ui/openwindow/information/?target_id={}",
                 input.target_id

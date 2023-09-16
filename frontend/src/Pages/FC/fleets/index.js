@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { AuthContext } from "../../../contexts";
+import { useContext, useEffect } from "react";
+import { AuthContext, EventContext } from "../../../contexts";
 import { useApi } from "../../../api";
 
 import { AButton, Buttons } from "../../../Components/Form";
@@ -21,18 +21,17 @@ const DOM = styled.div`
 
 
 const FleetSize = ({ size = '-', size_max = '-' }) => {
-  return <>soon&trade;</>
-  // let count = `${size} / ${size_max}`;
+  let count = `${size} / ${size_max}`;
 
-  // if (size > size_max) {
-  //   count = (
-  //     <Badge variant='warning' data-tooltip-id="tip" data-tooltip-html="Fleet overgrid">
-  //       {count}
-  //     </Badge>
-  //   )
-  // }
+  if (size > size_max) {
+    count = (
+      <Badge variant='warning' data-tooltip-id="tip" data-tooltip-html="Fleet overgrid">
+        {count}
+      </Badge>
+    )
+  }
 
-  // return count;
+  return count;
 }
 
 const FleetStatus = ({ is_listed = false }) => {
@@ -47,7 +46,21 @@ const FleetStatus = ({ is_listed = false }) => {
 
 const FleetsIndexPage = () => {
   const authContext = useContext(AuthContext);
+  const eventContext = useContext(EventContext);
+
   const [ data, refresh ] = useApi('/api/v2/fleets')
+
+
+  useEffect(() => {
+    if (!eventContext) return;
+
+    eventContext.addEventListener("fleets_updated", refresh);
+    return () => {
+      eventContext.removeEventListener("fleets_updated", refresh);
+    }
+  }, [refresh, eventContext])
+
+
 
   usePageTitle('Fleets')
 
@@ -67,7 +80,7 @@ const FleetsIndexPage = () => {
             { name: "Fleet Boss", selector: (r) => <CharacterName {...r?.boss} /> },
             { name: "Status", selector: (r) => <FleetStatus {...r} /> },
             { name: "Size", selector: (r) => <FleetSize {...r} /> },
-            { name: "System", selector: (r) => <>soon&trade;</> },
+            { name: "System", selector: (r) => r?.boss_system?.name ?? "Unknown" },
             {
               name: "", selector: (r) => (
                 <AButton href={`/fc/fleets/${r.id}`}>

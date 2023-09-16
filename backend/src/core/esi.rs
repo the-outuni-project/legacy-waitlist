@@ -486,7 +486,7 @@ impl ESIClient {
         Ok(())
     }
 
-    pub async fn post<E: Serialize + ?Sized>(
+    pub async fn post_204<E: Serialize + ?Sized>(
         &self,
         path: &str,
         input: &E,
@@ -497,6 +497,18 @@ impl ESIClient {
         let url = format!("https://esi.evetech.net{}", path);
         self.raw.post::<E>(&url, input, &access_token).await?;
         Ok(())
+    }
+
+    pub async fn post<E: Serialize + ?Sized, D: serde::de::DeserializeOwned>(
+        &self,
+        path: &str,
+        input: &E,
+        character_id: i64,
+        scope: ESIScope,
+    ) -> Result<D, ESIError> {
+        let access_token = self.access_token(character_id, scope).await?;
+        let url = format!("https://esi.evetech.net{}", path);
+        return Ok(self.raw.post::<E>(&url, input, &access_token).await?.json().await?);
     }
 
     pub async fn put<E: Serialize + ?Sized>(

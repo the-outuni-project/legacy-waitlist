@@ -129,9 +129,7 @@ impl TypeDB {
 
         let mut effects = CONN.with(|conn| -> Result<_, rusqlite::Error> {
             let query = format!(
-                "
-                SELECT typeID, effectID FROM dgmTypeEffects WHERE typeID IN ({})
-            ",
+                "SELECT typeID, effectID FROM dgmTypeEffects WHERE typeID IN ({})",
                 placeholders
             );
 
@@ -346,6 +344,12 @@ impl TypeDB {
         }
 
         Ok(result)
+    }
+
+    pub fn name_of_system(id: i64) -> Result<String, TypeError> {
+        Ok(CONN.with(|conn| {
+            conn.query_row("SELECT name FROM systems WHERE id=?", [id], |row| row.get(0))
+        })?)
     }
 
     pub fn name_of(id: TypeID) -> Result<String, TypeError> {

@@ -1,12 +1,13 @@
 use crate::{
     app::Application,
-    core::{auth::{AuthenticatedAccount, authorize_character}, esi::{ESIScope, ESIError}},
+    core::{auth::{AuthenticatedAccount, authorize_character}, esi::{ESIScope, ESIError}, sse::Event},
     util::{
         madness::Madness,
-        types::Character,
-    }, data::fleets as fleet_data, routes::fleet,
+        types::{Character, Empty, System},
+    }, data::fleets::{self as fleet_data, FleetInfo},
 };
 
+use eve_data_core::TypeDB;
 use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
 
@@ -14,10 +15,10 @@ use serde::{Deserialize, Serialize};
 struct FleetSummary {
     id: i64,
     boss: Character,
-    // boss_system: None,
+    boss_system: Option<System>,
     is_listed: bool,
-    size: i8,
-    size_max: i8
+    size: i64,
+    size_max: i64
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -26,7 +27,6 @@ struct FleetRegistration {
     default_squads: bool,
     boss_id: i64
 }
-
 
 
 // todo: need to fix boss_system, is_listed, and size
@@ -40,26 +40,43 @@ async fn fleets(
     let fleets_data = sqlx::query!(
         "SELECT
             fleet.id,
+            fleet.boss_system_id,
+            fleet.visible as `visible:bool`,
             fc.id as `boss_id`,
-            fc.name  as `boss_name`
+            fc.name  as `boss_name`,
+            fleet.max_size,
+            COUNT(DISTINCT fa.character_id) as `size`
         FROM
             fleet
-        JOIN `character` as fc ON fc.id=fleet.boss_id"
+        JOIN `character` as fc ON fc.id=fleet.boss_id
+        LEFT JOIN `fleet_activity` as fa ON fa.fleet_id=fleet.id
+        GROUP BY fleet.id"
     )
     .fetch_all(app.get_db())
     .await?
     .into_iter()
-    .map(|row| FleetSummary {
-        id: row.id,
-        boss: Character {
-            id: row.boss_id,
-            name: row.boss_name,
-            corporation_id: None
-        },
-        //boss_system: None,
-        is_listed: false,
-        size: 0,
-        size_max: 0
+    .map(|row| {
+        FleetSummary {
+            id: row.id,
+            boss: Character {
+                id: row.boss_id,
+                name: row.boss_name,
+                corporation_id: None
+            },
+            boss_system: match row.boss_system_id {
+                Some(system_id) => Some(System {
+                    id: system_id,
+                    name: match TypeDB::name_of_system(system_id) {
+                        Ok(name) => name.to_string(),
+                        _ => "Unknown".to_string()
+                    }
+                }),
+                None => None
+            },
+            is_listed: row.visible,
+            size: row.size,
+            size_max: row.max_size
+        }
     })
     .collect();
 
@@ -92,6 +109,13 @@ async fn close_all(
         tx.commit().await?;
     }
 
+    app.sse_client.submit(vec![Event::new_json(
+        "waitlist",
+        "fleets_updated",
+        "fleets_deleted",
+    )])
+    .await?;
+
     Ok("ok")
 }
 
@@ -100,17 +124,11 @@ async fn register(
     account: AuthenticatedAccount,
     app: &rocket::State<Application>,
     body: Json<FleetRegistration>,
-) -> Result<&'static str, Madness> {
+) -> Result<String, Madness> {
     account.require_access("fleet-view")?;
 
     // Authorize character with ESI (needed for the various /fleet/ calls)
     authorize_character(app.get_db(), &account, body.boss_id, None).await?;
-
-    #[derive(Debug, Deserialize)]
-    struct FleetInfo {
-        fleet_id: i64,
-        fleet_boss_id: i64
-    }
 
     let basic_info = app
         .esi_client
@@ -136,136 +154,110 @@ async fn register(
     let mut tx = app.get_db().begin().await?;
 
     sqlx::query!(
-        "INSERT INTO fleet (id, boss_id) VALUES (?, ?)",
+        "DELETE FROM fleet_squad WHERE fleet_id=?",
+        basic_info.fleet_id
+    )
+    .execute(&mut tx)
+    .await?;
+
+    sqlx::query!(
+        "REPLACE INTO fleet (id, boss_id, max_size) VALUES (?, ?, 40)",
         basic_info.fleet_id,
         basic_info.fleet_boss_id
     )
     .execute(&mut tx)
     .await?;
 
-
+    // Let the FC use default squads, or map thier own for invites
     if body.default_squads {
-        // If the FC selects "Use Default MOTD" we need to build the fleet using ESI
-        // and then save those squads to the database
+        fleet_data::delete_all_wings(&app.esi_client, &basic_info).await?;
 
-        // Start by resetting the fleet
         #[derive(Debug, Deserialize)]
-        struct WingInfo {
-            id: i64,
+        struct NewPosition {
+            #[serde(alias = "squad_id", alias = "wing_id")]
+            id: i64
         }
-
-        #[derive(Debug, Serialize)]
-        struct Empty {}
 
         #[derive(Debug, Serialize)]
         struct WingName {
             name: String
         }
 
-        let wings : Vec<WingInfo> = app
-            .esi_client
-            .get(
-                &format!("/v1/fleets/{}/wings", basic_info.fleet_id),
-                body.boss_id,
-                ESIScope::Fleets_ReadFleet_v1,
-            )
-            .await?;
-
-        for wing in wings {
-            app.esi_client
-                .delete(
-                    &format!("/v1/fleets/{}/wings/{}", basic_info.fleet_id, wing.id),
-                    body.boss_id,
-                    ESIScope::Fleets_WriteFleet_v1,
-                )
-                .await?;
-        }
-
+        // Now we need to create the new wings and squads
         for wing in fleet_data::load_default_squads().await {
-            app.esi_client.post(
+            let wing_name = &wing.name;
+
+            let new_wing: NewPosition = app.esi_client.post(
                 &format!("/v1/fleets/{}/wings", basic_info.fleet_id),
                 &Empty {},
                 body.boss_id,
                 ESIScope::Fleets_WriteFleet_v1
             )
             .await?;
+
+            app.esi_client.put(
+                &format!("/v1/fleets/{}/wings/{}", basic_info.fleet_id, new_wing.id),
+                &WingName {
+                    name: wing_name.to_string()
+                },
+                body.boss_id,
+                ESIScope::Fleets_WriteFleet_v1
+            )
+            .await?;
+
+            for squad in wing.squads {
+                let new_squad: NewPosition = app.esi_client.post(
+                    &format!("/v1/fleets/{}/wings/{}/squads", basic_info.fleet_id, new_wing.id),
+                    &Empty {},
+                    body.boss_id,
+                    ESIScope::Fleets_WriteFleet_v1
+                )
+                .await?;
+
+                app.esi_client.put(
+                    &format!("/v1/fleets/{}/squads/{}", basic_info.fleet_id, new_squad.id),
+                    &WingName {
+                        name: squad.name.to_string()
+                    },
+                    body.boss_id,
+                    ESIScope::Fleets_WriteFleet_v1
+                )
+                .await?;
+
+                if let Some(category) = squad.map_to {
+                    sqlx::query!(
+                        "INSERT INTO fleet_squad (fleet_id, category, wing_id, squad_id) VALUES (?, ?, ?, ?)",
+                        basic_info.fleet_id,
+                        category,
+                        new_wing.id,
+                        new_squad.id
+                    )
+                    .execute(&mut tx)
+                    .await?;
+                }
+            }
         }
-        // let new_structure = fleet_data::load_default_squads().await;
-        // for
-
-        // // Then we need to create our new wings, squads and add them to the DB
-        // for wing in fleet_data::load_default_squads().await {
-        //     let wing_name = &wing.name;
-
-        //     let new_wing : CreateWingResponse = app.esi_client.post(
-        //         &format!("/v1/fleets/{}/wings", basic_info.fleet_id),
-        //         &Empty {},
-        //         body.boss_id,
-        //         ESIScope::Fleets_WriteFleet_v1
-        //     )
-        //     .await?;
-
-        //     app.esi_client.put(
-        //         &format!("/v1/fleets/{}/wings/{}", basic_info.fleet_id, new_wing.wing_id),
-        //         &WingName {
-        //             name: wing_name.to_string()
-        //         },
-        //         body.boss_id,
-        //         ESIScope::Fleets_WriteFleet_v1
-        //     )
-        //     .await?;
-
-        //     for squad in wing.squads {
-        //         let w = wing_name;
-        //         let s = squad;
-        //     }
-        // }
-
-        // get seed
-        // foreach wing
-            // use ESI to create, capture ID
-                // foreach squad
-                    // use ESI to create, capture ID
-                    // insert into fleet_squads with Fleet ID, Wing ID, and Squad ID
+    }
+    else
+    {
+        // todo: map existing squads
     }
 
-    // Commit the database transaction
+    // All squads are created and mapped, so it's time to commit our DB changes
     tx.commit().await?;
 
-    // let fleet_id = esi.get_fleet()
+    if body.default_motd {
+        fleet_data::set_default_motd(app.get_db(), &app.esi_client, &basic_info).await?;
+    }
 
-    // insert into fleet (id, boss_id)
+    app.sse_client.submit(vec![Event::new_json(
+        "waitlist",
+        "fleets_updated",
+        "fleet_registered",
+    )])
+    .await?;
 
-    // if (squads) {
-    // create
-    /*
-         On Grid
-            > Logistics
-            > Bastion
-            > DPS/Snipers
-            > Alts
-        Off Grid
-            > Scout
-            > Scout 2
-            > Other
-     */
-    // insert into squad table ^
-    //}
-    // else
-    // {
-    //  use mapped values from req.body to insert into DB
-    //}
-
-    // if (MOTD) {
-    // update MOTD
-    // }
-    //
-
-    // return URL to fleet
-
-    let r = body;
-
-    Ok("ok")
+    Ok(format!("/fc/fleet/{}", basic_info.fleet_id))
 }
 
 pub fn routes() -> Vec<rocket::Route> {
