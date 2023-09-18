@@ -89,6 +89,7 @@ export const icons = {
 
   // Specalist Badges
   LOGI: { type: "shield", color: "green", letter: "L", name: "Logi Specialist" },
+  "EXPIRED LOGI": { type: "shield", color: "neutral", letter: "L", name: "Expired Logi" },
   BASTION: { type: "shield", color: "blue", letter: "B", name: "Bastion Specialist" },
   WEB: { type: "shield", color: "cyan", letter: "W", name: "Web Specialist" },
 
