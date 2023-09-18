@@ -10,6 +10,7 @@ import styled from "styled-components";
 import iconFile from "./notification-icon.png";
 import notificationAlarm from "./notification.mp3";
 import inviteAlarm from "./invite.mp3";
+import emergencyAlarm from "./emergency.mp3";
 
 const H3 = styled.h3`
   font-size: 1.5em;
@@ -38,6 +39,22 @@ const FireNotificationApi = ({ title, body }) => {
     });
   }
 };
+
+const handleEmergency = (event) => {
+  FireNotificationApi({
+    title: 'Emergency Fleet Invite!',
+    body: 'test'
+  });
+
+  let audio = new Audio(emergencyAlarm);
+  audio.volume = 0.7;
+  audio.play();
+
+  document.title = "Emergency Fleet Invite";
+
+  // Delay the alert by 2 seconds, otherwise it may stop the alarm from playing!
+  setTimeout(_ => alert(`**This is an Emergency** \n\n\n Join TS - Accept invite - Warp Your ${event.data} to FC!`), 2*1000);
+}
 
 const handleNotification = (event) => {
   let data = JSON.parse(event?.data);
@@ -87,8 +104,6 @@ const BrowserNotification = () => {
         FireNotificationApi({ body });
       }
 
-      console.log(`title`, title ?? "nou");
-
       if (settings.audio_alarm) {
         let is_fleet_invite = event?.data.includes("has invited your");
 
@@ -118,9 +133,11 @@ const BrowserNotification = () => {
       return;
     }
 
+    eventContext.addEventListener("emergency", handleEmergency);
     eventContext.addEventListener("message", handleMessage);
     eventContext.addEventListener("notification", handleNotification);
     return () => {
+      eventContext.removeEventListener("emergency", handleEmergency);
       eventContext.removeEventListener("message", handleMessage);
       eventContext.removeEventListener("notification", handleNotification);
     };

@@ -74,9 +74,8 @@ const RegisterFleetBtn = ({ refreshFunction }) => {
         method: 'POST',
         json
       })
-      .then(() => {
-        refreshFunction();
-        setOpen(false);
+      .then((e) => {
+        window.location.assign(e);
       })
       .finally(() => isPending(false))
     );

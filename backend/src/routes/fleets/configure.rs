@@ -257,7 +257,7 @@ async fn register(
     )])
     .await?;
 
-    Ok(format!("/fc/fleet/{}", basic_info.fleet_id))
+    Ok(format!("/fc/fleets/{}", basic_info.fleet_id))
 }
 
 

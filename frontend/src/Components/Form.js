@@ -14,6 +14,8 @@ const inputStyle = css`
   display: inline-block;
   font: inherit;
 
+  transition: ease-in-out 0.3s;
+
   &.active {
     border-color: ${(props) => props.theme.colors.active};
   }
@@ -46,14 +48,24 @@ const inputStyle = css`
 `;
 
 export const Button = styled.button.attrs((props) => ({
-  className: `${props.active ? "active" : ""} ${props.static ? "static" : ""}`,
+  className: `${props.outline ? "btn-outline" : ""} ${props.active ? "active" : ""} ${props.static ? "static" : ""}`.trim(),
 }))`
   ${inputStyle}
   height: 2.5em;
   cursor: pointer;
+  border-radius: 4px;
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.8;
+  }
+
+  &.btn-outline {
+    background: none;
+    border: solid 1.5px ${(props) => props.theme.colors[props.variant || "input"].color};
+    transition: ease-in-out 0.3s;
+    &:hover, &:active {
+      border: solid 1.5px ${(props) => props.theme.colors[props.variant || "input"].accent}!important;
+    }
   }
 `;
 
@@ -228,7 +240,7 @@ const SwitchDOM = styled.label`
   }
 
   span {
-    background-color: #ccc;
+    background-color: ${props => props.theme.colors.accent2};
     border-radius: 34px;
     cursor: pointer;
     position: absolute;

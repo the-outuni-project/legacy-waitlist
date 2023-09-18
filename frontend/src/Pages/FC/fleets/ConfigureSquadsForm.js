@@ -28,24 +28,34 @@ const ConfigureSquadsForm = ({ characterId }) => {
   const [ categories ] = useApi('/api/categories');
   const [ fleet_info ] = useApi(`/api/fleet/info?character_id=${characterId}`);
 
-  const [ squadList, updateSquadList ] = useState(undefined);
+  const [ options, setOptions ] = useState([]);
+  const [ squads, setSquads] = useState([]);
 
+  // Flatten the wings > squads into a single dimentional array so we can easily look up values
   useEffect(() => {
     let options = [];
-
     fleet_info?.wings.forEach(wing => {
       wing?.squads.forEach(squad => {
         options.push({
           label: `${wing.name} > ${squad.name}`,
           squad: squad.id,
-          wing: wing.id,
-        })
-      })
-    })
+          wing: wing.id
+        });
+      });
+    });
+    setOptions(options);
+  }, [ fleet_info ])
 
-    updateSquadList(options)
+  useEffect(() => {
+    let _squads = squads;
 
-  }, [fleet_info]);
+    // don't ask me why categories is an object with a property array called categories...
+    categories?.categories.forEach(category => {
+      // Ensure we have an entry in the array for each category
+      _squads[category.id] = _squads[category.id] ?? null;
+    });
+    setSquads(_squads);
+  }, [categories, options, squads, setSquads])
 
   return (
     <SquadWizzard>
@@ -53,16 +63,29 @@ const ConfigureSquadsForm = ({ characterId }) => {
 
       <div>
         { categories?.categories?.map((category, key) => {
-          // todo:
-          //   1. Try to find default matches   where squad name.toLower contains category.id.toLower
-          //   2. When a change is made, push up to the parent component so we can send it to the API
+          const handleSelect = (e) => {
+            let _squads = squads;
 
+            let selectedOption = options.find(opt => {
+              return opt?.label === e.target.value
+            });
+
+            _squads[category.id] = selectedOption;
+            console.log(_squads, category.id)
+            setSquads(_squads);
+          }
+
+          let val = squads[category.id];
           return (
             <FormGroup key={key}>
               <Label htmlFor={category.id}>{category.name}:</Label>
-              <Select id={category.id}>
-                { squadList?.map((squad, key) => {
-                  return <option key={key}>{squad.label}</option>
+              <Select id={category.id} value={val?.label ?? ''} onChange={handleSelect}>
+                { options?.map((squad, key) => {
+                  return (
+                    <option value={squad.label} key={key}>
+                      {squad.label}
+                    </option>
+                  )
                 })}
               </Select>
             </FormGroup>

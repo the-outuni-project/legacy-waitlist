@@ -164,9 +164,9 @@ async fn set_size(
 
 pub fn routes() -> Vec<rocket::Route> {
     routes![
-        get_fleet,      //          /api/v2/fleets/<fleet_id>
+        get_fleet,      // GET      /api/v2/fleets/<fleet_id>
         set_boss,       // POST     /api/v2/fleets/<fleet_id>/boss
-        set_size,       //          /api/v2/fleets/<fleet_id>/size
+        set_size,       // POST     /api/v2/fleets/<fleet_id>/size
         set_visibility  // POST     /api/v2/fleets/<fleet_id>/visibility
     ]
 }
