@@ -260,10 +260,12 @@ async fn register(
     Ok(format!("/fc/fleet/{}", basic_info.fleet_id))
 }
 
+
+
 pub fn routes() -> Vec<rocket::Route> {
     routes![
         fleets,     // GET      /api/v2/fleets
         close_all,  // DELETE   /api/v2/fleets
-        register    // POST     /api/v2/fleets
+        register,   // POST     /api/v2/fleets
     ]
 }

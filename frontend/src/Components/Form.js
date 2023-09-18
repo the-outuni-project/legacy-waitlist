@@ -205,3 +205,61 @@ export const Highlight = styled.b`
 	cursor: pointer;
 	color:  ${(props) => props.theme.colors.highlight.active};
 `;
+
+
+const SwitchDOM = styled.label`
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 28px;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .slider {
+      background-color: ${(props) => props.theme.colors.success.color};
+
+      &:before {
+        transform: translateX(26px);
+      }
+    }
+  }
+
+  span {
+    background-color: #ccc;
+    border-radius: 34px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: .4s;
+
+    &:before {
+      background-color: white;
+      border-radius: 50%;
+      content: "";
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      height: 20px;
+      width: 20px;
+      transition: .4s;
+    }
+  }
+`;
+
+export const Switch = ({ id, checked = false, onChange }) => {
+  return (
+    <SwitchDOM htmlFor={id}>
+      <input type="checkbox"
+        checked={checked}
+        onChange={_ => onChange(!checked)}
+      />
+      <span className='slider round' />
+    </SwitchDOM>
+  )
+}

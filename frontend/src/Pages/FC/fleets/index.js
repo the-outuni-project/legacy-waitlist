@@ -38,7 +38,7 @@ const FleetStatus = ({ is_listed = false }) => {
   return (
     <Badge variant={is_listed ? 'success' : 'danger'}>
       <FontAwesomeIcon fixedWidth icon={ is_listed ? faEye : faEyeSlash } />
-      &nbsp; { is_listed ? 'Listed' : 'Not-Listed' }
+      &nbsp; { is_listed ? 'Listed' : 'Unlisted' }
     </Badge>
   )
 }
