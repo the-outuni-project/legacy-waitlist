@@ -1,12 +1,14 @@
 import { useContext, useState } from "react";
-import { ToastContext } from "../../../../contexts";
-import { apiCall, errorToaster } from "../../../../api";
+import { ToastContext } from "../../../../../contexts";
+import { apiCall, errorToaster } from "../../../../../api";
 
-import { Box } from "../../../../Components/Box";
-import { Button, Buttons } from "../../../../Components/Form";
+import { Box } from "../../../../../Components/Box";
+import { Button } from "../../../../../Components/Form";
+import { Buttons } from "../../../../../Components/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
-import { Modal } from "../../../../Components/Modal";
+import { Modal } from "../../../../../Components/Modal";
+
 import styled from "styled-components";
 
 const H2 = styled.h2`

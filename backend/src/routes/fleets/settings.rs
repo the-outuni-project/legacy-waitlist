@@ -53,7 +53,6 @@ async fn get_fleet(
     )//WHERE fleet.id = fleet_id
     .fetch_optional(app.get_db())
     .await? {
-        // let f = fleet;
         return Ok(Json(FleetSettings {
             boss: Character {
                 id: fleet.boss_id,

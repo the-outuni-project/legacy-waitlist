@@ -4,6 +4,7 @@ import { useApi } from "../../../api";
 import { usePageTitle } from "../../../Util/title";
 
 import styled from "styled-components";
+import FleetButtons from "./Settings/Buttons";
 import FleetBoss from "./Settings/FleetBoss";
 import FleetVisibilty from "./Settings/FleetVisibilty";
 import FleetSize from "./Settings/FleetSize";
@@ -11,11 +12,11 @@ import FleetSize from "./Settings/FleetSize";
 const SettingsDOM = styled.div`
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  grid-template-columns: repeat(5, minmax(0px, 1fr));
   gap: 16px;
 
   @media (max-width: 1300px) {
-    grid-template-columns: repeat(2, minmax(0px, 1fr));
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
   }
 
   @media (max-width: 700px) {
@@ -132,6 +133,8 @@ const FleetSettings = ({ fleetId }) => {
           </Details>
         </div>
       </Card>
+
+      <FleetButtons fleetId={fleetId} />
     </SettingsDOM>
   )
 }

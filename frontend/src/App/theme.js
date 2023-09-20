@@ -39,15 +39,15 @@ const theme = {
         disabled: "#133e22",
       },
       warning: {
-        color: "#977c0b",
+        color: "#ff922b",
         text: "white",
-        accent: "#b89300",
+        accent: "#ff922bc7",
         disabled: "#574500",
       },
       danger: {
-        color: "#960627",
+        color: "#e03131",
         text: "white",
-        accent: "#960627",
+        accent: "#b11212",
         disabled: "#330a12",
       },
       primary: {

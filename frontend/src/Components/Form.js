@@ -231,7 +231,7 @@ const SwitchDOM = styled.label`
     height: 0;
 
     &:checked + .slider {
-      background-color: ${(props) => props.theme.colors.success.color};
+      background-color: ${(props) => props.theme.colors[props.variant].color};
 
       &:before {
         transform: translateX(26px);
@@ -264,9 +264,9 @@ const SwitchDOM = styled.label`
   }
 `;
 
-export const Switch = ({ id, checked = false, onChange }) => {
+export const Switch = ({ id, checked = false, variant = 'primary', onChange }) => {
   return (
-    <SwitchDOM htmlFor={id}>
+    <SwitchDOM htmlFor={id} variant={variant}>
       <input type="checkbox"
         checked={checked}
         onChange={_ => onChange(!checked)}
