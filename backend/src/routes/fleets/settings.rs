@@ -49,8 +49,10 @@ async fn get_fleet(
         FROM fleet
         JOIN `character` as fc ON fc.id=fleet.boss_id
         LEFT JOIN `fleet_activity` as fa ON fa.fleet_id=fleet.id
-        GROUP BY fleet.id"
-    )//WHERE fleet.id = fleet_id
+        WHERE fleet.id = ?
+        GROUP BY fleet.id",
+        fleet_id
+    )
     .fetch_optional(app.get_db())
     .await? {
         return Ok(Json(FleetSettings {

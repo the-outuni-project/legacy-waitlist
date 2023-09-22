@@ -3,14 +3,15 @@ import { useApi } from "../../../../api";
 import Navs from "./Navs";
 import Ship from "./Ship";
 import styled from "styled-components";
+import { CharacterName } from "../../../../Components/EntityLinks";
 
 const HullContainerDOM = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  // justify-content: center;
 `;
 
-const Fleet = ({ fleetId, myFleet = false }) => {
+const Fleet = ({ fleetBoss, fleetId, myFleet = false }) => {
   const [ activeTab, selectTab ] = useState('all');
 
   const [ rules ] = useApi('/api/categories/rules');
@@ -59,6 +60,14 @@ const Fleet = ({ fleetId, myFleet = false }) => {
 
   return (
     <div>
+      <strong>
+        { myFleet ? "Your Fleet": (
+          <>
+            Boss: <CharacterName {...fleetBoss} avatar={false} />
+          </>
+        )}
+
+      </strong>
       <Navs
         categories={Object.values(categories)}
         activeTab={activeTab}

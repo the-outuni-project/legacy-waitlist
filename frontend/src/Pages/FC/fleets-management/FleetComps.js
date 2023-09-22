@@ -1,25 +1,29 @@
+/* eslint-disable eqeqeq */
 import styled from "styled-components";
 import Fleet from "./Comp/Fleet";
+import { useApi } from "../../../api";
 
 const FleetCompDOM = styled.div`
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(2,minmax(0px,1fr));
+  grid-template-columns: repeat(${(props) => props.count},minmax(0px,1fr));
   gap: 16px;
   padding-top: 15px;
-
-  // div {
-  //   border: solid 1px white;
-  //   padding-bottom: 100px;
-  // }
+  justify-content: center;
 }
 `;
 
 const FleetComps = ({ fleetId }) => {
+  let [ fleets ] = useApi(`/api/v2/fleets`);
+
   return (
-    <FleetCompDOM>
-      {/* <Fleet fleetId={fleetId} /> */}
-      <Fleet fleetId={fleetId} myFleet={true} />
+    <FleetCompDOM count={fleets?.length <= 2 ? fleets.length : 2}>
+      {fleets?.map((fleet, key) => <Fleet
+        fleetId={fleet.id}
+        myFleet={fleet.id == fleetId}
+        fleetBoss={fleet.boss}
+        key={key}
+      /> )}
     </FleetCompDOM>
   )
 }
