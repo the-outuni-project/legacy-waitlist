@@ -119,7 +119,7 @@ const RevokeButton = (props) => {
 };
 
 const RevokeConfirm = ({ badge, character, isOpen, setOpen, refreshFunction }) => {
-  const [pending, isPending] = React.useState(false);
+  const [ pending, isPending ] = React.useState(false);
   const toastContext = React.useContext(ToastContext);
 
   const onClick = () => {

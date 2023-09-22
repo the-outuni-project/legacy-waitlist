@@ -1,3 +1,4 @@
+use eve_data_core::TypeID;
 use rocket::serde::json::Json;
 use serde::Serialize;
 
@@ -17,6 +18,11 @@ fn categories(_account: AuthenticatedAccount) -> Json<CategoryResponse> {
     })
 }
 
+#[get("/api/categories/rules")]
+fn category_rules(_account: AuthenticatedAccount) -> Json<&'static Vec<(TypeID, String)>> {
+    Json(data::categories::rules())
+}
+
 pub fn routes() -> Vec<rocket::Route> {
-    routes![categories]
+    routes![categories, category_rules]
 }

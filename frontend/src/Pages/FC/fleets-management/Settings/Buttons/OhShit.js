@@ -51,7 +51,7 @@ const OhShit = ({ fleetId }) => {
             Emergency Logi Invite
           </H2>
           <p style={{ marginBottom: '25px'}}>
-            <Switch checked={toggle} variant="danger" onChange={setToggle} /> &nbsp; &nbsp; ARM
+            SET SAFETY TO RED: &nbsp; <Switch checked={toggle} variant="danger" onChange={setToggle} />
           </p>
 
           <Buttons style={{ marginTop: '15px'}}>
