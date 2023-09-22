@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { EventContext } from "../../../../contexts";
 import { useApi } from "../../../../api";
 import Navs from "./Navs";
 import Ship from "./Ship";
@@ -12,11 +13,27 @@ const HullContainerDOM = styled.div`
 `;
 
 const Fleet = ({ fleetBoss, fleetId, myFleet = false }) => {
+  const eventContext = useContext(EventContext);
   const [ activeTab, selectTab ] = useState('all');
 
   const [ rules ] = useApi('/api/categories/rules');
-  const [ pilots ] = useApi(`/api/v2/fleets/${fleetId}/comp`);
+  const [ pilots, refresh ] = useApi(`/api/v2/fleets/${fleetId}/comp`);
 
+  useEffect(() => {
+    if (!eventContext) return;
+
+    const comp_updated = (e) => {
+      let data = JSON.parse(e.data);
+      if (data.fleet_id === fleetId) {
+        refresh();
+      }
+    }
+
+    eventContext.addEventListener("comp_updated", comp_updated);
+    return () => {
+      eventContext.removeEventListener("comp_updated", comp_updated);
+    }
+  }, [eventContext, fleetId, refresh])
 
   let fleet = {};
   pilots?.forEach(p => {
@@ -57,6 +74,12 @@ const Fleet = ({ fleetBoss, fleetId, myFleet = false }) => {
   if (categories[activeTab]) {
     hulls = categories[activeTab].ships;
   }
+
+  hulls = hulls.sort((a, b) => {
+    if (a.pilots.length > b.pilots.length) return -1;
+    if (b.pilots.length > a.pilots.length) return 1;
+    return a.name.localeCompare(b.name);
+  });
 
   return (
     <div>

@@ -113,7 +113,7 @@ const FleetSettings = ({ fleetId }) => {
   }, [refresh, eventContext])
 
   usePageTitle(`${settings?.boss?.name}'s Fleet`);
-  console.log(settings)
+
   return (
     <SettingsDOM>
       <FleetBoss fleetBoss={settings?.boss} fleetSystem={settings?.boss_system} fleetId={fleetId} />

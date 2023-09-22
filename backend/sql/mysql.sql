@@ -157,7 +157,7 @@ CREATE TABLE `fleet_activity` (
   `last_seen` bigint NOT NULL,
   `hull` int NOT NULL,
   `has_left` tinyint NOT NULL,
-  `is_boss` tinyint NOT NULL,
+  `is_boss` boolean NOT NULL,
   PRIMARY KEY (`id`),
   KEY `character_id` (`character_id`),
   KEY `ix_fleet_activity_fleet_id` (`fleet_id`),
@@ -201,12 +201,14 @@ CREATE TABLE `character_note` (
 
 CREATE TABLE `fleet` (
   `id` bigint NOT NULL,
-  `boss_id` bigint NOT NULL,
-  `is_updating` tinyint DEFAULT NULL,
+  `boss_id` NOT NULL bigint,
+  `boss_system_id` BIGINT,
+  `max_size` BIGINT NOT NULL,
+  `visible` BOOL NOT NULL DEFAULT FALSE,
+  `error_count` BIGINT NOT NULL DEFAULT(0)
   PRIMARY KEY (`id`),
   KEY `boss_id` (`boss_id`),
-  CONSTRAINT `fleet_ibfk_1` FOREIGN KEY (`boss_id`) REFERENCES `character` (`id`),
-  CONSTRAINT `fleet_chk_1` CHECK ((`is_updating` in (0,1)))
+  CONSTRAINT `fleet_ibfk_1` FOREIGN KEY (`boss_id`) REFERENCES `character` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `fleet_squad` (

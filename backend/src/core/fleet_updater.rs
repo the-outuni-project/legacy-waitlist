@@ -1,12 +1,16 @@
 use crate::core::esi::{self, ESIScope};
 use crate::data::character;
 use crate::{config::Config, util::madness::Madness};
-use eve_data_core::TypeID;
 use serde::{Deserialize, Serialize};
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::sync::Arc;
 
 use super::sse;
+
+#[derive(Deserialize)]
+struct CharacterResponse {
+    name: String,
+}
 
 pub struct FleetUpdater {
     esi_client: esi::ESIClient,
@@ -57,9 +61,8 @@ impl FleetUpdater {
     }
 
     async fn run_once(&self) -> Result<(), Madness> {
-        // XXX Get global update lock
-
-        let fleets = sqlx::query!("SELECT id FROM fleet")
+        // Get the fleets to update ONLY WHERE they have errored less than 10 times
+        let fleets = sqlx::query!("SELECT id FROM fleet WHERE error_count < 10")
             .fetch_all(self.get_db())
             .await?;
 
@@ -71,47 +74,86 @@ impl FleetUpdater {
     }
 
     async fn update_fleet(&self, fleet_id: i64) -> Result<(), Madness> {
-        let fleet = sqlx::query!("SELECT * FROM fleet WHERE id = ?", fleet_id)
-            .fetch_one(self.get_db())
-            .await?;
+        let fleet = sqlx::query!(
+            "SELECT id, boss_id, boss_system_id, error_count FROM fleet WHERE id=?",
+                fleet_id
+        )
+        .fetch_one(self.get_db())
+        .await?;
 
-        let members_raw =
-            match esi::fleet_members::get(&self.esi_client, fleet_id, fleet.boss_id).await {
-                Ok(m) => m,
-                Err(
-                    esi::ESIError::Status(403)
-                    | esi::ESIError::Status(404)
-                    | esi::ESIError::NoToken
-                    | esi::ESIError::MissingScope
-                    | esi::ESIError::WithMessage(_, _),
-                ) => {
-                    // 403/404 => Delete the fleet, move on
-                    let mut tx = self.get_db().begin().await?;
-                    sqlx::query!("DELETE FROM fleet_squad WHERE fleet_id=?", fleet_id)
-                        .execute(&mut tx)
-                        .await?;
-                    sqlx::query!("DELETE FROM fleet WHERE id=?", fleet_id)
-                        .execute(&mut tx)
-                        .await?;
-                    tx.commit().await?;
-                    return Ok(());
-                }
-                Err(e) => return Err(Madness::from(e)),
-            };
-        let members: HashMap<_, _> = members_raw.iter().map(|m| (m.character_id, m)).collect();
-        let member_ids: Vec<i64> = members.iter().map(|(&id, _mem)| id).collect();
+        let members = match esi::fleet_members::get(&self.esi_client, fleet_id, fleet.boss_id).await {
+            Ok(m) => m,
+            Err(
+                | esi::ESIError::NoToken
+                | esi::ESIError::MissingScope
+                | esi::ESIError::WithMessage(403, _)
+            ) => {
+                // The FC does not have permission to access this fleet. Set error_count = 10 so we stop updating this fleet
+                sqlx::query!(
+                    "UPDATE fleet SET error_count=? WHERE id=?",
+                    10,
+                    fleet_id
+                )
+                .execute(self.get_db())
+                .await?;
+
+                warn!("Access denied for fleet {}. Fleet {} will no longer be updated.", fleet_id, fleet_id);
+
+                return Ok(());
+            }
+            Err(
+                esi::ESIError::WithMessage(404, _)
+            ) => {
+                // Fleet no longer exists we need to remove it from the database
+                warn!("Fleet {} no longer exists. Removing it from the database.", fleet_id);
+
+                let now = chrono::Utc::now().timestamp();
+                let mut tx = self.get_db().begin().await?;
+
+                sqlx::query!("DELETE FROM fleet_squad WHERE fleet_id=?", fleet_id)
+                    .execute(&mut tx)
+                    .await?;
+
+                sqlx::query!("DELETE FROM fleet WHERE id=?", fleet_id)
+                    .execute(&mut tx)
+                    .await?;
+
+                sqlx::query!("UPDATE fleet_activity SET last_seen=?,has_left=true WHERE fleet_id=? AND has_left=false", now, fleet_id)
+                    .execute(&mut tx)
+                    .await?;
+
+                tx.commit().await?;
+
+                //todo: SSE update fleets
+
+                return Ok(());
+            }
+            Err(e) => {
+                warn!("Fleet {} error counter {}", fleet_id, fleet.error_count + 1);
+
+                sqlx::query!("UPDATE fleet SET error_count=? WHERE id=?", fleet.error_count + 1, fleet_id)
+                    .execute(self.get_db())
+                    .await?;
+
+                return Err(Madness::from(e))
+            },
+        };
+
+
+        let member_ids: Vec<i64> = members.iter().map(|pilot| pilot.character_id).collect();
+
+        // Ensure the characters table is up to date. If the character is known we only need to update the
+        // last_seen timestamp, if however the character is not known we will look them up with ESI and insert them into the DB
         let now = chrono::Utc::now().timestamp();
         {
-            // Update characters to make sure we have each in the database
             let characters = character::lookup(self.get_db(), &member_ids).await?;
             for &id in &member_ids {
-                if !characters.contains_key(&id) {
-                    // Add characters not in our DB so we can track fleet activity
-                    #[derive(Deserialize)]
-                    struct CharacterResponse {
-                        name: String,
-                    }
-
+                if characters.contains_key(&id) {
+                    sqlx::query!("UPDATE `character` SET `last_seen`= ? WHERE `id`=?", now, id)
+                        .execute(self.get_db())
+                        .await?;
+                }
+                else {
                     let character_info: CharacterResponse = self
                         .esi_client
                         .get(
@@ -130,174 +172,180 @@ impl FleetUpdater {
                     .execute(self.get_db())
                     .await?;
                 }
-                else {
-                    // If we know the character then we only need to touch `last_seen`
-                    sqlx::query!("UPDATE `character` SET `last_seen`= ? WHERE `id`=?",
-                        now,
-                        id
-                    )
-                    .execute(self.get_db())
-                    .await?;
-                }
             }
         }
 
-        let changed_waitlist_ids: Vec<i64> = {
-            // Update the waitlist: remove people who are in fleet
-            let mut changed = HashSet::new();
+        // Now the characters table is up to date, we can remove pilots from the waitlist who are in fleet.
+        // The return type is a Bool that will be used to conditionally alert all users to a waitlist status change at the end of the updater
+        let waitlist_changed: bool = {
+            let mut changed = false;
 
-            let on_waitlist: HashMap<i64, _> =
-                sqlx::query!("SELECT entry_id, waitlist_id, character_id, is_alt FROM waitlist_entry_fit JOIN waitlist_entry ON waitlist_entry_fit.entry_id=waitlist_entry.id")
-                    .fetch_all(self.get_db())
-                    .await?
-                    .into_iter()
-                    .map(|r| (r.character_id, r))
-                    .collect();
+            // Get the characters on the waitlist
+            let waitlist: HashMap<i64, _> = sqlx::query!("SELECT entry_id, waitlist_id, character_id, is_alt FROM waitlist_entry_fit JOIN waitlist_entry ON waitlist_entry_fit.entry_id=waitlist_entry.id")
+                .fetch_all(self.get_db())
+                .await?
+                .into_iter()
+                .map(|r| (r.character_id, r))
+                .collect();
+
 
             let mut tx = self.get_db().begin().await?;
             for &id in &member_ids {
-                if let Some(record) = on_waitlist.get(&id) {
-                    changed.insert(record.waitlist_id);
-                    if record.is_alt > 0 {
-                        sqlx::query!(
-                            "DELETE FROM waitlist_entry_fit WHERE character_id=?",
-                            record.character_id
-                        )
+                if let Some(pilot_on_wl) = waitlist.get(&id) {
+                    changed = true;
+
+                    sqlx::query!("DELETE FROM waitlist_entry_fit WHERE entry_id=?", pilot_on_wl.entry_id)
                         .execute(&mut tx)
                         .await?;
-                    } else {
-                        sqlx::query!(
-                            "DELETE FROM waitlist_entry_fit WHERE entry_id=? AND is_alt = 0",
-                            record.entry_id
-                        )
-                        .execute(&mut tx)
-                        .await?;
-                    }
                 }
             }
-            sqlx::query!("DELETE FROM waitlist_entry WHERE id NOT IN (SELECT entry_id FROM waitlist_entry_fit)").execute(&mut tx).await?;
+            sqlx::query!("DELETE FROM waitlist_entry WHERE id NOT IN (SELECT entry_id FROM waitlist_entry_fit)")
+                .execute(&mut tx)
+                .await?;
+
             tx.commit().await?;
 
-            changed.into_iter().collect()
+            changed
         };
 
+        // Next update the fleet_activity table which is used for tracking flight time and displaying the fleet comp
+        // The return type is a Bool that will be used to conditionally alert FCs if the fleet comp has changed
+        let mut boss_system_changed: bool = false;
         let fleet_comp_changed: bool = {
-            // Update the fleet activity data
-            let current_time = chrono::Utc::now().timestamp();
-            let mut new_fleet_comp = false;
+            let mut changed = false;
+            let now = chrono::Utc::now().timestamp();
 
             let mut tx = self.get_db().begin().await?;
-            let stored_in_fleet: HashMap<i64, _> = sqlx::query!(
-                "SELECT * FROM fleet_activity WHERE fleet_id=? AND has_left=0",
-                fleet_id
-            )
-            .fetch_all(&mut tx)
-            .await?
-            .into_iter()
-            .map(|r| (r.character_id, r))
-            .collect();
+            let in_fleet: HashMap<i64, _> = sqlx::query!("SELECT * FROM fleet_activity WHERE fleet_id=? AND has_left=0", fleet_id)
+                .fetch_all(&mut tx)
+                .await?
+                .into_iter()
+                .map(|r| (r.character_id, r))
+                .collect();
 
-            // Require a certain amount of characters in fleet before we track time
-            let have_in_fleet = match members.len() >= self.config.fleet_updater.min_in_fleet {
-                true => members.clone(),
-                false => HashMap::new(),
-            };
 
-            // Detect newly joined members
-            for (&id, member) in &have_in_fleet {
-                let is_boss = (fleet.boss_id == id) as i8;
+            // Is ESI reporting enough pilots to satisfy the min pilots required for the fleet updater as specified in config.toml?
+            let min_pilots_in_fleet: bool = members.len() >= self.config.fleet_updater.min_in_fleet;
 
-                let mut should_insert = false;
-                if let Some(stored) = stored_in_fleet.get(&id) {
-                    if (stored.hull as TypeID) == member.ship_type_id
-                        && (stored.is_boss as i8) == is_boss
-                    {
-                        if stored.last_seen < current_time - 60 {
-                            sqlx::query!(
-                                "UPDATE fleet_activity SET last_seen=? WHERE id=?",
-                                current_time,
-                                stored.id
-                            )
-                            .execute(&mut tx)
-                            .await?;
+            for member in &members {
+                let is_boss: i8 = {
+                    if member.character_id == fleet.boss_id {
+                        1
+                    } else {
+                        0
+                    }
+                };
+                //  member.character_id == fleet.boss_id;
+
+                if is_boss == 1 && fleet.boss_system_id.is_none() || fleet.boss_system_id.unwrap() != member.solar_system_id {
+                    sqlx::query!("UPDATE fleet SET boss_system_id=? WHERE id=?", member.solar_system_id, fleet_id)
+                        .execute(&mut tx)
+                        .await?;
+
+                    boss_system_changed = true;
+                }
+
+                if min_pilots_in_fleet {
+                    let mut insert_record: bool = false;
+                    if let Some(in_db) = in_fleet.get(&member.character_id) {
+                        if in_db.hull == member.ship_type_id && in_db.is_boss == is_boss {
+                            if in_db.last_seen < now - 60 {
+                                sqlx::query!("UPDATE fleet_activity SET last_seen=? WHERE id=?", now, in_db.id)
+                                    .execute(&mut tx)
+                                    .await?;
+
+                                changed = true;
+                            }
+                        }
+                        else {
+                            sqlx::query!("UPDATE fleet_activity SET has_left=1, last_seen=? WHERE id=?", now, in_db.id)
+                                .execute(&mut tx)
+                                .await?;
+
+                            insert_record = true;
                         }
                     } else {
-                        sqlx::query!(
-                            "UPDATE fleet_activity SET has_left=1, last_seen=? WHERE id=?",
-                            current_time,
-                            stored.id
-                        )
-                        .execute(&mut tx)
-                        .await?;
-                        should_insert = true;
+                        // If the member (from ESI) is not in the database then they've joined fleet
+                        // so we need to add them to the fleet activity table
+                        insert_record = true;
                     }
-                } else {
-                    should_insert = true;
-                }
 
-                if should_insert {
-                    sqlx::query!(
-                        "INSERT INTO fleet_activity (character_id, fleet_id, first_seen, last_seen, is_boss, hull, has_left) VALUES (?, ?, ?, ?, ?, ?, 0)",
-                        member.character_id, fleet_id, current_time, current_time, is_boss, member.ship_type_id,
-                    ).execute(&mut tx).await?;
-                    new_fleet_comp = true;
+                    if insert_record {
+                        sqlx::query!(
+                            "INSERT INTO fleet_activity (character_id, fleet_id, first_seen, last_seen, is_boss, hull, has_left) VALUES (?, ?, ?, ?, ?, ?, 0)",
+                            member.character_id, fleet_id, now, now, is_boss, member.ship_type_id,
+                        ).execute(&mut tx).await?;
+
+                        changed = true;
+                    }
                 }
             }
 
-            // Detect members that left
-            for (id, stored) in stored_in_fleet {
-                if !have_in_fleet.contains_key(&id) {
-                    sqlx::query!("UPDATE fleet_activity SET has_left=1 WHERE id=?", stored.id)
+            let members_map: HashMap<i64, _> = members
+                .into_iter()
+                .map(|r| (r.character_id, r))
+                .collect();
+
+            for (id, pilot) in in_fleet {
+                // Remove pilots from fleet_activity if they are no longer in fleet
+                if !members_map.contains_key(&id) {
+                    sqlx::query!("UPDATE fleet_activity SET has_left=1 WHERE id=?", pilot.id)
                         .execute(&mut tx)
                         .await?;
-                    new_fleet_comp = true;
+
+                    changed = true;
                 }
             }
 
+            // handle people who left fleet
             tx.commit().await?;
 
-            new_fleet_comp
+            changed
         };
 
-        self.notify_sse(fleet_id, &changed_waitlist_ids, fleet_comp_changed)
-            .await?;
+        // Send an SSE Broadcast to ALL to notify users that pilots have been removed from the waitlist.
+        if waitlist_changed {
+            #[derive(Debug, Serialize)]
+            struct WaitlistUpdate {
+                waitlist_id: i64
+            }
 
-        Ok(())
-    }
-
-    async fn notify_sse(
-        &self,
-        fleet_id: i64,
-        changed_waitlist_ids: &[i64],
-        fleet_comp_changed: bool,
-    ) -> Result<(), Madness> {
-        #[derive(Debug, Serialize)]
-        struct WaitlistUpdate {
-            waitlist_id: i64,
-        }
-        #[derive(Debug, Serialize)]
-        struct NewFleetComp {
-            fleet_id: i64,
-        }
-
-        let mut events = Vec::new();
-        for &id in changed_waitlist_ids {
-            events.push(sse::Event::new_json(
+            self.sse_client.submit(vec![sse::Event::new_json(
                 "waitlist",
                 "waitlist_update",
-                &WaitlistUpdate { waitlist_id: id },
-            ));
-        }
-        if fleet_comp_changed {
-            events.push(sse::Event::new_json(
-                "fleet_comp",
-                "comp_update",
-                &NewFleetComp { fleet_id },
-            ))
+                &WaitlistUpdate { waitlist_id: 1 }
+            )])
+            .await?;
         }
 
-        if !events.is_empty() {
-            self.sse_client.submit(events).await?;
+        // Send an SSE Broadcast to FCs to notify them that the fleet comp and settings have been updated
+        if fleet_comp_changed {
+            #[derive(Debug, Serialize)]
+            struct NewFleetComp {
+                fleet_id: i64,
+            }
+
+            self.sse_client.submit(vec![sse::Event::new_json(
+                "waitlist",
+                "fleets_updated",
+                "comp_updated"
+            )])
+            .await?;
+
+            self.sse_client.submit(vec![sse::Event::new_json(
+                "waitlist",
+                "comp_updated",
+                &NewFleetComp { fleet_id: fleet_id }
+            )])
+            .await?;
+        // use an else if because we don't want to send a boss changed notification if we're already sending an updated fleet notification
+        } else if boss_system_changed {
+            self.sse_client.submit(vec![sse::Event::new_json(
+                "waitlist",
+                "fleets_updated",
+                "boss_system_updated"
+            )])
+            .await?;
         }
 
         Ok(())

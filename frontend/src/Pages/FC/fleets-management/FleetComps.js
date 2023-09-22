@@ -1,7 +1,9 @@
 /* eslint-disable eqeqeq */
+import { useContext, useEffect } from "react";
+import { useApi } from "../../../api";
 import styled from "styled-components";
 import Fleet from "./Comp/Fleet";
-import { useApi } from "../../../api";
+import { EventContext } from "../../../contexts";
 
 const FleetCompDOM = styled.div`
   box-sizing: border-box;
@@ -14,7 +16,17 @@ const FleetCompDOM = styled.div`
 `;
 
 const FleetComps = ({ fleetId }) => {
-  let [ fleets ] = useApi(`/api/v2/fleets`);
+  const eventContext = useContext(EventContext);
+  let [ fleets, refresh ] = useApi(`/api/v2/fleets`);
+
+  useEffect(() => {
+    if (!eventContext) return;
+
+    eventContext.addEventListener("fleets_updated", refresh);
+    return () => {
+      eventContext.removeEventListener("fleets_updated", refresh);
+    }
+  }, [refresh, eventContext])
 
   return (
     <FleetCompDOM count={fleets?.length <= 2 ? fleets.length : 2}>

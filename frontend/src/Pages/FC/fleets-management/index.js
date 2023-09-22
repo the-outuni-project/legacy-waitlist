@@ -10,8 +10,8 @@ const FleetsManagementPage = () => {
     <>
       <FleetSettings fleetId={url?.fleetId} />
       <FleetComps fleetId={url?.fleetId} />
-      {/* <FleetComp fleetId={url?.fleetid} /> */}
       {/* <Waitlist fleetId={url?.fleetid} /> */}
+      The waitlist will be here soon&trade;
     </>
   )
 }

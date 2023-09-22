@@ -15,6 +15,8 @@ async fn fleet(
     app: &rocket::State<Application>,
     fleet_id: i64
 ) -> Result<Json<Vec<FleetMember>>, Madness> {
+    account.require_access("waitlist-view")?;
+
     let fleet_members = sqlx::query!(
         "SELECT
             c.id,

@@ -45,10 +45,7 @@ const FleetBoss = ({ fleetBoss = {}, fleetId, fleetSystem }) => {
               name={fleetBoss.name ?? ''}
               noLink={!fleetBoss.id}
             />
-            { fleetSystem && <>({fleetSystem.name})</>}
-            { authContext.current.id !== fleetBoss.id && (
-              <Button onClick={handleClick} />
-            )}
+            <Button onClick={handleClick} />
           </div>
         </Details>
       </div>
