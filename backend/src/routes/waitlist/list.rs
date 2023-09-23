@@ -46,11 +46,10 @@ struct WaitlistEntryFit {
     is_alt: bool,
 }
 
-#[get("/api/waitlist?<waitlist_id>")]
+#[get("/api/waitlist")]
 async fn list(
     app: &rocket::State<Application>,
     account: AuthenticatedAccount,
-    waitlist_id: i64,
 ) -> Result<Json<WaitlistResponse>, Madness> {
     let waitlist_categories = data::categories::categories()
         .iter()
@@ -61,10 +60,11 @@ async fn list(
         .map(|cat| (&cat.id, &cat.name))
         .collect();
 
-    let waitlist = sqlx::query!("SELECT is_open FROM waitlist WHERE id = ?", waitlist_id)
+    let visible_fleets = sqlx::query!("SELECT id FROM fleet WHERE visible=1")
         .fetch_optional(app.get_db())
         .await?;
-    if waitlist.is_none() || waitlist.unwrap().is_open == 0 {
+
+    if visible_fleets.is_none() {
         return Ok(Json(WaitlistResponse {
             open: false,
             waitlist: None,
@@ -99,10 +99,8 @@ async fn list(
             JOIN `character` char_we ON we.account_id = char_we.id
             JOIN fitting ON wef.fit_id = fitting.id
             JOIN implant_set ON wef.implant_set_id = implant_set.id
-            WHERE we.waitlist_id = ?
             ORDER BY we.id ASC, wef.id ASC
-        ",
-        waitlist_id
+        "
     )
     .fetch_all(app.get_db())
     .await?;

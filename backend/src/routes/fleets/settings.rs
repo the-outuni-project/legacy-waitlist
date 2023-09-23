@@ -1,9 +1,10 @@
 use crate::util::types::{Character, System};
 use crate::{core::auth::AuthenticatedAccount, util::madness::Madness, app::Application};
-use crate::core::sse::Event;
 use eve_data_core::TypeDB;
 use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
+
+use super::notify;
 
 #[derive(Debug, Serialize)]
 struct FleetSettings {
@@ -98,12 +99,7 @@ async fn set_boss(
         .await?;
     }
 
-    app.sse_client.submit(vec![Event::new_json(
-        "waitlist",
-        "fleets_updated",
-        "boss_updated",
-    )])
-    .await?;
+    notify::fleets_updated(&app, "fleet_settings", Some(fleet_id)).await?;
 
     Ok("Ok")
 }
@@ -117,20 +113,17 @@ async fn set_visibility(
 ) -> Result<&'static str, Madness> {
     account.require_access("fleet-view")?;
 
-    if let Some(_) = sqlx::query!("SELECT * FROM `fleet` WHERE id=?", fleet_id)
-    .fetch_optional(app.get_db())
-    .await? {
-        sqlx::query!("UPDATE `fleet` SET visible=? WHERE id=?", body.visible, fleet_id)
-        .execute(app.get_db())
-        .await?;
-    }
 
-    app.sse_client.submit(vec![Event::new_json(
-        "waitlist",
-        "fleets_updated",
-        "visibility_updated",
-    )])
-    .await?;
+    if let Some(_) = sqlx::query!("SELECT * FROM `fleet` WHERE id=?", fleet_id)
+        .fetch_optional(app.get_db())
+        .await? {
+            sqlx::query!("UPDATE `fleet` SET visible=? WHERE id=?", body.visible, fleet_id)
+            .execute(app.get_db())
+            .await?;
+        }
+
+    notify::fleets_updated(&app, "fleet_settings", Some(fleet_id)).await?;
+    notify::waitlist_state(&app, "visibility").await?;
 
     Ok("Ok")
 }
@@ -152,12 +145,7 @@ async fn set_size(
         .await?;
     }
 
-    app.sse_client.submit(vec![Event::new_json(
-        "waitlist",
-        "fleets_updated",
-        "size_updated",
-    )])
-    .await?;
+    notify::fleets_updated(&app, "fleet_settings", Some(fleet_id)).await?;
 
     Ok("Ok")
 }

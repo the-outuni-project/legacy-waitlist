@@ -220,28 +220,13 @@ CREATE TABLE `fleet_squad` (
   CONSTRAINT `fleet_squad_ibfk_1` FOREIGN KEY (`fleet_id`) REFERENCES `fleet` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `waitlist` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `is_open` tinyint NOT NULL,
-  `is_archived` tinyint NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `waitlist_chk_1` CHECK ((`is_open` in (0,1))),
-  CONSTRAINT `waitlist_chk_2` CHECK ((`is_archived` in (0,1)))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- We need to add a waitlist to the database, otherwise some features wont work
-INSERT INTO waitlist (name, is_open, is_archived) values ("TDF HQ", 0, 0);
-
 CREATE TABLE `waitlist_entry` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `waitlist_id` bigint NOT NULL,
   `account_id` bigint NOT NULL,
   `joined_at` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `waitlist_id` (`waitlist_id`,`account_id`),
+  UNIQUE KEY `account_id`,
   KEY `account_id` (`account_id`),
-  CONSTRAINT `waitlist_entry_ibfk_1` FOREIGN KEY (`waitlist_id`) REFERENCES `waitlist` (`id`),
   CONSTRAINT `waitlist_entry_ibfk_2` FOREIGN KEY (`account_id`) REFERENCES `character` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

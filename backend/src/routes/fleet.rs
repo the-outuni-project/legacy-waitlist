@@ -45,11 +45,11 @@ async fn fleet_status(
         }
     }).collect();
 
-    let res = sqlx::query!("SELECT count(*) as `count` FROM waitlist WHERE is_open=1")
-        .fetch_one(app.get_db())
+    let visible_fleets = sqlx::query!("SELECT id FROM fleet WHERE visible=1")
+        .fetch_optional(app.get_db())
         .await?;
 
-    Ok(Json(FleetStatusResponse { fleets, wl_open: res.count > 0 }))
+    Ok(Json(FleetStatusResponse { fleets, wl_open: visible_fleets.is_some() }))
 }
 
 async fn get_current_fleet_id(

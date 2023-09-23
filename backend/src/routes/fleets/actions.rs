@@ -68,6 +68,13 @@ async fn delete_fleet(
     tx.commit().await?;
 
     app.sse_client.submit(vec![Event::new_json(
+        "fleet",
+        "fleets",
+        "closed",
+    )])
+    .await?;
+
+    app.sse_client.submit(vec![Event::new_json(
         "waitlist",
         "fleets_updated",
         "fleet_deleted",

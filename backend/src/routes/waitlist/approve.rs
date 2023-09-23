@@ -21,16 +21,6 @@ async fn approve_fit(
 ) -> Result<&'static str, Madness> {
     account.require_access("waitlist-manage")?;
 
-    let entry = sqlx::query!(
-        "
-            SELECT entry_id, waitlist_id FROM waitlist_entry_fit wef
-            JOIN waitlist_entry we ON we.id=wef.entry_id WHERE wef.id=?
-        ",
-        input.id
-    )
-    .fetch_one(app.get_db())
-    .await?;
-
     sqlx::query!(
         "UPDATE waitlist_entry_fit SET approved=1 WHERE id=?",
         input.id
@@ -38,7 +28,7 @@ async fn approve_fit(
     .execute(app.get_db())
     .await?;
 
-    super::notify::notify_waitlist_update(app, entry.waitlist_id).await?;
+    super::notify::notify_waitlist_update(app, 1).await?;
 
     Ok("OK")
 }
@@ -65,7 +55,7 @@ async fn reject_fit(
 
     let entry = sqlx::query!(
         "
-            SELECT account_id, entry_id, fit_id, waitlist_id FROM waitlist_entry_fit wef
+            SELECT account_id, entry_id, fit_id FROM waitlist_entry_fit wef
             JOIN waitlist_entry we ON we.id=wef.entry_id WHERE wef.id=?
         ",
         input.id
@@ -85,7 +75,7 @@ async fn reject_fit(
         .fetch_one(app.get_db())
         .await?;
 
-    super::notify::notify_waitlist_update(app, entry.waitlist_id).await?;
+    super::notify::notify_waitlist_update(app, 1).await?;
     app.sse_client
         .submit(vec![Event::new_json(
             &format!("account;{}", entry.account_id),

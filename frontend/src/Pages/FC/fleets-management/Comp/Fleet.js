@@ -24,14 +24,14 @@ const Fleet = ({ fleetBoss, fleetId, myFleet = false }) => {
 
     const comp_updated = (e) => {
       let data = JSON.parse(e.data);
-      if (data.fleet_id === fleetId) {
+      if (data.id === Number(fleetId)) {
         refresh();
       }
     }
 
-    eventContext.addEventListener("comp_updated", comp_updated);
+    eventContext.addEventListener("fleet_comp", comp_updated);
     return () => {
-      eventContext.removeEventListener("comp_updated", comp_updated);
+      eventContext.removeEventListener("fleet_comp", comp_updated);
     }
   }, [eventContext, fleetId, refresh])
 

@@ -125,8 +125,8 @@ export function NavLinks({ whoami }) {
         ISK/h
       </Links>
       {whoami && whoami.access["fleet-view"] && (
-        <Links exact to="/fc/fleet">
-          Fleet
+        <Links exact to="/fc/fleets">
+          Fleets
         </Links>
       )}
       {whoami && whoami.access["waitlist-tag:HQ-FC"] && (

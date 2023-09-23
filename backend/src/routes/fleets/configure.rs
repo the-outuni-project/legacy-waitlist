@@ -110,6 +110,13 @@ async fn close_all(
     }
 
     app.sse_client.submit(vec![Event::new_json(
+        "fleet",
+        "fleets",
+        "closed_all",
+    )])
+    .await?;
+
+    app.sse_client.submit(vec![Event::new_json(
         "waitlist",
         "fleets_updated",
         "fleets_deleted",
@@ -249,6 +256,13 @@ async fn register(
     if body.default_motd {
         fleet_data::set_default_motd(app.get_db(), &app.esi_client, &basic_info).await?;
     }
+
+    app.sse_client.submit(vec![Event::new_json(
+        "fleet",
+        "fleets",
+        "registered",
+    )])
+    .await?;
 
     app.sse_client.submit(vec![Event::new_json(
         "waitlist",

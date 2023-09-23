@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthContext, ToastContext, EventContext } from "../../contexts";
 import { apiCall, errorToaster, useApi } from "../../api";
 import { InputGroup, Button, Buttons } from "../../Components/Form";
@@ -81,7 +81,7 @@ function useWaitlist(waitlistId) {
   );
 
   // Listen for events
-  React.useEffect(() => {
+  useEffect(() => {
     if (!eventContext) return;
 
     const [updateFn, clearUpdateFn] = coalesceCalls(refreshFn, 2000);
@@ -92,11 +92,11 @@ function useWaitlist(waitlistId) {
       }
     };
     eventContext.addEventListener("waitlist_update", handleEvent);
-    eventContext.addEventListener("open", updateFn);
+    eventContext.addEventListener("visibility", updateFn);
     return function () {
       clearUpdateFn();
       eventContext.removeEventListener("waitlist_update", handleEvent);
-      eventContext.removeEventListener("open", updateFn);
+      eventContext.removeEventListener("visibility", updateFn);
     };
   }, [refreshFn, eventContext, waitlistId]);
 

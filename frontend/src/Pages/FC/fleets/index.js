@@ -54,9 +54,11 @@ const FleetsIndexPage = () => {
   useEffect(() => {
     if (!eventContext) return;
 
-    eventContext.addEventListener("fleets_updated", refresh);
+    eventContext.addEventListener("fleets", refresh);
+    eventContext.addEventListener("fleet_settings", refresh);
     return () => {
-      eventContext.removeEventListener("fleets_updated", refresh);
+      eventContext.removeEventListener("fleets", refresh);
+      eventContext.removeEventListener("fleet_settings", refresh);
     }
   }, [refresh, eventContext])
 

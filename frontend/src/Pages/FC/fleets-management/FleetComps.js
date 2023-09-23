@@ -22,9 +22,9 @@ const FleetComps = ({ fleetId }) => {
   useEffect(() => {
     if (!eventContext) return;
 
-    eventContext.addEventListener("fleets_updated", refresh);
+    eventContext.addEventListener("fleets", refresh);
     return () => {
-      eventContext.removeEventListener("fleets_updated", refresh);
+      eventContext.removeEventListener("fleets", refresh);
     }
   }, [refresh, eventContext])
 

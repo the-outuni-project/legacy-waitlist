@@ -34,11 +34,8 @@ const ClearWaitlist = () => {
 
     errorToaster(
       toastContext,
-      apiCall(`/api/waitlist/empty`, {
-        method: 'POST',
-        json: {
-            waitlist_id: 1
-        }
+      apiCall(`/api/waitlist`, {
+        method: 'DELETE'
       })
       .then(() => setOpen(false))
       .finally(() => isPending(false))

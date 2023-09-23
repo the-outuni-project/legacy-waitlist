@@ -19,11 +19,7 @@ async fn remove_fit(
     input: Json<RemoveFitRequest>,
 ) -> Result<&'static str, Madness> {
     let waitlist_entry = sqlx::query!(
-        "
-            SELECT account_id, entry_id, waitlist_id FROM waitlist_entry_fit wef
-            JOIN waitlist_entry we ON wef.entry_id=we.id
-            WHERE wef.id=?
-        ",
+        "SELECT account_id, entry_id FROM waitlist_entry_fit wef JOIN waitlist_entry we ON wef.entry_id=we.id WHERE wef.id=?",
         input.id
     )
     .fetch_one(app.get_db())
@@ -42,6 +38,7 @@ async fn remove_fit(
     sqlx::query!("DELETE FROM waitlist_entry_fit WHERE id = ?", input.id)
         .execute(&mut tx)
         .await?;
+
     let remaining = sqlx::query!(
         "SELECT id FROM waitlist_entry_fit WHERE entry_id=?",
         waitlist_entry.entry_id
@@ -60,7 +57,7 @@ async fn remove_fit(
 
     tx.commit().await?;
 
-    super::notify::notify_waitlist_update(app, waitlist_entry.waitlist_id).await?;
+    super::notify::notify_waitlist_update(app, 1).await?;
 
     Ok("OK")
 }
@@ -77,7 +74,7 @@ async fn remove_x(
     input: Json<RemoveXRequest>,
 ) -> Result<&'static str, Madness> {
     let entry = sqlx::query!(
-        "SELECT id, waitlist_id, account_id FROM waitlist_entry WHERE id=?",
+        "SELECT id, account_id FROM waitlist_entry WHERE id=?",
         input.id
     )
     .fetch_one(app.get_db())
@@ -100,7 +97,7 @@ async fn remove_x(
         .await?;
     tx.commit().await?;
 
-    super::notify::notify_waitlist_update(app, entry.waitlist_id).await?;
+    super::notify::notify_waitlist_update(app, 1).await?;
 
     Ok("OK")
 }

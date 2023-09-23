@@ -181,7 +181,7 @@ impl FleetUpdater {
             let mut changed = false;
 
             // Get the characters on the waitlist
-            let waitlist: HashMap<i64, _> = sqlx::query!("SELECT entry_id, waitlist_id, character_id, is_alt FROM waitlist_entry_fit JOIN waitlist_entry ON waitlist_entry_fit.entry_id=waitlist_entry.id")
+            let waitlist: HashMap<i64, _> = sqlx::query!("SELECT entry_id, character_id, is_alt FROM waitlist_entry_fit JOIN waitlist_entry ON waitlist_entry_fit.entry_id=waitlist_entry.id")
                 .fetch_all(self.get_db())
                 .await?
                 .into_iter()
@@ -321,29 +321,22 @@ impl FleetUpdater {
         // Send an SSE Broadcast to FCs to notify them that the fleet comp and settings have been updated
         if fleet_comp_changed {
             #[derive(Debug, Serialize)]
-            struct NewFleetComp {
-                fleet_id: i64,
+            struct Fleet {
+                id: i64,
             }
 
             self.sse_client.submit(vec![sse::Event::new_json(
-                "waitlist",
-                "fleets_updated",
-                "comp_updated"
-            )])
-            .await?;
-
-            self.sse_client.submit(vec![sse::Event::new_json(
-                "waitlist",
-                "comp_updated",
-                &NewFleetComp { fleet_id: fleet_id }
+                "fleet",
+                "fleet_comp",
+                &Fleet { id: fleet_id }
             )])
             .await?;
         // use an else if because we don't want to send a boss changed notification if we're already sending an updated fleet notification
         } else if boss_system_changed {
             self.sse_client.submit(vec![sse::Event::new_json(
-                "waitlist",
-                "fleets_updated",
-                "boss_system_updated"
+                "fleet",
+                "fleet_settings",
+                ""
             )])
             .await?;
         }

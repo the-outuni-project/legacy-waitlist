@@ -106,11 +106,19 @@ const FleetSettings = ({ fleetId }) => {
   useEffect(() => {
     if (!eventContext) return;
 
-    eventContext.addEventListener("fleets_updated", refresh);
-    return () => {
-      eventContext.removeEventListener("fleets_updated", refresh);
+    const handleEvent = (e) => {
+      let data = JSON.parse(e.data);
+
+      if (data.id === Number(fleetId)) {
+        refresh();
+      }
     }
-  }, [refresh, eventContext])
+
+    eventContext.addEventListener("fleet_settings", handleEvent);
+    return () => eventContext.removeEventListener("fleet_settings", handleEvent);
+  },
+    [eventContext, fleetId, refresh]
+  );
 
   usePageTitle(`${settings?.boss?.name}'s Fleet`);
 

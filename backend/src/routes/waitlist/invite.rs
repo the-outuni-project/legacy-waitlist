@@ -51,6 +51,7 @@ async fn invite(
     } else {
         xup.wef_category
     };
+
     let squad_info = match sqlx::query!(
         "
             SELECT fleet_id, squad_id, wing_id FROM fleet
