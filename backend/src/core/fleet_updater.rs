@@ -83,7 +83,8 @@ impl FleetUpdater {
                     | esi::ESIError::Status(404)
                     | esi::ESIError::NoToken
                     | esi::ESIError::MissingScope
-                    | esi::ESIError::WithMessage(_, _),
+                    | esi::ESIError::WithMessage(403, _)
+                    | esi::ESIError::WithMessage(404, _),
                 ) => {
                     // 403/404 => Delete the fleet, move on
                     let mut tx = self.get_db().begin().await?;
