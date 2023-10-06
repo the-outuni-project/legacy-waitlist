@@ -25,7 +25,13 @@ const RemoveFit = ({ fitId }) => {
   }
 
   return (
-    <Button title="Remove Fit" type="button" variant="danger" onClick={handleClick} disabled={pending}>
+    <Button type="button"
+      variant="danger"
+      data-tooltip-id="tip"
+      data-tooltip-html="Remove Fit"
+      onClick={handleClick}
+      disabled={pending}
+    >
       <FontAwesomeIcon fixedWidth icon={!pending ? faTrash : faSpinner} spin={pending} />
     </Button>
   )

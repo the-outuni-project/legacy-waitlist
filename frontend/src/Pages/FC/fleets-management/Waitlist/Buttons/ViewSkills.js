@@ -9,7 +9,11 @@ const ViewSkills = ({ character }) => {
 
   return (
     <>
-      <Button title={`View ${character?.name}'s skills`} variant='primary' onClick={_ => setOpen(true)}>
+      <Button variant='primary'
+        data-tooltip-id="tip"
+        data-tooltip-html={`View ${character?.name}'s skills`}
+        onClick={_ => setOpen(true)}
+      >
         <FontAwesomeIcon fixedWidth icon={faStream} />
       </Button>
 

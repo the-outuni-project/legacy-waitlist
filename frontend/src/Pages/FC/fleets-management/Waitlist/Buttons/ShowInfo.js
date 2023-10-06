@@ -26,7 +26,11 @@ const ShowInfo = ({ id }) => {
   }
 
   return (
-    <Button title="Open in-game profile" type="button" variant="primary" onClick={handleClick} disabled={pending}>
+    <Button type="button"
+      variant="primary"
+      data-tooltip-id="tip"
+      data-tooltip-html="Open in-game profile"
+      onClick={handleClick} disabled={pending}>
       <FontAwesomeIcon fixedWidth icon={!pending ? faExternalLinkAlt : faSpinner} spin={pending} />
     </Button>
   )

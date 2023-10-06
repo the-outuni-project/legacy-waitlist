@@ -6,8 +6,10 @@ import styled from "styled-components";
 import ViewProfile from "./Buttons/ViewProfile";
 import ViewSkills from "./Buttons/ViewSkills";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faComment, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import FitModal from "./FitModal";
+import RejectFit from "./Buttons/RejectFit";
+import MessagePilot from "./Buttons/MessagePilot";
 
 const FitCardDOM = styled.div`
   display: flex;
@@ -45,7 +47,7 @@ const ImageContainerDOM = styled.div`
     top: 15px;
     left: 5px;
     bottom: 15px;
-    z-index: 100;
+    z-index: 3;
 
     &:hover {
       cursor: pointer;
@@ -58,7 +60,7 @@ const ImageContainerDOM = styled.div`
     bottom: -10px;
     right: 0px;
     position: absolute;
-    z-index: 101;
+    z-index: 4;
 
     &:hover {
       cursor: pointer;
@@ -195,14 +197,8 @@ const FitCard = ({ fit }) => {
           <ShowInfo {...character} />
           <ViewSkills character={character} hull={fit?.hull} />
           <ViewProfile {...character} />
-
-          <button>
-            <FontAwesomeIcon fixedWidth icon={faComment} />
-          </button>
-
-          <button>
-            <FontAwesomeIcon fixedWidth icon={faTimes} />
-          </button>
+          <MessagePilot fitId={id} />
+          <RejectFit fitId={id} isRejected={fit.state === 'rejected'} />
 
           <button>
             <FontAwesomeIcon fixedWidth icon={faCheck} />

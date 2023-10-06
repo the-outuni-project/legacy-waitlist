@@ -123,7 +123,7 @@ export default class App extends React.Component {
                     />
                   </Container>
                 </Router>
-                <Tooltip id="tip" />
+                <Tooltip id="tip" style={{ zIndex: 150 }} />
                 <Footer />
               </AuthContext.Provider>
             </EventContext.Provider>
