@@ -34,6 +34,7 @@ struct WaitlistEntry {
 struct WaitlistEntryFit {
     id: i64,
     approved: bool,
+    state: String,
     category: String,
     hull: Hull,
     character: Option<Character>,
@@ -79,7 +80,7 @@ async fn list(
                 we.joined_at we_joined_at,
                 we.account_id we_account_id,
                 wef.id wef_id,
-                wef.approved wef_approved,
+                wef.state wef_state,
                 wef.category wef_category,
                 wef.cached_time_in_fleet wef_cached_time_in_fleet,
                 wef.review_comment wef_review_comment,
@@ -138,7 +139,8 @@ async fn list(
         let tags = vec![];
         let mut this_fit = WaitlistEntryFit {
             id: record.wef_id,
-            approved: record.wef_approved > 0,
+            approved: record.wef_state == "Approved",
+            state: record.wef_state,
             category: waitlist_categories_lookup
                 .get(&record.wef_category)
                 .unwrap()

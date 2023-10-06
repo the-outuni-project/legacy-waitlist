@@ -22,7 +22,7 @@ async fn approve_fit(
     account.require_access("waitlist-manage")?;
 
     sqlx::query!(
-        "UPDATE waitlist_entry_fit SET approved=1 WHERE id=?",
+        "UPDATE waitlist_entry_fit SET state='approved' WHERE id=?",
         input.id
     )
     .execute(app.get_db())
@@ -64,7 +64,7 @@ async fn reject_fit(
     .await?;
 
     sqlx::query!(
-        "UPDATE waitlist_entry_fit SET approved=0, review_comment=? WHERE id=?",
+        "UPDATE waitlist_entry_fit SET state='rejected', review_comment=? WHERE id=?",
         input.review_comment,
         input.id
     )

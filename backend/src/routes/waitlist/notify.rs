@@ -18,7 +18,7 @@ pub async fn notify_waitlist_update(app: &Application, waitlist_id: i64) -> Resu
     app.sse_client
         .submit(vec![Event::new_json(
             "waitlist",
-            "waitlist_update",
+            "waitlist",
             &WaitlistUpdate { waitlist_id },
         )])
         .await?;
@@ -32,7 +32,7 @@ pub async fn notify_waitlist_update_and_xup(
     app.sse_client
         .submit(vec![Event::new_json(
             "waitlist",
-            "waitlist_update",
+            "waitlist",
             &WaitlistUpdate { waitlist_id },
         )])
         .await?;

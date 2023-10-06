@@ -236,7 +236,7 @@ CREATE TABLE `waitlist_entry_fit` (
   `entry_id` bigint NOT NULL,
   `fit_id` bigint NOT NULL,
   `implant_set_id` bigint NOT NULL,
-  `approved` tinyint NOT NULL,
+  `state` VARCHAR(10) NOT NULL DEFAULT 'pending',
   `tags` varchar(255) NOT NULL,
   `category` varchar(10) NOT NULL,
   `fit_analysis` text,
@@ -252,7 +252,7 @@ CREATE TABLE `waitlist_entry_fit` (
   CONSTRAINT `waitlist_entry_fit_ibfk_2` FOREIGN KEY (`entry_id`) REFERENCES `waitlist_entry` (`id`),
   CONSTRAINT `waitlist_entry_fit_ibfk_3` FOREIGN KEY (`fit_id`) REFERENCES `fitting` (`id`),
   CONSTRAINT `waitlist_entry_fit_ibfk_4` FOREIGN KEY (`implant_set_id`) REFERENCES `implant_set` (`id`),
-  CONSTRAINT `waitlist_entry_fit_chk_1` CHECK ((`approved` in (0,1)))
+  CONSTRAINT `fit_state` CHECK (`state` in ('pending', 'approved', 'rejected'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `wiki_user` (

@@ -39,9 +39,9 @@ const theme = {
         disabled: "#133e22",
       },
       warning: {
-        color: "#ff922b",
+        color: "#977c0b",
         text: "white",
-        accent: "#ff922bc7",
+        accent: "#b89300",
         disabled: "#574500",
       },
       danger: {

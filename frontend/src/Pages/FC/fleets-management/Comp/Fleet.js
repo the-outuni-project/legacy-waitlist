@@ -9,6 +9,7 @@ import { CharacterName } from "../../../../Components/EntityLinks";
 const HullContainerDOM = styled.div`
   display: flex;
   flex-direction: row;
+  min-height: 93px;
   // justify-content: center;
 `;
 

@@ -12,7 +12,7 @@ const ModalDom = styled.div`
   bottom: 0;
   right: 0;
   padding: 20px;
-  z-index: 50;
+  z-index: 200;
   min-width: 100%;
 `;
 ModalDom.Background = styled.div`

@@ -1,8 +1,7 @@
-import React, { useReducer, useState } from "react";
-import styled, { ThemeContext } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 import { ToastContext, AuthContext } from "../../contexts";
-import { apiCall, useApi, errorToaster } from "../../api";
-import { NavLink } from "react-router-dom";
+import { apiCall, errorToaster } from "../../api";
 import { TimeDisplay } from "./TimeDisplay.js";
 import BadgeIcon, { Badge, icons } from "../../Components/Badge";
 import { Modal } from "../../Components/Modal";
@@ -10,21 +9,13 @@ import { FitDisplay } from "../../Components/FitDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrashAlt,
-  faCheck,
-  faExternalLinkAlt,
-  faStream,
-  faPlus,
   faExclamationTriangle,
-  faTimes,
-  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
 
 import { SkillDisplay } from "../../Components/SkillDisplay";
 import { Box } from "../../Components/Box";
 import { Title } from "../../Components/Page";
-import { Button, Buttons } from "../../Components/Form";
-import { SkillsModal } from "../Skills";
 
 const badgeOrder = [
   "HQ-FC",
@@ -39,27 +30,9 @@ const badgeOrder = [
   "HYBRID",
 ];
 
-async function approveFit(id) {
-  return await apiCall("/api/waitlist/approve", {
-    json: { id: id },
-  });
-}
-
-async function rejectFit(id, review_comment) {
-  return await apiCall("/api/waitlist/reject", {
-    json: { id, review_comment },
-  });
-}
-
 async function removeFit(id) {
   return await apiCall("/api/waitlist/remove_fit", {
     json: { id: id },
-  });
-}
-
-async function openWindow(target_id, character_id) {
-  return await apiCall(`/api/open_window`, {
-    json: { target_id, character_id },
   });
 }
 
@@ -152,8 +125,6 @@ XCardDOM.ReviewComment = styled.div`
 `;
 
 function ShipDisplay({ fit, onAction }) {
-  const authContext = React.useContext(AuthContext);
-  const toastContext = React.useContext(ToastContext);
   const [modalOpen, setModalOpen] = React.useState(false);
 
   const namePrefix = fit.character ? `${fit.character.name}'s ` : "";
@@ -163,38 +134,6 @@ function ShipDisplay({ fit, onAction }) {
         {modalOpen ? (
           <Modal open={true} setOpen={setModalOpen}>
             <Box>
-              {authContext.access["waitlist-manage"] && (
-                <Buttons style={{ marginBlock: "1em", marginTop: "0px" }}>
-                  <Button
-                    variant="success"
-                    style={{ minWidth: "95px" }}
-                    onClick={(evt) => {
-                      setModalOpen(false);
-                      errorToaster(toastContext, approveFit(fit.id)).then(onAction);
-                    }}
-                  >
-                    Approve
-                  </Button>
-
-                  <Button
-                    variant="danger"
-                    style={{ minWidth: "95px" }}
-                    onClick={(evt) => {
-                      var rejectionReason = prompt(
-                        "Why is the fit being rejected? (Will be displayed to pilot)"
-                      );
-                      if (rejectionReason) {
-                        setModalOpen(false);
-                        errorToaster(toastContext, rejectFit(fit.id, rejectionReason)).then(
-                          onAction
-                        );
-                      }
-                    }}
-                  >
-                    Reject
-                  </Button>
-                </Buttons>
-              )}
               <FitDisplay fit={fit} />
               {fit.tags.includes("STARTER") ? (
                 <>
@@ -250,125 +189,6 @@ function ShipDisplay({ fit, onAction }) {
   }
 }
 
-function SkillButton({ character, ship }) {
-  const [ open, setOpen ] = useState(false);
-
-  return (
-    <>
-      <a title="Show skills" onClick={() => setOpen(true)}>
-        <FontAwesomeIcon icon={faStream} />
-      </a>
-      <SkillsModal character={character} hull={ship} open={open} setOpen={setOpen} />
-    </>
-  );
-}
-
-function NoteButton({ number }) {
-  const theme = React.useContext(ThemeContext);
-  return (
-    <span style={{ verticalAlign: "middle" }}>
-      <svg style={{ height: "1em" }} viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          <circle
-            style={{ verticalAlign: "middle", fill: theme.colors.text }}
-            cy="25"
-            cx="25"
-            r="24"
-          />
-          <text
-            style={{
-              fontSize: "2.6em",
-              fontWeight: "600",
-              textAnchor: "middle",
-              fill: theme.colors.accent1,
-              textRendering: "geometricPrecision",
-            }}
-            x="25"
-            y="38"
-          >
-            {number}
-          </text>
-        </g>
-      </svg>
-    </span>
-  );
-}
-
-function InviteButton({ fitId, fcId, onAction }) {
-  const themeContext = React.useContext(ThemeContext);
-  const toastContext = React.useContext(ToastContext);
-  const [state, setState] = React.useState(undefined);
-  const [inviteCount, inviteIncrement] = useReducer((i) => i + 1, 0);
-
-  const colours = {
-    success: themeContext?.colors?.success?.color,
-    failed: themeContext?.colors?.danger?.color,
-    // pending: themeContext?.colors?.primary?.color,
-  };
-
-  const onClick = async () => {
-    setState("pending");
-    inviteIncrement();
-    errorToaster(
-      toastContext,
-      apiCall("/api/waitlist/invite", {
-        json: { id: fitId, character_id: fcId },
-      })
-        .then(() => {
-          setState("success");
-          onAction();
-        })
-        .catch((err) => {
-          setState("failed");
-          throw err;
-        })
-    );
-  };
-
-  return (
-    <a
-      title="Invite"
-      onClick={onClick}
-      style={{
-        cursor: state === "Pending" ? "not-allowed" : null,
-        backgroundColor: colours[state] ?? null,
-        transition: "background-color 300ms linear",
-      }}
-    >
-      {inviteCount < 2 ? (
-        <FontAwesomeIcon
-          fixedWidth
-          icon={state !== "pending" ? faPlus : faSpinner}
-          spin={state === "pending"}
-        />
-      ) : (
-        <NoteButton number={inviteCount} />
-      )}
-    </a>
-  );
-}
-
-function PilotInformation({ characterId, authContext, id }) {
-  const [notes] = useApi(
-    authContext.access["notes-view"] ? `/api/notes?character_id=${characterId}` : null
-  );
-  if (!notes)
-    return (
-      <NavLink to={"/pilot?character_id=" + id}>
-        <NoteButton number={0} />
-      </NavLink>
-    );
-  var amount = Object.keys(notes.notes).length;
-  var msg = "Pilot information";
-  amount = amount > 9 ? "9+" : amount.toString();
-  if (amount > 0) msg += "\nLast Note:\n" + notes.notes[amount - 1].note;
-  return (
-    <NavLink title={msg} to={"/pilot?character_id=" + id}>
-      <NoteButton number={amount} />
-    </NavLink>
-  );
-}
-
 export function XCard({ entry, fit, onAction }) {
   const authContext = React.useContext(AuthContext);
   const toastContext = React.useContext(ToastContext);
@@ -394,22 +214,22 @@ export function XCard({ entry, fit, onAction }) {
     </span>
   );
 
+  let variant = 'secondary';
+  if (isSelf || authContext.access["waitlist-view"]) {
+    switch (fit.state) {
+      case 'approved':
+        variant = 'success';
+        break;
+      case 'rejected':
+        variant = 'danger';
+        break;
+      default:
+        variant = 'warning';
+    }
+  }
+
   return (
-    <XCardDOM
-      variant={
-        fit.approved
-          ? isSelf
-            ? "success"
-            : "secondary"
-          : fit.approved
-          ? "secondary"
-          : fit.review_comment
-          ? "danger"
-          : isSelf || authContext.access["waitlist-view"]
-          ? "warning"
-          : "secondary"
-      }
-    >
+    <XCardDOM variant={variant}>
       <XCardDOM.Head>
         <span>{accountName}</span>
         <XCardDOM.Head.Badges>
@@ -443,55 +263,9 @@ export function XCard({ entry, fit, onAction }) {
               <FontAwesomeIcon icon={faTrashAlt} />
             </a>
           ) : null}
-          {authContext.access["waitlist-view"] && (
-            <a
-              title="Open in-game profile"
-              onClick={(evt) =>
-                errorToaster(toastContext, openWindow(fit.character.id, authContext.current.id))
-              }
-            >
-              <FontAwesomeIcon icon={faExternalLinkAlt} />
-            </a>
-          )}
-          {authContext.access["skill-view"] && (
-            <SkillButton character={{ id: fit.character.id, name: fit.character.name }} ship={fit.hull.name} />
-          )}
-          {authContext.access["waitlist-tag:HQ-FC"] && (
-            <PilotInformation
-              characterId={fit.character.id}
-              authContext={authContext}
-              id={fit.character.id}
-            />
-          )}
           {_.isFinite(fit.hours_in_fleet) ? (
             <span title="Hours in fleet">{fit.hours_in_fleet}h</span>
           ) : null}
-          {authContext.access["waitlist-manage"] && (
-            <a
-              title="Reject"
-              onClick={(evt) => {
-                var rejectionReason = prompt(
-                  "Why is the fit being rejected? (Will be displayed to pilot)"
-                );
-                if (rejectionReason) {
-                  errorToaster(toastContext, rejectFit(fit.id, rejectionReason)).then(onAction);
-                }
-              }}
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </a>
-          )}
-          {authContext.access["fleet-invite"] && fit.approved && (
-            <InviteButton fitId={fit.id} fcId={authContext.current.id} onAction={onAction} />
-          )}
-          {authContext.access["waitlist-manage"] && !fit.approved && (
-            <a
-              title="Approve"
-              onClick={(evt) => errorToaster(toastContext, approveFit(fit.id)).then(onAction)}
-            >
-              <FontAwesomeIcon icon={faCheck} />
-            </a>
-          )}
         </XCardDOM.Footer>
         {!is_alt && _.isFinite(fit.hours_in_fleet) && fit.hours_in_fleet < 1 && (
           <XCardDOM.Footer>

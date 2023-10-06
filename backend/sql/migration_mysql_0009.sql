@@ -9,3 +9,8 @@ ALTER TABLE fleet_activity MODIFY is_boss boolean NOT NULL;
 ALTER TABLE `waitlist_entry` DROP FOREIGN KEY `waitlist_entry_ibfk_1`;
 ALTER TABLE `waitlist_entry` DROP COLUMN `waitlist_id`;
 DROP TABLE `waitlist`;
+
+ALTER TABLE `waitlist_entry_fit` DROP CONSTRAINT waitlist_entry_fit_chk_1;
+ALTER TABLE `waitlist_entry_fit` CHANGE COLUMN `approved` `state` VARCHAR(10) NOT NULL DEFAULT 'pending';
+ALTER TABLE `waitlist_entry_fit` ADD CONSTRAINT `fit_state` CHECK (`state` in ('pending', 'approved', 'rejected'));
+

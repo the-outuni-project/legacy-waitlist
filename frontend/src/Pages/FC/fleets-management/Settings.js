@@ -8,6 +8,7 @@ import FleetButtons from "./Settings/Buttons";
 import FleetBoss from "./Settings/FleetBoss";
 import FleetVisibilty from "./Settings/FleetVisibilty";
 import FleetSize from "./Settings/FleetSize";
+import WaitlistSummary from "./Settings/WaitlistSummary";
 
 const SettingsDOM = styled.div`
   box-sizing: border-box;
@@ -99,7 +100,7 @@ const Details = styled.div`
   }
 `;
 
-const FleetSettings = ({ fleetId }) => {
+const FleetSettings = ({ fleetId, xups }) => {
   const eventContext = useContext(EventContext);
   const [ settings, refresh ] = useApi(`/api/v2/fleets/${fleetId}`);
 
@@ -127,21 +128,7 @@ const FleetSettings = ({ fleetId }) => {
       <FleetBoss fleetBoss={settings?.boss} fleetSystem={settings?.boss_system} fleetId={fleetId} />
       <FleetVisibilty visible={settings?.visible} fleetId={fleetId} />
       <FleetSize size={settings?.size} max_size={settings?.size_max} fleetId={fleetId} />
-
-      <Card>
-        <div>
-          <Feature>
-
-          </Feature>
-          <Details>
-            <p>Waitlist Size</p>
-            <div>
-              {'-'} / {'-'}
-            </div>
-          </Details>
-        </div>
-      </Card>
-
+      <WaitlistSummary xups={xups} />
       <FleetButtons fleetId={fleetId} />
     </SettingsDOM>
   )

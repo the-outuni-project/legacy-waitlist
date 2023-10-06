@@ -231,9 +231,12 @@ async fn xup_multi(
 
         // Add the fit to the waitlist
         sqlx::query!("
-            INSERT INTO waitlist_entry_fit (character_id, entry_id, fit_id, category, approved, tags, implant_set_id, fit_analysis, cached_time_in_fleet, is_alt)
+            INSERT INTO waitlist_entry_fit (character_id, entry_id, fit_id, category, state, tags, implant_set_id, fit_analysis, cached_time_in_fleet, is_alt)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ", character_id, entry_id, fit_id, fit_checked.category, fit_checked.approved, tags, implant_set_id, fit_analysis, this_pilot_data.time_in_fleet, is_alt)
+        ", character_id, entry_id, fit_id, fit_checked.category, match fit_checked.approved {
+            true => "approved",
+            false => "rejected"
+        }, tags, implant_set_id, fit_analysis, this_pilot_data.time_in_fleet, is_alt)
         .execute(&mut tx).await?;
 
         // Log the x'up
