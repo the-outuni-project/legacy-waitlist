@@ -18,7 +18,7 @@ const H3 = styled.h3`
 
 const FireNotificationApi = ({ title, body }) => {
   const Fire = ({ title, body }) =>
-    new Notification(title ?? "The Outuni Project", {
+    new Notification(title ?? "Contingency Incursions", {
       body: body,
       icon: iconFile,
       tag: body,

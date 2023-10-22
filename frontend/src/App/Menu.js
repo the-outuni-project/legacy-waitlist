@@ -99,7 +99,7 @@ const Teamspeak = () => {
   return (
     <AButton
       title="Join our Teamspeak Server"
-      href={`ts3server://42outunis.com${
+      href={`ts3server://contingencyinc.com${
         authContext?.current ? `?nickname=${authContext.current.name}` : ""
       }`}
     >
@@ -117,7 +117,7 @@ export function Menu({ onChangeCharacter, theme, setTheme, sticker, setSticker }
           <NavBar.Header>
             <MobileNavButton isOpen={isOpenMobileView} setIsOpen={setOpenMobileView} />
             <NavBar.LogoLink to="/">
-              <NavBar.Logo src={logoImage} alt="The Outuni Project" />
+              <NavBar.Logo src={logoImage} alt="Contingency Incursions" />
             </NavBar.LogoLink>
           </NavBar.Header>
           <NavBar.Menu>

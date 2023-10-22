@@ -3,7 +3,7 @@
   "options": {
     "env": {
       "DATABASE_ENGINE": "mysql",
-      "DATABASE_URL": "mysql://dbuser:dbpassword@localhost/dbname?ssl-mode=disabled"
+      "DATABASE_URL": "mysql://root:12345@localhost/waitlist_dev?ssl-mode=disabled"
     },
     "cwd": "${workspaceFolder}"
   },

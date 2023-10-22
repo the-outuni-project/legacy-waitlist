@@ -101,7 +101,7 @@ async fn create(
         .await?;
 
     // Stop FCs from banning other FCs
-    // See: https://github.com/the-outuni-project/legacy-waitlist/issues/43
+    // See: https://github.com/Contingency-Incursions/legacy-waitlist/issues/43
     if let Some(admin) = sqlx::query!(
         "SELECT * FROM admin WHERE character_id=?",
         e.id

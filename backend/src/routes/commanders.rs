@@ -181,7 +181,7 @@ async fn public_directory(
     app: &rocket::State<Application>,
 ) -> Result<Json<Vec<CharacterWithRole>>, Madness> {
     let team = sqlx::query!(
-        "SELECT role, fc.id, fc.name FROM admin JOIN `character` AS fc ON character_id = fc.id ORDER BY role"
+        "SELECT role, fc.id, fc.name FROM admin JOIN `character` AS fc ON character_id = fc.id WHERE role != 'Wiki Team' ORDER BY role"
     )
     .fetch_all(app.get_db())
     .await?

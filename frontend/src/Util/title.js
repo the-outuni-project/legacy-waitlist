@@ -9,7 +9,7 @@ export function usePageTitle(suffix) {
 }
 
 export function replaceTitle(title) {
-  document.title = `${title} | The Outuni Project`;
+  document.title = `${title} | Contingency Incursions`;
 }
 
 export function parseMarkdownTitle(data) {

@@ -4,3 +4,4 @@
 /archive-backend.tar
 /config.toml
 /.env
+/*.code-workspace
