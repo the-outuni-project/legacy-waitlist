@@ -18,12 +18,12 @@ notes:
     description: >
       Skill exception: Logistics Cruiser 4
 
-  - name: TOP ECM Blackbird Antigank
+  - name: CI ECM Blackbird Antigank
     description: >
       Used at FC discretion, alts can use this ship to provide protection against gankers.
 
   ## Marauders
-  - name: TOP Paladin Basic (TII Guns)
+  - name: CI Paladin Basic (TII Guns)
     description: >
       This fit requires perfect fitting skills. If you lack the CPU to use this fit, consider temporarily getting an 'EE-604' or upgrading one of your reps to a 'Peace' Large Remote Armor Repairer.
 
@@ -34,22 +34,22 @@ notes:
   - name: Elite Hybrid Nestor
     description: >
       Implant Required: EM-806. You are required to be approved logi (Logistics Specialist) to fly this ship.
-  - name: TOP Nestor Antigank
+  - name: CI Nestor Antigank
     description: >
       The EM-806 implant is required, the RA-706 and HS-906 are recommended all other implants are optional. Consider checking the regional market for event drugs which improve your armour HP or resists.
 
   ## Vindicators
-  - name: TOP Vindicator Elite Hybrid
+  - name: CI Vindicator Elite Hybrid
     description: >
       You need to be a Web Specialist to use this ship after 130h.
-  - name: TOP Vindicator Elite
+  - name: CI Vindicator Elite
     description: >
       You need to be a Web Specialist to use this ship after 130h.
 
-  - name: TOP Vindicator T1 Antigank
+  - name: CI Vindicator T1 Antigank
     description: >
       Vindicators may not be allowed during anti-gank fleets.
 
-  - name: TOP Vindicator T2 Antigank
+  - name: CI Vindicator T2 Antigank
     description: >
       Vindicators may not be allowed during anti-gank fleets.

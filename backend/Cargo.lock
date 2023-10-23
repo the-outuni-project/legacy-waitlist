@@ -2035,6 +2035,7 @@ dependencies = [
  "chrono",
  "eve_data_core",
  "eve_data_macros",
+ "futures",
  "hex",
  "itertools",
  "lazy_static",

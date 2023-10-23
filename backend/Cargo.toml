@@ -37,6 +37,8 @@ itertools = "*"
 Inflector = "*"
 bigdecimal = { version = "*", features = ["serde"] }
 
+futures = "*"
+
 [features]
 default = ["mysql"]
 mysql = ["sqlx/mysql", "sqlx/bigdecimal"]

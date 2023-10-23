@@ -157,6 +157,7 @@ async fn xup_multi(
                 time_in_fleet: *time_in_fleet,
                 skills,
                 access_keys: account.access,
+                id: character_id
             },
         );
     }
@@ -227,7 +228,7 @@ async fn xup_multi(
         })
         .collect();
 
-        let fit_checked = tdf::fitcheck::FitChecker::check(this_pilot_data, &fit, &badges)?;
+        let fit_checked = tdf::fitcheck::FitChecker::check(this_pilot_data, &fit, &badges).await?;
         if let Some(error) = fit_checked.errors.into_iter().next() {
             return Err(Madness::BadRequest(error));
         }

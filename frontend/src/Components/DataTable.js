@@ -58,7 +58,7 @@ const Table = (props) => {
   Object.entries(themes).forEach((entry) => {
     const [key, value] = entry;
     createTheme(
-      `TOP-${key}`,
+      `CI-${key}`,
       {
         text: {
           primary: value.colors.primary,
@@ -72,7 +72,7 @@ const Table = (props) => {
     );
   });
 
-  return <DataTable {...props} theme={`TOP-${themeContext.name}`} />;
+  return <DataTable {...props} theme={`CI-${themeContext.name}`} />;
 };
 
 Table.propTypes = {

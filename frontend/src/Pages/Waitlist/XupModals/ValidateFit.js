@@ -25,7 +25,7 @@ const Label = styled(BaseLabel)`
 `;
 
 const exampleFit = String.raw`
-[Kronos, TOP Kronos Elite]
+[Kronos, CI Kronos Elite]
 Neutron Blaster Cannon II
 Neutron Blaster Cannon II
 Neutron Blaster Cannon II

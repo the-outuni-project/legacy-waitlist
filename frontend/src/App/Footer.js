@@ -28,12 +28,12 @@ const H3 = styled.h2`
 `;
 
 const LegalNotices = () => {
-  const [open, setOpen] = useState(false);
+  const [open, seCIen] = useState(false);
 
   return (
     <>
-      <A onClick={() => setOpen(true)}>Legal Notices</A>
-      <Modal open={open} setOpen={setOpen}>
+      <A onClick={() => seCIen(true)}>Legal Notices</A>
+      <Modal open={open} seCIen={seCIen}>
         <Box style={{ maxWidth: "700px" }}>
           <H2>Legal Notices</H2>
           <H3>CCP Games:</H3>
@@ -51,7 +51,7 @@ const LegalNotices = () => {
             from the use of this website.
           </p>
 
-          <H3>TOP Logo:</H3>
+          <H3>CI Logo:</H3>
           <p style={{ paddingBottom: "10px" }}>
             The Website and Discord Logo and the favicon are designed by Spartalicious.
           </p>
@@ -60,7 +60,7 @@ const LegalNotices = () => {
           <p>
             The source code for Contingency Incursions is available under the MIT license. The source
             code and fulltext for this license can be found{" "}
-            <A href="https://github.com/samuelgrant/top-waitlist/" target="_blank">
+            <A href="https://github.com/Contingency-Incursions/legacy-waitlist" target="_blank">
               here
             </A>
             .
@@ -72,7 +72,7 @@ const LegalNotices = () => {
 };
 
 const TeamDirectory = () => {
-  const [open, setOpen] = useState(false);
+  const [open, seCIen] = useState(false);
   const [team] = useApi("/api/commanders/public");
 
   const leadership = team?.filter((c) => c.role == "Leadership");
@@ -80,8 +80,8 @@ const TeamDirectory = () => {
 
   return (
     <>
-      <A onClick={() => setOpen(true)}>Meet the Team</A>
-      <Modal open={open} setOpen={setOpen}>
+      <A onClick={() => seCIen(true)}>Meet the Team</A>
+      <Modal open={open} seCIen={seCIen}>
         <Box style={{ maxWidth: "700px" }}>
           <H2>Fleet Commanders</H2>
 

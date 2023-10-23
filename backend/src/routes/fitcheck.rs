@@ -39,6 +39,7 @@ async fn fitcheck(
         time_in_fleet: 0,
         skills: &skills::load_skills(&app.esi_client, app.get_db(), input.character_id).await?,
         access_keys: account.access,
+        id: &input.character_id,
     };
 
     let badges: Vec<String> = sqlx::query!(
@@ -55,7 +56,7 @@ async fn fitcheck(
     let mut result = Vec::new();
 
     for fit in fits {
-        let fit_checked: Output = tdf::fitcheck::FitChecker::check(&pilot, &fit, &badges)?;
+        let fit_checked: Output = tdf::fitcheck::FitChecker::check(&pilot, &fit, &badges).await?;
 
         if let Some(error) = fit_checked.errors.into_iter().next() {
             return Err(Madness::BadRequest(error));

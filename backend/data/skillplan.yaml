@@ -8,7 +8,7 @@ plans:
         from: starter
       - type: fit
         hull: Megathron
-        fit: TOP Megathron Starter
+        fit: CI Megathron Starter
 
   - name: Starter Navy Apocalypse Issue
     alpha: true
@@ -19,7 +19,7 @@ plans:
         from: starter
       - type: fit
         hull: Apocalypse Navy Issue
-        fit: TOP Apocalypse Navy Issue Starter
+        fit: CI Apocalypse Navy Issue Starter
 
   - name: Starter Nightmare
     alpha: true
@@ -30,7 +30,7 @@ plans:
         from: starter
       - type: fit
         hull: Nightmare
-        fit: TOP Nightmare Starter
+        fit: CI Nightmare Starter
 
   - name: Starter Vindicator
     alpha: true
@@ -41,7 +41,7 @@ plans:
         from: starter
       - type: fit
         hull: Vindicator
-        fit: TOP Vindicator Starter
+        fit: CI Vindicator Starter
 
   - name: Basic Kronos
     description: Alternative to T2 Gun Vindicator
@@ -51,7 +51,7 @@ plans:
         from: min
       - type: fit
         hull: Kronos
-        fit: TOP Kronos Basic
+        fit: CI Kronos Basic
 
   - name: Basic Paladin
     description: Alternative to T2 Gun Nightmare
@@ -61,7 +61,7 @@ plans:
         from: min
       - type: fit
         hull: Paladin
-        fit: TOP Paladin Basic
+        fit: CI Paladin Basic
 
   - name: Training Nestor
     description: You will need Elite skills to get your L badge.
@@ -90,7 +90,7 @@ plans:
         level: 5
       - type: fit
         hull: Eos
-        fit: TOP Support Eos
+        fit: CI Support Eos
       - type: skills
         from: Eos
         tier: min
@@ -106,7 +106,7 @@ plans:
         level: 5
       - type: fit
         hull: Damnation
-        fit: TOP Support Damnation
+        fit: CI Support Damnation
       - type: skills
         from: Damnation
         tier: min
@@ -138,10 +138,10 @@ plans:
         tier: min
       - type: fit
         hull: Vindicator
-        fit: TOP Vindicator Basic
+        fit: CI Vindicator Basic
       - type: fit
         hull: Vindicator
-        fit: TOP Vindicator Advanced
+        fit: CI Vindicator Advanced
       - type: skill
         from: Cybernetics
         level: 5
@@ -150,7 +150,7 @@ plans:
         tier: elite
       - type: fit
         hull: Vindicator
-        fit: TOP Web Specialist Vindicator
+        fit: CI Web Specialist Vindicator
 
   - name: Elite Kronos
     description:
@@ -163,10 +163,10 @@ plans:
         tier: min
       - type: fit
         hull: Kronos
-        fit: TOP Kronos Basic
+        fit: CI Kronos Basic
       - type: fit
         hull: Kronos
-        fit: TOP Kronos Advanced
+        fit: CI Kronos Advanced
       - type: skill
         from: Cybernetics
         level: 5
@@ -175,7 +175,7 @@ plans:
         tier: elite
       - type: fit
         hull: Kronos
-        fit: TOP Kronos Elite
+        fit: CI Kronos Elite
 
   - name: Elite Paladin
     description:
@@ -188,10 +188,10 @@ plans:
         tier: min
       - type: fit
         hull: Paladin
-        fit: TOP Paladin Basic
+        fit: CI Paladin Basic
       - type: fit
         hull: Paladin
-        fit: TOP Paladin Advanced
+        fit: CI Paladin Advanced
       - type: skill
         from: Cybernetics
         level: 5
@@ -200,7 +200,7 @@ plans:
         tier: elite
       - type: fit
         hull: Paladin
-        fit: TOP Paladin Elite
+        fit: CI Paladin Elite
 
   - name: Elite Nestor
     description: Required for an L Badge
