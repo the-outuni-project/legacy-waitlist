@@ -1,4 +1,24 @@
+<center>
+ <img src="https://42outunis.com/logo.png" alt="TOP local" /> 
+</center>
+
+It is our regret to announce we have made the decision to close TOP.
+
+The leadership team would like to thank our FCs, web developers and our team's families many of whom made a lot of sacrifices for our community.
+
+On behalf of our FC team we would like to thank the pilots who have flown with us, especially those of you who chose us as your first community and grew alongside us.
+Many of you donated to the SRP fund, when we formed we were clear that we wanted to return those funds when TOP closed. Starting tomorrow donations will be returned.
+The remaining funds will be distributed amongst 42 of our pilots.
+
+Thank you for joining us on our great journey ;)
+
+
+
+<details>
+  <summary>View Readme.md</summary>
+
 # TOP Waitlist Fork
+
 A temporary waitlist for The Outuni Project.
 
 ### Contributing
@@ -151,4 +171,5 @@ The Waitlist has three services (see below). Before starting the front end, both
    npm run build
    npm run start
    ```
+</details>
 </details>
